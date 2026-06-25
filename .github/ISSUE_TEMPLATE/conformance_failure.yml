@@ -1,0 +1,21 @@
+name: Conformance failure
+description: Report a fixture or implementation mismatch
+title: "Conformance failure: "
+labels: [conformance, bug]
+body:
+  - type: input
+    id: language
+    attributes:
+      label: Language / integration
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / hashes

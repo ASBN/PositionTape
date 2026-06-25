@@ -1,0 +1,1 @@
+/goal Complete GEN-PT-002 Reference Triad by adding Python and JavaScript/TypeScript implementations that match the official fixtures, plus a cross-language conformance runner. Stop when C#, Python and JS/TS all pass available local conformance checks or missing toolchains are documented.

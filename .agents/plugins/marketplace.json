@@ -1,0 +1,20 @@
+{
+  "name": "position-tape-local-marketplace",
+  "interface": {
+    "displayName": "PositionTape Local Codex Skills"
+  },
+  "plugins": [
+    {
+      "name": "position-tape-codex",
+      "source": {
+        "source": "local",
+        "path": "./plugins/position-tape-codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+/goal Complete GEN-PT-005 Genkidama Wave 1 by adding Level 2 or better implementations for Java, Go, Rust and C++. Validate with fixtures when toolchains are available and document missing toolchains in AGENT_RUN_LOG.md.

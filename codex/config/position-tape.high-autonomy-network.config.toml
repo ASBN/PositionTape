@@ -1,0 +1,11 @@
+# High autonomy with network enabled for package restore and official docs.
+# Use only on a disposable branch when you accept package-manager/network risk.
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+allow_login_shell = false
+
+[sandbox_workspace_write]
+network_access = true
+
+[features]
+goals = true

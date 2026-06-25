@@ -1,0 +1,6 @@
+{
+  "name": "position-tape-codex",
+  "version": "0.1.0",
+  "description": "Skills for building and testing the multi-language Open Source PositionTape project.",
+  "skills": "./skills/"
+}

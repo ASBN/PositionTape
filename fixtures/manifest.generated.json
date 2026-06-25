@@ -1,0 +1,92 @@
+{
+  "name": "PositionTape official bootstrap fixtures",
+  "encoding": "utf-8",
+  "newline": "none",
+  "rule": "1-indexed positions; non-multiples of 10 emit last digit; multiples of 10 emit decimal p/10; multi-char markers advance cursor by marker length; final exact length may truncate marker.",
+  "fixtures": [
+    {
+      "file": "position_tape_0.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "first_50": "",
+      "last_50": ""
+    },
+    {
+      "file": "position_tape_1.txt",
+      "bytes": 1,
+      "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+      "first_50": "1",
+      "last_50": "1"
+    },
+    {
+      "file": "position_tape_10.txt",
+      "bytes": 10,
+      "sha256": "523aa18ecb892c51fbdbe28c57e10a92419e0a73e8931e578b98baffccf99cdd",
+      "first_50": "1234567891",
+      "last_50": "1234567891"
+    },
+    {
+      "file": "position_tape_100.txt",
+      "bytes": 100,
+      "sha256": "1a737fdef2a50a7a0b86db4cb86a96e114c59e33aa2c3a43fa55b8a17ad06bb4",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "12345678961234567897123456789812345678991234567891"
+    },
+    {
+      "file": "position_tape_1000.txt",
+      "bytes": 1000,
+      "sha256": "8b9b147c84ee9f0fed83e738f3f11ca8b3608e5b7ab65a7272faabe38b39959c",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "52345678996234567899723456789982345678999234567891"
+    },
+    {
+      "file": "position_tape_10000.txt",
+      "bytes": 10000,
+      "sha256": "9ee39196c3dd959c14600095c165c237d0b4a7639237cf2bb1bfbee6f3321f5c",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "95345678999634567899973456789998345678999934567891"
+    },
+    {
+      "file": "position_tape_10000_marker_complete.txt",
+      "bytes": 10003,
+      "sha256": "848ec54bb7cecafa86c9e5db6b8b7551e70e63aeec357054bbae4c0b698362c6",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "45678999634567899973456789998345678999934567891000"
+    },
+    {
+      "file": "position_tape_101.txt",
+      "bytes": 101,
+      "sha256": "64d0cd2691a4079e43f2b7c32d481f6fd53f8c74c5651a1a9a5278dda56b1d05",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "23456789612345678971234567898123456789912345678910"
+    },
+    {
+      "file": "position_tape_11.txt",
+      "bytes": 11,
+      "sha256": "129c7e02f36fed1166aada5b0797068b90f027609ed1dd16222ba5ca7dd9e809",
+      "first_50": "12345678911",
+      "last_50": "12345678911"
+    },
+    {
+      "file": "position_tape_150.txt",
+      "bytes": 150,
+      "sha256": "d1068646b77a6acc48c2a681963b7caceecde5b2370f24174d5f341dca7ba061",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "02345678911234567891223456789132345678914234567891"
+    },
+    {
+      "file": "position_tape_9.txt",
+      "bytes": 9,
+      "sha256": "15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225",
+      "first_50": "123456789",
+      "last_50": "123456789"
+    },
+    {
+      "file": "position_tape_99.txt",
+      "bytes": 99,
+      "sha256": "03e45a937e9ec4391b8d26ca8c7d9c688a17719c4e54bac62a50eb9dad0a3db2",
+      "first_50": "12345678911234567892123456789312345678941234567895",
+      "last_50": "51234567896123456789712345678981234567899123456789"
+    }
+  ]
+}

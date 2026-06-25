@@ -1,0 +1,1 @@
+/goal Complete GEN-PT-003 Logging First by adding thin, idiomatic logger integrations for Serilog, Microsoft.Extensions.Logging, Pino and Python logging. Keep all adapters thin: generate tape, attach/emits tape, provide truncation validation examples. Do not publish packages.

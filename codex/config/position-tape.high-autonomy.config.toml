@@ -1,0 +1,11 @@
+# Copy or merge into ~/.codex/config.toml if desired.
+# High autonomy, still workspace-bounded.
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+allow_login_shell = false
+
+[sandbox_workspace_write]
+network_access = false
+
+[features]
+goals = true
