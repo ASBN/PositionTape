@@ -1,7 +1,14 @@
-# PositionTape for delphi
+# PositionTape for Delphi/Object Pascal
 
-Status: scaffold only.
+Status: Level 2 implementation.
 
-Target conformance level: TBD.
+This folder provides a dependency-free Object Pascal unit for PositionTape
+generation and validation diagnostics. It is intended for Free Pascal or
+Delphi-compatible compilers.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+Run the local checks with Free Pascal:
+
+```powershell
+fpc -Fulanguages/delphi/src -Felanguages/delphi/tests languages/delphi/tests/position_tape_tests.pas
+.\languages\delphi\tests\position_tape_tests.exe
+```

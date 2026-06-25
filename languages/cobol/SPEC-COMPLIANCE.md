@@ -1,13 +1,13 @@
-# SPEC-COMPLIANCE — cobol
+# SPEC-COMPLIANCE - COBOL
 
-- Language: cobol
-- Runtime/compiler:
-- Conformance level:
-- Generate:
-- GenerateMarkerComplete:
-- Validate:
-- Locate:
-- Hash index:
-- Logger integration:
-- Known limitations:
-- Fixture SHA-256 verified:
+- Language: COBOL
+- Runtime/compiler: GnuCOBOL; `cobc` is not installed on PATH in the current Windows environment.
+- Conformance level: Level 1
+- Generate: implemented by `languages/cobol/src/position_tape.cob` as a command-line exact-length generator.
+- GenerateMarkerComplete: not implemented in this checkpoint.
+- Validate: not implemented in this checkpoint.
+- Locate: not implemented in this checkpoint.
+- Hash index: not implemented.
+- Logger integration: not implemented.
+- Known limitations: fixed output buffer supports lengths up to 10003 for fixture-oriented checks; local `cobc` is missing, so tests were not executed in this environment.
+- Fixture SHA-256 verified: not locally verified for COBOL because the compiler is missing.

@@ -1,7 +1,13 @@
-# PositionTape for scratch
+# PositionTape for Scratch
 
-Status: scaffold only.
+Status: Level 1 implementation guide.
 
-Target conformance level: TBD.
+Scratch projects are binary `.sb3` archives and are awkward to author safely
+without a Scratch-specific build tool. This folder therefore provides the
+canonical block algorithm in text form so a Scratch project can implement the
+same Level 1 generator without changing the PositionTape rules.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+See `src/position_tape_blocks.md` for the block procedure. Verify manually by
+setting `requestedLength` to an official fixture length and comparing the
+resulting `tape` variable to the corresponding `fixtures/position_tape_*.txt`
+file.

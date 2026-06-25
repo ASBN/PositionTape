@@ -1,7 +1,16 @@
-# PositionTape for assembly
+# PositionTape for Assembly
 
-Status: scaffold only.
+Status: Level 1 implementation.
 
-Target conformance level: TBD.
+This folder contains a dependency-free NASM x86-64 Linux generator. It reads no
+arguments; the source constant `TAPE_LENGTH` controls output length, and the
+program writes exact-length tape bytes to standard output with no trailing
+newline.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+Run the local check on a Linux/NASM environment:
+
+```bash
+nasm -f elf64 languages/assembly/src/position_tape.asm -o /tmp/position_tape.o
+ld /tmp/position_tape.o -o /tmp/position_tape
+/tmp/position_tape | cmp - fixtures/position_tape_100.txt
+```
