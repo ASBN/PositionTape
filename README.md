@@ -16,17 +16,28 @@ Positions are 1-indexed.
 
 See [docs/spec/position-tape-spec.md](docs/spec/position-tape-spec.md) for the full specification.
 
-## Current Foundation
-
-GEN-PT-001 provides:
+## Current Foundation
+
+GEN-PT-001 provides:
 
 - Official UTF-8 fixtures under `fixtures/`.
 - Canonical manifest at `fixtures/manifest.generated.json`.
 - Python fixture conformance runner under `tools/conformance/`.
 - No-package C# conformance runner under `tools/conformance/csharp/PositionTape.Conformance/`.
 - C# reference implementation under `languages/csharp/src/PositionTape/`.
-- C# xUnit tests under `languages/csharp/tests/PositionTape.Tests/`.
-- GitHub Actions conformance workflow.
+- C# xUnit tests under `languages/csharp/tests/PositionTape.Tests/`.
+- GitHub Actions conformance workflow.
+
+## Language Status
+
+Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
+
+| Status | Languages |
+|---|---|
+| Verified | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Python, R, Standard ML, VB.NET |
+| Implemented but not locally verified | none in this checkpoint |
+| Scaffold/guide only | Scratch |
+| Blocked by local toolchain | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Prolog, Ruby, Rust, SQLite, Swift |
 
 ## Verify
 

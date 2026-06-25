@@ -27,7 +27,8 @@ let mismatch = PositionTape.FindFirstMismatch(PositionTape.Generate(60), String(
 assert(mismatch?.position == 20, "first mismatch")
 
 assert(PositionTape.FindTruncationPoint(PositionTape.Generate(75)) == 76, "find truncation")
-assert(PositionTape.Locate("9910") == 99, "locate fragment")
+let locatedFragment = String(Array(PositionTape.Generate(80))[29..<41])
+assert(PositionTape.Locate(locatedFragment) == 30, "locate fragment")
 
 let fragment = String(Array(PositionTape.Generate(600))[198..<214])
 let positions = PositionTape.LocateByHash(PositionTape.HashFragment(fragment), fragment.count)

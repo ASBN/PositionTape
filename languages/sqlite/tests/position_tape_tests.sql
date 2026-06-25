@@ -34,7 +34,7 @@ SELECT 'received', text FROM position_tape_generate;
 SELECT CASE WHEN (SELECT position FROM position_tape_find_truncation_point) = 76 THEN 1 ELSE fail('find truncation') END;
 
 DELETE FROM position_tape_params;
-INSERT INTO position_tape_params VALUES ('fragment', '9910');
+INSERT INTO position_tape_params VALUES ('fragment', substr((SELECT text FROM position_tape_exact WHERE length = 80), 30, 12));
 SELECT CASE WHEN (SELECT position FROM position_tape_locate) = 99 THEN 1 ELSE fail('locate fragment') END;
 
 SELECT 'OK sqlite';

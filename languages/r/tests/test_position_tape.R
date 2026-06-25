@@ -19,6 +19,7 @@ mismatch <- FindFirstMismatch(Generate(60), mutated)
 stopifnot(identical(mismatch$position, 20L))
 
 stopifnot(identical(FindTruncationPoint(Generate(75)), 76L))
-stopifnot(identical(Locate("9910"), 99L))
+fragment <- substr(Generate(80), 30L, 41L)
+stopifnot(identical(Locate(fragment), 30L))
 
 cat("OK r\n")

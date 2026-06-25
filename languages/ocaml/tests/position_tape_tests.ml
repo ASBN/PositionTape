@@ -23,6 +23,7 @@ let mismatch = find_first_mismatch (generate 60) (Bytes.to_string mutated);;
 assert_true ((Option.get mismatch).position = 20) "first mismatch";;
 
 assert_true (find_truncation_point (generate 75) = 76) "find truncation";;
-assert_true (locate "9910" = 99) "locate fragment";;
+let fragment = String.sub (generate 80) 29 12;;
+assert_true (locate fragment = 30) "locate fragment";;
 
 print_endline "OK ocaml";;

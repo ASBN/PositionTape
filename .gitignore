@@ -83,6 +83,8 @@ venv/
 
 # Toolchain local logs
 .toolchain-logs/
+.toolchain-cache/
+.toolchain-*.exe
 *.log
 
 # OS / editors

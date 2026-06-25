@@ -19,6 +19,8 @@ mismatch = FindFirstMismatch(Generate(60), mutated);
 assert(mismatch.position == 20);
 
 assert(FindTruncationPoint(Generate(75)) == 76);
-assert(Locate('9910') == 99);
+generated80 = Generate(80);
+fragment = generated80(30:41);
+assert(Locate(fragment) == 30);
 
 disp('OK matlab-octave');
