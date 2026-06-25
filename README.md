@@ -1,53 +1,76 @@
-# PositionTape Codex Bootstrap
-
-This repository is a minimal viable scaffold for building the Open Source **PositionTape** project with Codex on Windows 11, PowerShell, or WSL.
-
-PositionTape is a human-readable diagnostic tape for truncation and payload-integrity testing. The commercial ASBN product should live separately as **ASBN PositionTape Inspector** or a similar licensed diagnostic utility.
-
-## What this bootstrap contains
-
-- Root `AGENTS.md` for project-level Codex instructions.
-- Local Codex plugin scaffold under `plugins/position-tape-codex/`.
-- Repo marketplace file under `.agents/plugins/marketplace.json`.
-- Skills for specification, language implementation, conformance testing, logger adapters, and OSS hygiene.
-- Official fixtures and manifest.
-- Scripts for Windows PowerShell and WSL.
-- Initial prompts and `/goal` instructions for agentic execution.
-- A minimal repo layout for 30 Genkidama languages.
-
-## First run on Windows 11 PowerShell
-
-```powershell
-cd C:\Code\position-tape
-.\scripts\setup-windows.ps1
-codex --cd . --sandbox workspace-write --ask-for-approval on-request
-```
-
-For the most agentic local run while staying inside the workspace:
-
-```powershell
-codex --cd . --sandbox workspace-write --ask-for-approval never --search
-```
-
-Use `--ask-for-approval never` only after reviewing `docs/agentic-plan/APPROVALS_AND_PERMISSIONS.md`.
-
-## First run on WSL
-
-```bash
-cd ~/code/position-tape
-chmod +x scripts/*.sh
-./scripts/setup-wsl.sh
-codex --cd . --sandbox workspace-write --ask-for-approval on-request
-```
-
-## Recommended first Codex prompt
-
-Open `codex/prompts/00-bootstrap-goal.md`, paste it into Codex, and let Codex work in checkpoints.
-
-## Safety boundary
-
-Codex is allowed to create, modify, delete, build and test files **inside this repository**. It must not publish packages, push to GitHub, modify files outside the workspace, create secrets, rotate credentials, or use `danger-full-access` unless explicitly approved by Alfonso.
-
-## Commercial boundary
-
-The Open Source repo should implement the algorithm, tests, fixtures, language packages and basic logger integrations. The licensed ASBN product should own the compiled inspector, UI, enterprise importers, reports, CI evidence workflows and customer-facing support.
+# PositionTape
+
+PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing. It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
+
+The open source repository owns the algorithm, fixtures, conformance tests, language packages, and basic logger integrations. Commercial ASBN inspector products live outside this repository.
+
+## Algorithm
+
+Positions are 1-indexed.
+
+- Positions not divisible by 10 emit their last digit.
+- Positions divisible by 10 emit the decimal text of `position / 10`.
+- Multi-character markers occupy consecutive output positions and advance the cursor by marker length.
+- Exact-length generation returns exactly the requested length, truncating a marker at the boundary when needed.
+- Marker-complete generation extends only when the requested boundary cuts through a marker.
+
+See [docs/spec/position-tape-spec.md](docs/spec/position-tape-spec.md) for the full specification.
+
+## Current Foundation
+
+GEN-PT-001 provides:
+
+- Official UTF-8 fixtures under `fixtures/`.
+- Canonical manifest at `fixtures/manifest.generated.json`.
+- Python fixture conformance runner under `tools/conformance/`.
+- No-package C# conformance runner under `tools/conformance/csharp/PositionTape.Conformance/`.
+- C# reference implementation under `languages/csharp/src/PositionTape/`.
+- C# xUnit tests under `languages/csharp/tests/PositionTape.Tests/`.
+- GitHub Actions conformance workflow.
+
+## Verify
+
+Windows PowerShell:
+
+```powershell
+.\scripts\verify-fixtures.ps1
+dotnet run --project .\tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release
+dotnet test .\languages\csharp\tests\PositionTape.Tests\PositionTape.Tests.csproj
+```
+
+WSL or Linux:
+
+```bash
+./scripts/verify-fixtures.sh
+dotnet run --project tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj --configuration Release
+dotnet test languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj
+```
+
+Direct Python runner:
+
+```bash
+python tools/conformance/run_conformance.py
+```
+
+## C# Quick Start
+
+```csharp
+using Tape = PositionTape.PositionTape;
+
+var exact = Tape.Generate(10000);
+var markerComplete = Tape.GenerateMarkerComplete(10000);
+var validation = Tape.Validate(exact, expectedLength: 10000);
+```
+
+## Repository Layout
+
+- `docs/spec/`: specification.
+- `fixtures/`: official fixtures and generated manifest.
+- `tools/conformance/`: canonical conformance runner, reference generator, and no-package C# conformance runner.
+- `languages/<language>/`: language implementations.
+- `integrations/<logger-or-platform>/`: logger integrations.
+- `plugins/position-tape-codex/`: local Codex plugin scaffold.
+
+## Agent Safety
+
+Repository-level instructions are in `AGENTS.md`. Codex may create, modify, build, and test files inside this repository, but must not publish packages, push to GitHub, create tags/releases, modify files outside the workspace, or add secrets without explicit approval.

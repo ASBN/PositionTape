@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>PositionTape</PackageId>
+    <AssemblyName>PositionTape</AssemblyName>
+    <RootNamespace>PositionTape</RootNamespace>
+    <Description>Reference C# implementation of the PositionTape diagnostic tape.</Description>
+  </PropertyGroup>
+</Project>

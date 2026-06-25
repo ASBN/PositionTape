@@ -1,0 +1,7 @@
+# PositionTape Codex profile: high autonomy with network access.
+# This file mirrors high-autonomy-with-network.toml for compatibility with the bootstrap naming.
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = true

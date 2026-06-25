@@ -61,3 +61,15 @@ Use clear checkpoint summaries. Suggested commit message format:
 `GEN-PT-00X: <short outcome>`
 
 Do not publish, tag, push, or release packages unless the user explicitly asks.
+
+## Local execution policy for Windows
+
+When running on native Windows:
+
+- Prefer PowerShell scripts over bash scripts.
+- Do not require bash unless WSL is explicitly available.
+- If NuGet restore fails with NU1301, report it as network/sandbox configuration, not as a source-code failure.
+- Prefer no-package conformance runners when package restore is unavailable.
+- For xUnit tests, run `dotnet restore` only when network access is available.
+- If Python launcher is unavailable or access is denied, skip Python validation and record it in AGENT_RUN_LOG.md.
+- Never change source code just to work around missing local tools.

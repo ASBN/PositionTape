@@ -1,6 +1,7 @@
 name: conformance
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [ main ]
@@ -13,4 +14,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python tools/generate-fixtures/verify_fixtures.py
+      - run: python tools/conformance/run_conformance.py
+
+  csharp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet run --project tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj --configuration Release
+      - run: dotnet restore languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj --configfile NuGet.Config
+      - run: dotnet test languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj --configuration Release --no-restore

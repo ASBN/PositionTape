@@ -1,0 +1,13 @@
+C:\Code\PositionTape\languages\csharp\src\PositionTape\bin\Release\net8.0\PositionTape.deps.json
+C:\Code\PositionTape\languages\csharp\src\PositionTape\bin\Release\net8.0\PositionTape.dll
+C:\Code\PositionTape\languages\csharp\src\PositionTape\bin\Release\net8.0\PositionTape.pdb
+C:\Code\PositionTape\languages\csharp\src\PositionTape\bin\Release\net8.0\PositionTape.xml
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.AssemblyInfoInputs.cache
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.AssemblyInfo.cs
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.csproj.CoreCompileInputs.cache
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.dll
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\refint\PositionTape.dll
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.xml
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\PositionTape.pdb
+C:\Code\PositionTape\languages\csharp\src\PositionTape\obj\Release\net8.0\ref\PositionTape.dll

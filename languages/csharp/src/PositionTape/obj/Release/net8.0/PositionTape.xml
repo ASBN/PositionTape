@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PositionTape</name>
+    </assembly>
+    <members>
+        <member name="T:PositionTape.Mismatch">
+            <summary>Describes the first 1-indexed position where two texts differ.</summary>
+            <param name="Position">The 1-indexed mismatch position.</param>
+            <param name="Expected">The expected character, or null when the expected text ended first.</param>
+            <param name="Received">The received character, or null when the received text ended first.</param>
+        </member>
+        <member name="M:PositionTape.Mismatch.#ctor(System.Int32,System.Nullable{System.Char},System.Nullable{System.Char})">
+            <summary>Describes the first 1-indexed position where two texts differ.</summary>
+            <param name="Position">The 1-indexed mismatch position.</param>
+            <param name="Expected">The expected character, or null when the expected text ended first.</param>
+            <param name="Received">The received character, or null when the received text ended first.</param>
+        </member>
+        <member name="P:PositionTape.Mismatch.Position">
+            <summary>The 1-indexed mismatch position.</summary>
+        </member>
+        <member name="P:PositionTape.Mismatch.Expected">
+            <summary>The expected character, or null when the expected text ended first.</summary>
+        </member>
+        <member name="P:PositionTape.Mismatch.Received">
+            <summary>The received character, or null when the received text ended first.</summary>
+        </member>
+        <member name="T:PositionTape.ValidationResult">
+            <summary>Summarizes validation of received text against an expected PositionTape length.</summary>
+            <param name="IsValid">True when received text exactly equals the expected generated tape.</param>
+            <param name="ExpectedLength">The requested expected tape length.</param>
+            <param name="ReceivedLength">The received text length.</param>
+            <param name="TruncationPoint">The 1-indexed missing position when the received text is a valid truncated prefix.</param>
+            <param name="FirstMismatch">The first mismatch, including length-only mismatches.</param>
+        </member>
+        <member name="M:PositionTape.ValidationResult.#ctor(System.Boolean,System.Int32,System.Int32,System.Nullable{System.Int32},PositionTape.Mismatch)">
+            <summary>Summarizes validation of received text against an expected PositionTape length.</summary>
+            <param name="IsValid">True when received text exactly equals the expected generated tape.</param>
+            <param name="ExpectedLength">The requested expected tape length.</param>
+            <param name="ReceivedLength">The received text length.</param>
+            <param name="TruncationPoint">The 1-indexed missing position when the received text is a valid truncated prefix.</param>
+            <param name="FirstMismatch">The first mismatch, including length-only mismatches.</param>
+        </member>
+        <member name="P:PositionTape.ValidationResult.IsValid">
+            <summary>True when received text exactly equals the expected generated tape.</summary>
+        </member>
+        <member name="P:PositionTape.ValidationResult.ExpectedLength">
+            <summary>The requested expected tape length.</summary>
+        </member>
+        <member name="P:PositionTape.ValidationResult.ReceivedLength">
+            <summary>The received text length.</summary>
+        </member>
+        <member name="P:PositionTape.ValidationResult.TruncationPoint">
+            <summary>The 1-indexed missing position when the received text is a valid truncated prefix.</summary>
+        </member>
+        <member name="P:PositionTape.ValidationResult.FirstMismatch">
+            <summary>The first mismatch, including length-only mismatches.</summary>
+        </member>
+        <member name="T:PositionTape.PositionTape">
+            <summary>Reference implementation of the PositionTape diagnostic sequence.</summary>
+        </member>
+        <member name="F:PositionTape.PositionTape.DefaultSearchLength">
+            <summary>Default number of generated characters searched by locate and hash-window helpers.</summary>
+        </member>
+        <member name="M:PositionTape.PositionTape.Generate(System.Int32)">
+            <summary>Generates exactly <paramref name="length" /> characters of PositionTape.</summary>
+            <param name="length">The exact number of characters to generate.</param>
+            <returns>The generated tape text.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.GenerateMarkerComplete(System.Int32)">
+            <summary>Generates tape extended only as needed to complete the marker crossing <paramref name="length" />.</summary>
+            <param name="length">The requested boundary length.</param>
+            <returns>Generated tape with any boundary-crossing marker completed.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.Locate(System.String)">
+            <summary>Finds the first 1-indexed occurrence of a fragment in the default search window.</summary>
+            <param name="fragment">The fragment to locate.</param>
+            <returns>The 1-indexed position, or -1 when not found.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.Validate(System.String,System.Int32)">
+            <summary>Validates received text against the exact tape for an expected length.</summary>
+            <param name="receivedText">The text captured from a pipeline.</param>
+            <param name="expectedLength">The expected exact tape length.</param>
+            <returns>Validation details including truncation and mismatch diagnostics.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.FindTruncationPoint(System.String)">
+            <summary>Returns the first 1-indexed position where received text stops matching the canonical tape prefix.</summary>
+            <param name="receivedText">The captured text to inspect.</param>
+            <returns>The first mismatch position, or the next position after a valid prefix.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.FindFirstMismatch(System.String,System.String)">
+            <summary>Finds the first 1-indexed mismatch between expected and received text.</summary>
+            <param name="expected">The expected text.</param>
+            <param name="received">The received text.</param>
+            <returns>Mismatch details, or null when the texts are equal.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.BuildWindowIndex(System.Int32)">
+            <summary>Builds a SHA-256 hash index of fixed-size windows in the default search window.</summary>
+            <param name="windowSize">The fixed fragment size to index.</param>
+            <returns>A map from lowercase SHA-256 hash to 1-indexed positions.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.LocateByHash(System.String,System.Int32)">
+            <summary>Finds positions whose fixed-size window hash matches <paramref name="fragmentHash" />.</summary>
+            <param name="fragmentHash">A lowercase or uppercase SHA-256 hex hash.</param>
+            <param name="windowSize">The fixed fragment size used to build the index.</param>
+            <returns>All matching 1-indexed positions in the default search window.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.HashFragment(System.String)">
+            <summary>Computes a lowercase SHA-256 hex hash for a tape fragment.</summary>
+            <param name="fragment">The fragment to hash as UTF-8.</param>
+            <returns>Lowercase SHA-256 hex.</returns>
+        </member>
+        <member name="M:PositionTape.PositionTape.GetMarkerCompleteLength(System.Int32)">
+            <summary>Returns the length needed to complete any marker crossing the requested boundary.</summary>
+            <param name="length">The requested boundary length.</param>
+            <returns>The exact requested length or the minimal marker-complete extension.</returns>
+        </member>
+    </members>
+</doc>
