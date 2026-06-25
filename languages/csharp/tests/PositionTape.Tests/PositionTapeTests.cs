@@ -1,3 +1,4 @@
+using Xunit;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -204,3 +205,4 @@ public sealed class PositionTapeTests
         public string Sha256 { get; set; } = string.Empty;
     }
 }
+
