@@ -1,7 +1,23 @@
 # PositionTape for vbnet
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```vbnet
+Imports PositionTape.PositionTape
+
+Dim exact = Tape.Generate(10000)
+Dim markerComplete = Tape.GenerateMarkerComplete(10000)
+Dim validation = Tape.Validate(exact, 10000)
+```
+
+## Verify
+
+```powershell
+dotnet run --project .\languages\vbnet\tests\PositionTape.Tests\PositionTape.Tests.vbproj --configuration Release
+```
+
+The tests validate generated output against `fixtures/manifest.generated.json`.

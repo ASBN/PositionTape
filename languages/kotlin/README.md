@@ -1,7 +1,22 @@
 # PositionTape for kotlin
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```kotlin
+import org.positiontape.PositionTape
+
+val exact = PositionTape.Generate(10000)
+val markerComplete = PositionTape.GenerateMarkerComplete(10000)
+val validation = PositionTape.Validate(exact, 10000)
+```
+
+## Verify
+
+```powershell
+kotlinc .\languages\kotlin\src\PositionTape.kt .\languages\kotlin\tests\PositionTapeTest.kt -include-runtime -d .\languages\kotlin\position-tape-tests.jar
+java -jar .\languages\kotlin\position-tape-tests.jar
+```

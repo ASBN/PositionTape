@@ -1,13 +1,15 @@
-# SPEC-COMPLIANCE — go
+# SPEC-COMPLIANCE - Go
 
-- Language: go
-- Runtime/compiler:
-- Conformance level:
-- Generate:
-- GenerateMarkerComplete:
-- Validate:
-- Locate:
-- Hash index:
-- Logger integration:
-- Known limitations:
-- Fixture SHA-256 verified:
+- Language: Go
+- Runtime/compiler: go1.26.1 windows/amd64 verified locally
+- Conformance level: Level 3
+- Generate: implemented
+- GenerateMarkerComplete: implemented
+- Validate: implemented
+- FindTruncationPoint: implemented
+- FindFirstMismatch: implemented
+- Locate: implemented with a default 100,003-character search window
+- Hash index: implemented with SHA-256 fixed-size windows using Go's standard library
+- Logger integration: not implemented
+- Known limitations: none for Level 3 scope.
+- Fixture SHA-256 verified: yes, via `go test -work ./...` from `languages/go` with Go cache/temp paths redirected under the repository

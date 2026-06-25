@@ -1,0 +1,92 @@
+# Local tool scratch directories.
+/tmp/go-*/
+/languages/go/tmp/go-*/
+
+# Python local test caches.
+__pycache__/
+*.pyc
+
+# ----------------------------------------------------------------------
+# PositionTape generated artifacts
+# ----------------------------------------------------------------------
+
+# .NET / C# / VB.NET
+[Bb]in/
+[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
+*.dll
+*.pdb
+*.exe
+*.deps.json
+*.runtimeconfig.json
+*.nupkg
+*.snupkg
+
+# C / C++ / CMake
+**/build/
+**/out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+*.obj
+*.o
+*.a
+*.lib
+*.so
+*.dylib
+*.class
+
+# Rust
+target/
+**/target/
+Cargo.lock
+
+# Go
+tmp/
+**/tmp/
+*.test
+
+# Swift
+.build/
+**/.build/
+
+# OCaml
+_build/
+**/_build/
+*.cmi
+*.cmo
+*.cmx
+*.cmxa
+*.cma
+*.annot
+
+# Java / Kotlin
+*.jar
+*.war
+*.ear
+
+# JavaScript / TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Toolchain local logs
+.toolchain-logs/
+*.log
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,7 +1,25 @@
-# PositionTape for javascript
+# PositionTape for JavaScript
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```javascript
+const { Generate, GenerateMarkerComplete, Validate } = require("./src/position-tape");
+
+const exact = Generate(10000);
+const markerComplete = GenerateMarkerComplete(10000);
+const validation = Validate(exact, 10000);
+```
+
+## Verify
+
+From the repository root:
+
+```powershell
+node --test .\languages\javascript\tests\position-tape.test.js
+```
+
+The tests validate generated output against `fixtures/manifest.generated.json`.

@@ -47,3 +47,69 @@ Codex should append one section per checkpoint.
 - Toolchains missing: `javac` and `java` are not installed on PATH; `rustc` and `cargo` are not installed on PATH; `cmake`, `g++`, `clang++`, and `cl` are not installed on PATH. Go is available as `go1.26.1 windows/amd64`, but default telemetry/cache locations are not writable in this sandbox.
 - Decisions: Implemented Level 2 APIs for all four target languages without core dependencies. Go includes manifest/SHA fixture verification because its toolchain is available. Java, Rust, and C++ include dependency-free source, examples, and plain tests ready for their toolchains.
 - Questions / blockers: Git cleanup of tracked C# `bin/obj` outputs touched by `dotnet run` was blocked because Git cannot create `.git/index.lock` in this sandbox. Go scratch directories under `tmp/` and `languages/go/tmp/` could not be removed because the cleanup command was blocked by local policy; `.gitignore` now excludes those generated scratch directories.
+
+### 2026-06-25 05:13 - GEN-PT-006 Python Level 3 implementation
+
+- Goal: Replace the Python scaffold with a dependency-free Level 3 PositionTape implementation and verify it against the official fixtures.
+- Files changed: `.gitignore`, `languages/python/README.md`, `languages/python/SPEC-COMPLIANCE.md`, `languages/python/CHANGELOG.md`, `languages/python/examples/basic.py`, `languages/python/src/position_tape/__init__.py`, `languages/python/src/position_tape/core.py`, `languages/python/tests/test_position_tape.py`, `AGENT_RUN_LOG.md`.
+- Commands run: `python --version`; `$env:PYTHONPATH = '.\languages\python\src'; python -m unittest discover .\languages\python\tests`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`.
+- Tests passed: Python unittest suite passed 6 tests covering exact generation, marker-complete generation, validation, mismatch diagnostics, direct locate, hash-window lookup, and every fixture in `fixtures/manifest.generated.json`; C# no-package conformance runner passed all official fixtures and API checks.
+- Tests failed: Two initial Python test expectations were corrected during the checkpoint: marker-complete length for boundary 100 is 101, and marker-complete length for boundary 1000 is 1002.
+- Toolchains missing: None for this checkpoint; Python 3.14.2 and .NET were available.
+- Decisions: Exposed the required PascalCase API names plus idiomatic snake_case aliases; kept the Python core dependency-free; added `.gitignore` entries for Python `__pycache__` and `.pyc` files created by local unittest runs.
+- Questions / blockers: Shell cleanup commands for generated `.pyc` files were blocked by local policy, so caches are ignored rather than removed in this checkpoint.
+
+### 2026-06-25 05:30 - GEN-PT-007 Level 3 language expansion
+
+- Goal: Continue completing language implementations by moving locally verifiable and standard-library-friendly languages to Level 3.
+- Files changed: `languages/javascript/*`, `languages/lua/*`, `languages/go/*`, `languages/java/*`, `languages/php/*`, `languages/ruby/*`, `languages/perl/*`, `languages/julia/*`, `languages/dart/*`, `AGENT_RUN_LOG.md`.
+- Commands run: `node --version`; `node .\languages\javascript\tests\position-tape.test.js`; `lua -v`; `lua .\languages\lua\tests\position_tape_tests.lua`; `go version`; `go test -work ./...` from `languages/go` with Go cache/temp paths redirected under the repository; `julia --version`; `julia .\languages\julia\tests\position_tape_tests.jl`; `dart --version`; `dart .\languages\dart\tests\position_tape_test.dart` with `DART_SUPPRESS_ANALYTICS=true`; `$env:PYTHONPATH = '.\languages\python\src'; python -m unittest discover .\languages\python\tests`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`; probes for `php`, `ruby`, `perl`, `Rscript`, `swift`, and `kotlinc`.
+- Tests passed: JavaScript, Lua, Julia, Dart, Python, Go, and C# no-package conformance all passed locally; fixture bytes, SHA-256, no-BOM, and no-newline checks are covered by the new JS/Lua/Julia/Dart tests.
+- Tests failed: `node --test` failed with `spawn EPERM`, so JavaScript tests were made executable via direct `node` invocation. `dart --disable-analytics` failed trying to write telemetry files under denied AppData, but direct `dart` execution with analytics suppressed passed. Initial Julia test issues from name shadowing and regex syntax were corrected.
+- Toolchains missing: `php`, `ruby`, `perl`, `Rscript`, `swift`, and `kotlinc` are not installed on PATH; Java remains unavailable from the earlier checkpoint.
+- Decisions: Implemented Level 3 APIs for JavaScript, Lua, Go, Java, PHP, Ruby, Perl, Julia, and Dart. Used standard-library SHA-256 where available and pure SHA-256 implementations for Lua and Dart to avoid core dependencies. Added PascalCase wrappers in Java while preserving idiomatic camelCase.
+- Questions / blockers: Remaining languages still needing implementation or Level 3 completion include Ada, Assembly, C, COBOL, C++, Delphi, Fortran, Kotlin, MATLAB/Octave, Objective-C, OCaml, Prolog, R, Rust, Scratch, SQLite, Standard ML, Swift, and VB.NET. C++ and Rust are currently Level 2 from GEN-PT-005.
+
+### 2026-06-25 05:47 - GEN-PT-008 C-family and VB.NET Level 3
+
+- Goal: Continue moving remaining languages to Level 3 by completing C, C++, Rust, and VB.NET APIs.
+- Files changed: `languages/c/*`, `languages/cpp/src/position_tape.hpp`, `languages/cpp/tests/position_tape_tests.cpp`, `languages/cpp/README.md`, `languages/cpp/SPEC-COMPLIANCE.md`, `languages/rust/src/lib.rs`, `languages/rust/README.md`, `languages/rust/SPEC-COMPLIANCE.md`, `languages/vbnet/*`, `AGENT_RUN_LOG.md`.
+- Commands run: probes for `gcc`, `clang`, `cl`, `cmake`, `rustc`, and `dotnet new list vb`; `dotnet --version`; `dotnet run --project .\languages\vbnet\tests\PositionTape.Tests\PositionTape.Tests.vbproj --configuration Release`; `$env:PYTHONPATH = '.\languages\python\src'; python -m unittest discover .\languages\python\tests`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`.
+- Tests passed: VB.NET no-package console tests passed and validate official fixture bytes/SHA/newline/BOM metadata; Python tests passed; C# no-package conformance runner passed all official fixtures and API checks.
+- Tests failed: First VB.NET compile failed on local variable/type inference around `Directory`; corrected with explicit `DirectoryInfo` and `System.IO.Directory.GetCurrentDirectory()`.
+- Toolchains missing: `gcc`, `clang`, `cl`, `cmake`, and `rustc` are not installed on PATH, so C, C++, and Rust tests were not executed locally.
+- Decisions: Implemented Level 3 APIs for C, C++, Rust, and VB.NET. C, C++, and Rust use dependency-free SHA-256 implementations; VB.NET uses .NET standard `SHA256`. Kept C API explicit about caller-owned allocations and added hash-index cleanup.
+- Questions / blockers: Remaining scaffold-only languages are Ada, Assembly, COBOL, Delphi, Fortran, Kotlin, MATLAB/Octave, Objective-C, OCaml, Prolog, R, Scratch, SQLite, Standard ML, and Swift.
+
+### 2026-06-25 05:52 - GEN-PT-009 Standard ML and Kotlin Level 3
+
+- Goal: Continue reducing scaffold-only languages by implementing Standard ML and Kotlin Level 3 APIs.
+- Files changed: `languages/standard-ml/*`, `languages/kotlin/*`, `AGENT_RUN_LOG.md`.
+- Commands run: probes for `sqlite3`, `swipl`, `ocaml`, `sml`, `gfortran`, `gnat`, `octave`, `nasm`, `cobc`, and `fpc`; `Get-Content .\languages\standard-ml\tests\position_tape_tests.sml | sml`; `dotnet run --project .\languages\vbnet\tests\PositionTape.Tests\PositionTape.Tests.vbproj --configuration Release`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`.
+- Tests passed: Standard ML tests passed on SML/NJ 110.99.9; VB.NET tests passed; C# no-package conformance runner passed all official fixtures and API checks.
+- Tests failed: Initial Standard ML run failed because large SHA-256 constants were inferred as native `word`; corrected by parsing constants into `Word32.word`.
+- Toolchains missing: `sqlite3`, `swipl`, `ocaml`, `gfortran`, `gnat`, `octave`, `nasm`, `cobc`, `fpc`, and `kotlinc` are not installed on PATH.
+- Decisions: Implemented Standard ML Level 3 with pure SML SHA-256 and direct `locateByHash` scanning to avoid slow association-list indexing in tests. Implemented Kotlin/JVM Level 3 with JVM standard `MessageDigest` and plain `main` tests ready for `kotlinc`.
+- Questions / blockers: Remaining scaffold-only languages are Ada, Assembly, COBOL, Delphi, Fortran, MATLAB/Octave, Objective-C, OCaml, Prolog, R, Scratch, SQLite, and Swift.
+
+### 2026-06-25 06:05 - GEN-PT-010 Swift Level 3, R and OCaml Level 2
+
+- Goal: Continue reducing scaffold-only language folders while keeping changes dependency-light and locally verifiable through the repository conformance baseline.
+- Files changed: `languages/swift/*`, `languages/r/*`, `languages/ocaml/*`, `AGENT_RUN_LOG.md`.
+- Commands run: `swift --version`; `Rscript --version`; `ocaml -version`; `$env:PYTHONPATH = '.\languages\python\src'; python -m unittest discover .\languages\python\tests`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`.
+- Tests passed: Python unittest suite passed 6 tests; C# no-package conformance runner passed all official manifest fixtures and API checks.
+- Tests failed: None in executed test suites.
+- Toolchains missing: `swift`, `Rscript`, and `ocaml` are not installed on PATH, so the newly added Swift, R, and OCaml tests were not executed locally.
+- Decisions: Implemented Swift Level 3 using `CryptoKit` for SHA-256 hash-window support. Implemented R and OCaml Level 2 without external dependencies; hash-window APIs remain unimplemented because their standard runtimes do not provide SHA-256 string hashing without optional packages or external tools.
+- Questions / blockers: Remaining scaffold-only languages are Ada, Assembly, COBOL, Delphi, Fortran, MATLAB/Octave, Objective-C, Prolog, Scratch, and SQLite. R and OCaml need a dependency decision or pure SHA-256 implementation to reach Level 3.
+
+### 2026-06-25 06:20 - GEN-PT-011 Prolog, SQLite, and MATLAB/Octave expansion
+
+- Goal: Continue reducing scaffold-only language folders with dependency-light implementations and local baseline conformance verification.
+- Files changed: `languages/prolog/*`, `languages/sqlite/*`, `languages/matlab-octave/*`, `AGENT_RUN_LOG.md`.
+- Commands run: `swipl --version`; `sqlite3 --version`; `octave --version`; `$env:PYTHONPATH = '.\languages\python\src'; python -m unittest discover .\languages\python\tests`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`; scaffold scan with `rg "scaffold only"`.
+- Tests passed: Python unittest suite passed 6 tests; C# no-package conformance runner passed all official manifest fixtures and API checks.
+- Tests failed: None in executed test suites.
+- Toolchains missing: `swipl`, `sqlite3`, and `octave` are not installed on PATH, so the newly added Prolog, SQLite, and MATLAB/Octave tests were not executed locally.
+- Decisions: Implemented SWI-Prolog Level 3 using `library(crypto)` for SHA-256 hash-window support. Implemented SQLite Level 2 as TEMP views backed by a parameter table because plain SQLite SQL does not provide callable stored functions without an extension. Implemented MATLAB/Octave Level 2 using char-array-compatible functions and no packages.
+- Questions / blockers: Remaining scaffold-only languages are Ada, Assembly, COBOL, Delphi, Fortran, Objective-C, and Scratch. SQLite and MATLAB/Octave need a dependency decision or pure SHA-256 implementation to reach Level 3.

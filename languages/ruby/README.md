@@ -1,7 +1,21 @@
 # PositionTape for ruby
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```ruby
+require_relative "src/position_tape"
+
+exact = PositionTape.Generate(10000)
+marker_complete = PositionTape.GenerateMarkerComplete(10000)
+validation = PositionTape.Validate(exact, 10000)
+```
+
+## Verify
+
+```powershell
+ruby .\languages\ruby\tests\position_tape_test.rb
+```

@@ -1,7 +1,23 @@
 # PositionTape for dart
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```dart
+import 'src/position_tape.dart' as pt;
+
+final exact = pt.Generate(10000);
+final markerComplete = pt.GenerateMarkerComplete(10000);
+final validation = pt.Validate(exact, 10000);
+```
+
+## Verify
+
+```powershell
+dart run .\languages\dart\tests\position_tape_test.dart
+```
+
+The tests validate generated output against `fixtures/manifest.generated.json`.

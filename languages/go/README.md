@@ -1,7 +1,23 @@
-# PositionTape for go
+# PositionTape for Go
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+## API
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+- `Generate(length int) (string, error)`
+- `GenerateMarkerComplete(length int) (string, error)`
+- `Validate(receivedText string, expectedLength int) (ValidationResult, error)`
+- `FindTruncationPoint(receivedText string) (int, error)`
+- `FindFirstMismatch(expected string, received string) *Mismatch`
+- `Locate(fragment string) (int, error)`
+- `BuildWindowIndex(windowSize int) (map[string][]int, error)`
+- `LocateByHash(fragmentHash string, windowSize int) ([]int, error)`
+- `HashFragment(fragment string) string`
+
+## Verify
+
+```powershell
+Push-Location languages/go
+go test ./...
+Pop-Location
+```

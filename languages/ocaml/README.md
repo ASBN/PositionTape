@@ -1,7 +1,12 @@
 # PositionTape for ocaml
 
-Status: scaffold only.
+Status: Level 2 implementation.
 
-Target conformance level: TBD.
+This folder provides a dependency-free OCaml implementation of the generator,
+validation, mismatch, truncation, and direct locate APIs.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+Run the local checks with:
+
+```powershell
+ocaml languages/ocaml/tests/position_tape_tests.ml
+```

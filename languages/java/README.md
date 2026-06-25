@@ -1,7 +1,24 @@
-# PositionTape for java
+# PositionTape for Java
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+## API
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+- `PositionTape.generate(int length)`
+- `PositionTape.generateMarkerComplete(int length)`
+- `PositionTape.validate(String receivedText, int expectedLength)`
+- `PositionTape.findTruncationPoint(String receivedText)`
+- `PositionTape.findFirstMismatch(String expected, String received)`
+- `PositionTape.locate(String fragment)`
+- `PositionTape.buildWindowIndex(int windowSize)`
+- `PositionTape.locateByHash(String fragmentHash, int windowSize)`
+- `PositionTape.hashFragment(String fragment)`
+
+PascalCase wrappers are also exposed for the required cross-language API names.
+
+## Verify
+
+```powershell
+javac -d languages/java/out languages/java/src/main/java/org/positiontape/*.java languages/java/tests/PositionTapeTest.java
+java -cp languages/java/out PositionTapeTest
+```

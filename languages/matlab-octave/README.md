@@ -1,7 +1,12 @@
-# PositionTape for matlab-octave
+# PositionTape for MATLAB/Octave
 
-Status: scaffold only.
+Status: Level 2 implementation.
 
-Target conformance level: TBD.
+This folder provides dependency-free MATLAB/Octave functions for generation,
+validation, mismatch diagnostics, truncation detection, and direct locate.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+Run the local checks with:
+
+```powershell
+octave --quiet languages/matlab-octave/tests/position_tape_tests.m
+```

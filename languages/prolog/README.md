@@ -1,7 +1,12 @@
 # PositionTape for prolog
 
-Status: scaffold only.
+Status: Level 3 implementation for SWI-Prolog.
 
-Target conformance level: TBD.
+This folder provides the required generator, validation, locate, and hash-window
+APIs in `languages/prolog/src/position_tape.pl`.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+Run the local checks with:
+
+```powershell
+swipl -q -f languages/prolog/tests/position_tape_tests.pl
+```

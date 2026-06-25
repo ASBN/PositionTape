@@ -1,7 +1,21 @@
-# PositionTape for swift
+# PositionTape for Swift
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+This package exposes the required PositionTape API through the `PositionTape`
+enum:
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+- `Generate(_:)`
+- `GenerateMarkerComplete(_:)`
+- `Locate(_:)`
+- `Validate(_:_:)`
+- `FindTruncationPoint(_:)`
+- `FindFirstMismatch(_:_:)`
+- `BuildWindowIndex(_:)`
+- `LocateByHash(_:_:)`
+
+Run the local checks with:
+
+```powershell
+swift run PositionTapeTests
+```

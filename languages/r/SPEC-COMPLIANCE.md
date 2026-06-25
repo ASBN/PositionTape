@@ -1,13 +1,13 @@
-# SPEC-COMPLIANCE — r
+# SPEC-COMPLIANCE — R
 
-- Language: r
-- Runtime/compiler:
-- Conformance level:
-- Generate:
-- GenerateMarkerComplete:
-- Validate:
-- Locate:
-- Hash index:
-- Logger integration:
-- Known limitations:
-- Fixture SHA-256 verified:
+- Language: R
+- Runtime/compiler: Rscript; not installed on PATH in the current Windows environment.
+- Conformance level: Level 2
+- Generate: Implemented by `Generate(length)`.
+- GenerateMarkerComplete: Implemented by `GenerateMarkerComplete(length)`.
+- Validate: Implemented by `Validate(receivedText, expectedLength)` with mismatch and truncation diagnostics.
+- Locate: Implemented by `Locate(fragment)` over the canonical 100,003-character search window.
+- Hash index: Not implemented; R base does not provide SHA-256 string hashing without optional packages or external tools.
+- Logger integration: Not implemented.
+- Known limitations: Not locally executed because `Rscript` is not installed on PATH.
+- Fixture SHA-256 verified: Not in this Level 2 implementation.

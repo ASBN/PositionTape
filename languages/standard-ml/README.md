@@ -1,7 +1,21 @@
 # PositionTape for standard-ml
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```sml
+use "languages/standard-ml/src/position_tape.sml";
+
+val exact = PositionTape.generate 10000;
+val markerComplete = PositionTape.generateMarkerComplete 10000;
+val validation = PositionTape.validate (exact, 10000);
+```
+
+## Verify
+
+```powershell
+sml < .\languages\standard-ml\tests\position_tape_tests.sml
+```

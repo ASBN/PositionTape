@@ -1,0 +1,16 @@
+function result = Validate(receivedText, expectedLength)
+    expected = Generate(expectedLength);
+    mismatch = FindFirstMismatch(expected, receivedText);
+    truncationPoint = [];
+
+    if ~isempty(mismatch) && length(receivedText) < expectedLength && strncmp(expected, receivedText, length(receivedText))
+        truncationPoint = length(receivedText) + 1;
+    end
+
+    result = struct( ...
+        'isValid', isempty(mismatch), ...
+        'expectedLength', expectedLength, ...
+        'receivedLength', length(receivedText), ...
+        'truncationPoint', truncationPoint, ...
+        'firstMismatch', mismatch);
+end

@@ -1,7 +1,24 @@
 # PositionTape for julia
 
-Status: scaffold only.
+Status: Level 3 implementation.
 
-Target conformance level: TBD.
+Target conformance level: 3.
 
-Codex should implement this folder using `plugins/position-tape-codex/skills/language-implementation/SKILL.md` and update `SPEC-COMPLIANCE.md`.
+## Usage
+
+```julia
+include("src/PositionTape.jl")
+using .PositionTape
+
+exact = Generate(10000)
+marker_complete = GenerateMarkerComplete(10000)
+validation = Validate(exact, 10000)
+```
+
+## Verify
+
+```powershell
+julia .\languages\julia\tests\position_tape_tests.jl
+```
+
+The tests validate generated output against `fixtures/manifest.generated.json`.
