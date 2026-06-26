@@ -1,9 +1,10 @@
 # PositionTape
 
-Alpha status: this repository is preparing for a first public GitHub alpha. The
-core algorithm and fixture manifest are stable, but several language folders are
-experimental or blocked by local toolchain availability. Do not treat every
-language as release-grade yet; see [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
+Alpha status: this repository is at the first public GitHub alpha source
+snapshot, tagged `v0.1.0-alpha.1`. The core algorithm and fixture manifest are
+stable, but several language folders are experimental or blocked by local
+toolchain availability. Do not treat every language as release-grade yet; see
+[SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
 
 PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing. It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
 
@@ -35,7 +36,7 @@ The alpha foundation provides:
 
 ## Install / Use
 
-No packages are published for alpha readiness yet. Use the repository source
+No packages are published for this alpha yet. Use the repository source
 directly.
 
 C# from the repository:
@@ -58,6 +59,31 @@ Python from the repository:
 $env:PYTHONPATH = ".\languages\python\src"
 python -c "from position_tape import Generate, GenerateMarkerComplete, Validate; text = Generate(10000); print(len(text), len(GenerateMarkerComplete(10000)), Validate(text, 10000).ok)"
 ```
+
+## Open In Your IDE
+
+- Visual Studio: open `PositionTape.slnx` for the repository showcase or
+  `PositionTape.DotNet.slnx` for .NET-focused build/test work. These solutions
+  include real C# and VB.NET projects only.
+- VS Code: open `PositionTape.code-workspace` for a polyglot workspace with
+  docs, fixtures, conformance tools, integrations, agentic assets, and each
+  language folder.
+- Rider / JetBrains: use `PositionTape.DotNet.slnx` for .NET work and see
+  [docs/ide/rider.md](docs/ide/rider.md) for guidance.
+- GitHub Codespaces / dev containers: see
+  [docs/ide/codespaces.md](docs/ide/codespaces.md) for the minimal verified
+  stack.
+- Terminal baseline:
+
+```powershell
+python .\tools\conformance\run_conformance.py
+dotnet run --project .\tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release
+dotnet test .\languages\csharp\tests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release
+```
+
+IDE visibility is not a conformance claim. Use
+[SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md) for the current language validation
+matrix and blocked toolchains.
 
 ## Language Status
 
@@ -108,10 +134,11 @@ python tools/conformance/run_conformance.py
 
 - `docs/spec/`: specification.
 - `fixtures/`: official fixtures and generated manifest.
-- `tools/conformance/`: canonical conformance runner, reference generator, and no-package C# conformance runner.
-- `languages/<language>/`: language implementations.
-- `integrations/<logger-or-platform>/`: logger integrations.
-- `plugins/position-tape-codex/`: local Codex plugin scaffold.
+- `tools/conformance/`: canonical conformance runner, reference generator, and no-package C# conformance runner.
+- `languages/<language>/`: language implementations.
+- `integrations/<logger-or-platform>/`: logger integrations.
+- `docs/ide/`: IDE, workspace, and devcontainer guidance.
+- `plugins/position-tape-codex/`: local Codex plugin scaffold.
 
 ## Agent Safety
 

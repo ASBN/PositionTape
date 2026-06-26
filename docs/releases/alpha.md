@@ -1,8 +1,7 @@
 # PositionTape Alpha Release Notes
 
-Status: release-readiness draft for the first public GitHub alpha. No packages
-have been published, no GitHub release has been created, and no tag has been
-cut.
+Status: public GitHub alpha source snapshot. Tag `v0.1.0-alpha.1` has been
+cut. No packages have been published and no GitHub release has been created.
 
 ## Verified
 
@@ -15,6 +14,9 @@ cut.
   conformance and C# baseline conformance/tests on `ubuntu-latest`.
 - Governance files are present: `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`,
   `CODE_OF_CONDUCT.md`, and `AGENTS.md`.
+- IDE entry points are present for common developer flows: Visual Studio and
+  .NET via `.slnx`, VS Code via `PositionTape.code-workspace`, Rider guidance,
+  and a minimal Codespaces/devcontainer path.
 - `.gitignore` excludes common generated outputs across .NET, C/C++, Rust, Go,
   Swift, OCaml, Java/Kotlin, JavaScript, Python, toolchain logs, OS files, and
   editor metadata.
@@ -22,6 +24,8 @@ cut.
 ## Experimental
 
 - Multi-language implementations exist at different conformance levels.
+- IDE visibility does not imply all language folders are buildable in a single
+  IDE or default devcontainer.
 - Several locally verified languages validate API behavior and marker boundary
   behavior but do not yet read every official fixture file directly.
 - Logger integration scope is reserved but not a release-grade alpha claim.
@@ -41,10 +45,10 @@ cut.
 - No language packages should be published until the target package-specific
   test and conformance command passes in a clean CI or release environment.
 
-## Practical Alpha Gate
+## Practical Alpha Follow-Up Gate
 
-Before creating a public alpha release, run the portable CI checks, run the
-locally available language checks listed in `SPEC-COMPLIANCE.md`, confirm
-`git status --short` contains only intentional source/docs changes, and verify
-that no generated binaries, build outputs, logs, caches, or local diagnostics
-are staged.
+Before creating any follow-up alpha tag, GitHub release, or package release,
+run the portable CI checks, run the locally available language checks listed in
+`SPEC-COMPLIANCE.md`, confirm `git status --short` contains only intentional
+source/docs changes, and verify that no generated binaries, build outputs,
+logs, caches, or local diagnostics are staged.

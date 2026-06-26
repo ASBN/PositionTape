@@ -4,6 +4,7 @@
 
 # Python local test caches.
 __pycache__/
+**/__pycache__/
 *.pyc
 
 # ----------------------------------------------------------------------
@@ -76,12 +77,15 @@ pnpm-debug.log*
 
 # Python
 __pycache__/
+**/__pycache__/
 *.py[cod]
 .pytest_cache/
+**/.pytest_cache/
 .venv/
 venv/
 
 # Toolchain local logs
+.diagnostics/
 .toolchain-logs/
 .toolchain-cache/
 .toolchain-*.exe
@@ -92,3 +96,8 @@ venv/
 Thumbs.db
 .vscode/
 .idea/
+.vs/
+*.user
+*.suo
+TestResults/
+**/TestResults/
