@@ -1,6 +1,9 @@
 # SPEC-COMPLIANCE
 
-Validation checkpoint: 2026-06-26 targeted validation fixes.
+Validation checkpoint: 2026-06-25 GitHub alpha readiness audit. Language status
+claims are unchanged from the targeted validation fixes; this checkpoint reran
+the portable fixture, C#, Python, and JavaScript checks listed in
+`AGENT_RUN_LOG.md`.
 
 | Language | Level | Verified locally | Validation command | Current blocker | Generate / marker-complete fixture status |
 |---|---:|---|---|---|---|

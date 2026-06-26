@@ -18,6 +18,6 @@ Status: Level 3 implementation.
 
 ```powershell
 cmake -S languages/cpp -B languages/cpp/build
-cmake --build languages/cpp/build
-.\languages\cpp\build\position_tape_tests.exe
+cmake --build languages/cpp/build --config Release
+ctest --test-dir languages/cpp/build --output-on-failure -C Release
 ```

@@ -19,6 +19,6 @@ PascalCase wrappers are also exposed for the required cross-language API names.
 ## Verify
 
 ```powershell
-javac -d languages/java/out languages/java/src/main/java/org/positiontape/*.java languages/java/tests/PositionTapeTest.java
-java -cp languages/java/out PositionTapeTest
+javac -d .toolchain-logs\java .\languages\java\src\main\java\org\positiontape\*.java .\languages\java\tests\PositionTapeTest.java
+java -cp .toolchain-logs\java PositionTapeTest
 ```

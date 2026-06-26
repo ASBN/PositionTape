@@ -19,6 +19,6 @@ Target conformance level: 3.
 ## Verify
 
 ```powershell
-cc languages/c/src/position_tape.c languages/c/tests/position_tape_tests.c -o languages/c/position_tape_tests
-.\languages\c\position_tape_tests
+cl /nologo /I languages\c\src languages\c\src\position_tape.c languages\c\tests\position_tape_tests.c /Fe:.\toolchain-c-position_tape_tests.exe
+.\toolchain-c-position_tape_tests.exe
 ```

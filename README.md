@@ -1,4 +1,9 @@
-# PositionTape
+# PositionTape
+
+Alpha status: this repository is preparing for a first public GitHub alpha. The
+core algorithm and fixture manifest are stable, but several language folders are
+experimental or blocked by local toolchain availability. Do not treat every
+language as release-grade yet; see [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
 
 PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing. It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
 
@@ -18,7 +23,7 @@ See [docs/spec/position-tape-spec.md](docs/spec/position-tape-spec.md) for the f
 
 ## Current Foundation
 
-GEN-PT-001 provides:
+The alpha foundation provides:
 
 - Official UTF-8 fixtures under `fixtures/`.
 - Canonical manifest at `fixtures/manifest.generated.json`.
@@ -26,7 +31,33 @@ GEN-PT-001 provides:
 - No-package C# conformance runner under `tools/conformance/csharp/PositionTape.Conformance/`.
 - C# reference implementation under `languages/csharp/src/PositionTape/`.
 - C# xUnit tests under `languages/csharp/tests/PositionTape.Tests/`.
-- GitHub Actions conformance workflow.
+- GitHub Actions conformance workflow for fixture and C# baseline checks.
+
+## Install / Use
+
+No packages are published for alpha readiness yet. Use the repository source
+directly.
+
+C# from the repository:
+
+```powershell
+dotnet build .\languages\csharp\src\PositionTape\PositionTape.csproj --configuration Release
+```
+
+```csharp
+using Tape = PositionTape.PositionTape;
+
+var exact = Tape.Generate(10000);
+var markerComplete = Tape.GenerateMarkerComplete(10000);
+var validation = Tape.Validate(exact, expectedLength: 10000);
+```
+
+Python from the repository:
+
+```powershell
+$env:PYTHONPATH = ".\languages\python\src"
+python -c "from position_tape import Generate, GenerateMarkerComplete, Validate; text = Generate(10000); print(len(text), len(GenerateMarkerComplete(10000)), Validate(text, 10000).ok)"
+```
 
 ## Language Status
 
@@ -38,6 +69,16 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 | Implemented but not locally verified | none in this checkpoint |
 | Scaffold/guide only | Scratch |
 | Blocked by local toolchain | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Ruby, Rust, Swift |
+
+Blocker notes:
+
+- Blocked languages have source and tests, but their validation command did not
+  run in the latest local checkpoint because the required compiler/runtime was
+  absent or the local Windows toolchain could not link.
+- Some verified languages validate API behavior and marker boundaries but do
+  not yet read every official fixture file directly. The exact status is in
+  [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
+- Scratch is a text guide only; no `.sb3` project is generated in this alpha.
 
 ## Verify
 
@@ -63,17 +104,7 @@ Direct Python runner:
 python tools/conformance/run_conformance.py
 ```
 
-## C# Quick Start
-
-```csharp
-using Tape = PositionTape.PositionTape;
-
-var exact = Tape.Generate(10000);
-var markerComplete = Tape.GenerateMarkerComplete(10000);
-var validation = Tape.Validate(exact, expectedLength: 10000);
-```
-
-## Repository Layout
+## Repository Layout
 
 - `docs/spec/`: specification.
 - `fixtures/`: official fixtures and generated manifest.

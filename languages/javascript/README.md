@@ -19,7 +19,7 @@ const validation = Validate(exact, 10000);
 From the repository root:
 
 ```powershell
-node --test .\languages\javascript\tests\position-tape.test.js
+node .\languages\javascript\tests\position-tape.test.js
 ```
 
 The tests validate generated output against `fixtures/manifest.generated.json`.

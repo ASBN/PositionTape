@@ -17,7 +17,8 @@ final validation = pt.Validate(exact, 10000);
 ## Verify
 
 ```powershell
-dart run .\languages\dart\tests\position_tape_test.dart
+$env:DART_SUPPRESS_ANALYTICS = "true"
+dart .\languages\dart\tests\position_tape_test.dart
 ```
 
 The tests validate generated output against `fixtures/manifest.generated.json`.

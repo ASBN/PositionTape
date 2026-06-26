@@ -17,5 +17,8 @@ enum:
 Run the local checks with:
 
 ```powershell
-swift run PositionTapeTests
+swift test --package-path languages\swift --cache-path .toolchain-cache\swiftpm
 ```
+
+Current local blocker: Swift 6.3.2 on this Windows machine crashes before
+package tests under the installed Visual Studio 2026/18 toolset layout.
