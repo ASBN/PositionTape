@@ -52,3 +52,4 @@ run the portable CI checks, run the locally available language checks listed in
 `SPEC-COMPLIANCE.md`, confirm `git status --short` contains only intentional
 source/docs changes, and verify that no generated binaries, build outputs,
 logs, caches, or local diagnostics are staged.
+

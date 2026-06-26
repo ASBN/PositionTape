@@ -186,3 +186,19 @@ Codex should append one section per checkpoint.
 - Artifact scan: `git ls-files -o --exclude-standard` showed only intended new source/docs/config files. Targeted ignore checks confirmed generated samples under `bin/`, `obj/`, `build/`, `target/`, `.build/`, `_build/`, `tmp/`, `__pycache__/`, `.pytest_cache/`, `.toolchain-logs/`, `.diagnostics/`, executables, PDBs, and JARs are ignored.
 - Publication notes: No packages were published, no GitHub push was made, no tags were created or moved, no GitHub release was created, no language implementations were removed, and no commit was made. This is ready for a developer-experience polish commit after review.
 - Next recommended checkpoint: Run the new `PositionTape.code-workspace` tasks in VS Code or Codespaces on a clean clone to verify editor task behavior across Windows and Linux shells.
+
+## GEN-PT-017-polish-patch - manual incremental polish
+
+Applied an incremental patch to complete public alpha polish without re-expanding scope.
+
+Changes:
+- Rebuilt PositionTape.slnx as a non-empty repository showcase solution map.
+- Rebuilt PositionTape.DotNet.slnx as a non-empty .NET-focused solution.
+- Rewrote .github/workflows/conformance.yml as valid multiline YAML for master, dev, pull requests, and manual runs.
+- Corrected alpha release notes so they no longer claim that no source tag exists.
+- Moved construction-only iterations/ and / unblock/ history under docs/agent-history/ when present.
+
+Validation to run after patch:
+- python tools/conformance/run_conformance.py
+- dotnet run --project tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj --configuration Release
+- XML parse check for PositionTape.slnx and PositionTape.DotNet.slnx.
