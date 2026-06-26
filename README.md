@@ -1,5 +1,9 @@
 # PositionTape
 
+[![conformance / master](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml/badge.svg?branch=master)](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml?query=branch%3Amaster)
+[![conformance / dev](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml/badge.svg?branch=dev)](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml?query=branch%3Adev)
+
+
 PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing. It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
 
 Alpha status: this repository is at the first public GitHub alpha source snapshot, tagged `v0.1.0-alpha.1`. The core algorithm and fixture manifest are stable, but several language folders are experimental or blocked by local toolchain availability.
