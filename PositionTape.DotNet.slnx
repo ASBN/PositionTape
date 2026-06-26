@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/languages/" />
+  <Folder Name="/languages/csharp/" />
+  <Folder Name="/languages/csharp/src/">
+    <Project Path="languages/csharp/src/PositionTape/PositionTape.csproj" />
+  </Folder>
+  <Folder Name="/languages/csharp/tests/">
+    <Project Path="languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj" />
+  </Folder>
+  <Folder Name="/languages/vbnet/" />
+  <Folder Name="/languages/vbnet/src/">
+    <Project Path="languages/vbnet/src/PositionTape/PositionTape.vbproj" />
+  </Folder>
+  <Folder Name="/languages/vbnet/tests/">
+    <Project Path="languages/vbnet/tests/PositionTape.Tests/PositionTape.Tests.vbproj" />
+  </Folder>
+  <Folder Name="/tools/" />
+  <Folder Name="/tools/conformance/" />
+  <Folder Name="/tools/conformance/csharp/">
+    <Project Path="tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj" />
+  </Folder>
+</Solution>

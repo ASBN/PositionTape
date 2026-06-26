@@ -1,0 +1,35 @@
+{
+  "name": "PositionTape minimal verified stack",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/go:1": {},
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "21",
+      "installMaven": "false",
+      "installGradle": "false"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-python.python",
+        "golang.go",
+        "dbaeumer.vscode-eslint"
+      ],
+      "settings": {
+        "dotnet.server.useOmnisharp": false,
+        "files.associations": {
+          "*.slnx": "xml",
+          "*.vbproj": "xml"
+        }
+      }
+    }
+  },
+  "postCreateCommand": "dotnet --info && python --version && node --version && go version && java -version",
+  "remoteUser": "vscode"
+}

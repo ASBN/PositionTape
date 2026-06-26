@@ -1,0 +1,328 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "."
+    },
+    {
+      "name": "docs",
+      "path": "docs"
+    },
+    {
+      "name": "fixtures",
+      "path": "fixtures"
+    },
+    {
+      "name": "tools-conformance",
+      "path": "tools/conformance"
+    },
+    {
+      "name": "integrations",
+      "path": "integrations"
+    },
+    {
+      "name": "codex",
+      "path": "codex"
+    },
+    {
+      "name": "agents",
+      "path": ".agents"
+    },
+    {
+      "name": "plugins",
+      "path": "plugins"
+    },
+    {
+      "name": "languages-ada",
+      "path": "languages/ada"
+    },
+    {
+      "name": "languages-assembly",
+      "path": "languages/assembly"
+    },
+    {
+      "name": "languages-c",
+      "path": "languages/c"
+    },
+    {
+      "name": "languages-cobol",
+      "path": "languages/cobol"
+    },
+    {
+      "name": "languages-cpp",
+      "path": "languages/cpp"
+    },
+    {
+      "name": "languages-csharp",
+      "path": "languages/csharp"
+    },
+    {
+      "name": "languages-dart",
+      "path": "languages/dart"
+    },
+    {
+      "name": "languages-delphi",
+      "path": "languages/delphi"
+    },
+    {
+      "name": "languages-fortran",
+      "path": "languages/fortran"
+    },
+    {
+      "name": "languages-go",
+      "path": "languages/go"
+    },
+    {
+      "name": "languages-java",
+      "path": "languages/java"
+    },
+    {
+      "name": "languages-javascript",
+      "path": "languages/javascript"
+    },
+    {
+      "name": "languages-julia",
+      "path": "languages/julia"
+    },
+    {
+      "name": "languages-kotlin",
+      "path": "languages/kotlin"
+    },
+    {
+      "name": "languages-lua",
+      "path": "languages/lua"
+    },
+    {
+      "name": "languages-matlab-octave",
+      "path": "languages/matlab-octave"
+    },
+    {
+      "name": "languages-objective-c",
+      "path": "languages/objective-c"
+    },
+    {
+      "name": "languages-ocaml",
+      "path": "languages/ocaml"
+    },
+    {
+      "name": "languages-perl",
+      "path": "languages/perl"
+    },
+    {
+      "name": "languages-php",
+      "path": "languages/php"
+    },
+    {
+      "name": "languages-prolog",
+      "path": "languages/prolog"
+    },
+    {
+      "name": "languages-python",
+      "path": "languages/python"
+    },
+    {
+      "name": "languages-r",
+      "path": "languages/r"
+    },
+    {
+      "name": "languages-ruby",
+      "path": "languages/ruby"
+    },
+    {
+      "name": "languages-rust",
+      "path": "languages/rust"
+    },
+    {
+      "name": "languages-scratch",
+      "path": "languages/scratch"
+    },
+    {
+      "name": "languages-sqlite",
+      "path": "languages/sqlite"
+    },
+    {
+      "name": "languages-standard-ml",
+      "path": "languages/standard-ml"
+    },
+    {
+      "name": "languages-swift",
+      "path": "languages/swift"
+    },
+    {
+      "name": "languages-vbnet",
+      "path": "languages/vbnet"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.build": true,
+      "**/.pytest_cache": true,
+      "**/__pycache__": true,
+      "**/bin": true,
+      "**/build": true,
+      "**/node_modules": true,
+      "**/obj": true,
+      "**/out": true,
+      "**/target": true,
+      "**/tmp": true,
+      "**/_build": true,
+      ".diagnostics": true,
+      ".toolchain-cache": true,
+      ".toolchain-logs": true
+    },
+    "search.exclude": {
+      "**/.build": true,
+      "**/.pytest_cache": true,
+      "**/__pycache__": true,
+      "**/bin": true,
+      "**/build": true,
+      "**/node_modules": true,
+      "**/obj": true,
+      "**/out": true,
+      "**/target": true,
+      "**/tmp": true,
+      "**/_build": true,
+      ".diagnostics": true,
+      ".toolchain-cache": true,
+      ".toolchain-logs": true
+    },
+    "files.associations": {
+      "*.slnx": "xml",
+      "*.sml": "sml",
+      "*.vbproj": "xml"
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "*.csproj": "$(capture).csproj.user,Directory.Build.props,Directory.Build.targets",
+      "*.slnx": "$(capture).DotNet.slnx,NuGet.Config"
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "conformance: python fixtures",
+        "type": "process",
+        "command": "python",
+        "args": [
+          "tools/conformance/run_conformance.py"
+        ],
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "conformance: csharp no-package",
+        "type": "process",
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj",
+          "--configuration",
+          "Release"
+        ],
+        "group": "test",
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "test: csharp xunit",
+        "type": "process",
+        "command": "dotnet",
+        "args": [
+          "test",
+          "languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj",
+          "--configuration",
+          "Release"
+        ],
+        "group": "test",
+        "problemMatcher": "$msCompile"
+      },
+      {
+        "label": "test: python",
+        "type": "process",
+        "command": "python",
+        "args": [
+          "-m",
+          "unittest",
+          "discover",
+          "languages/python/tests"
+        ],
+        "options": {
+          "env": {
+            "PYTHONPATH": "languages/python/src"
+          }
+        },
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "test: javascript",
+        "type": "process",
+        "command": "node",
+        "args": [
+          "languages/javascript/tests/position-tape.test.js"
+        ],
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "test: go",
+        "type": "process",
+        "command": "go",
+        "args": [
+          "test",
+          "./..."
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:languages-go}"
+        },
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "test: dart",
+        "type": "process",
+        "command": "dart",
+        "args": [
+          "languages/dart/tests/position_tape_test.dart"
+        ],
+        "options": {
+          "env": {
+            "DART_SUPPRESS_ANALYTICS": "true"
+          }
+        },
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "test: ocaml",
+        "type": "process",
+        "command": "ocaml",
+        "args": [
+          "languages/ocaml/tests/position_tape_tests.ml"
+        ],
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "test: sqlite",
+        "type": "shell",
+        "command": "Get-Content languages/sqlite/tests/position_tape_tests.sql | sqlite3",
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "test: prolog",
+        "type": "process",
+        "command": "swipl",
+        "args": [
+          "-q",
+          "-s",
+          "languages/prolog/tests/position_tape_tests.pl"
+        ],
+        "group": "test",
+        "problemMatcher": []
+      }
+    ]
+  }
+}
