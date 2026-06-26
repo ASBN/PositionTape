@@ -15,6 +15,7 @@ jobs:
   fixtures:
     name: Fixture conformance
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,6 +31,7 @@ jobs:
   csharp:
     name: C# conformance and tests
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4

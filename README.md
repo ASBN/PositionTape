@@ -1,10 +1,10 @@
 # PositionTape
 
-PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing.
+PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing. It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
 
-It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
+Alpha status: this repository is at the first public GitHub alpha source snapshot, tagged `v0.1.0-alpha.1`. The core algorithm and fixture manifest are stable, but several language folders are experimental or blocked by local toolchain availability.
 
-Alpha status: this repository is at the first public GitHub alpha source snapshot, tagged `v0.1.0-alpha.1`. The core algorithm and fixture manifest are stable, but several language folders are experimental or blocked by local toolchain availability. Do not treat every language as release-grade yet; see [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
+Do not treat every language as release-grade yet; see [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
 
 The open source repository owns the algorithm, fixtures, conformance tests, language packages, and basic logger integrations. Commercial ASBN inspector products live outside this repository.
 
@@ -38,24 +38,24 @@ No packages are published for this alpha yet. Use the repository source directly
 
 ### C# from the repository
 
-~~~powershell
+```powershell
 dotnet build .\languages\csharp\src\PositionTape\PositionTape.csproj --configuration Release
-~~~
+```
 
-~~~csharp
+```csharp
 using Tape = PositionTape.PositionTape;
 
 var exact = Tape.Generate(10000);
 var markerComplete = Tape.GenerateMarkerComplete(10000);
 var validation = Tape.Validate(exact, expectedLength: 10000);
-~~~
+```
 
 ### Python from the repository
 
-~~~powershell
+```powershell
 $env:PYTHONPATH = ".\languages\python\src"
 python -c "from position_tape import Generate, GenerateMarkerComplete, Validate; text = Generate(10000); print(len(text), len(GenerateMarkerComplete(10000)), Validate(text, 10000).ok)"
-~~~
+```
 
 ## Open In Your IDE
 
@@ -74,7 +74,6 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 | Status | Languages |
 |---|---|
 | Verified | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Prolog, Python, R, SQLite, Standard ML, VB.NET |
-| Implemented but not locally verified | none in this checkpoint |
 | Scaffold/guide only | Scratch |
 | Blocked by local toolchain | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Ruby, Rust, Swift |
 
@@ -88,38 +87,37 @@ Blocker notes:
 
 ### Windows PowerShell
 
-~~~powershell
-.\scriptserify-fixtures.ps1
+```powershell
+.\scripts\verify-fixtures.ps1
 
-dotnet run --project .	ools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release
+dotnet run --project .\tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release
 
-dotnet test .\languages\csharp	ests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release
-~~~
+dotnet test .\languages\csharp\tests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release
+```
 
 ### WSL or Linux
 
-~~~bash
+```bash
 ./scripts/verify-fixtures.sh
 
 dotnet run --project tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj --configuration Release
 
 dotnet test languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj --configuration Release
-~~~
+```
 
 ### Direct Python runner
 
-~~~bash
+```bash
 python tools/conformance/run_conformance.py
-~~~
+```
 
 ## Repository Layout
 
 - `docs/spec/`: specification.
 - `fixtures/`: official fixtures and generated manifest.
 - `tools/conformance/`: canonical conformance runner, reference generator, and no-package C# conformance runner.
-- `languages/<language>/`: language implementations.
-- `integrations/<logger-or-platform>/`: logger integrations.
-- `docs/ide/`: IDE, workspace, and devcontainer guidance.
+- `languages/`: language implementations.
+- `integrations/`: logger integrations.
 - `plugins/position-tape-codex/`: local Codex plugin scaffold.
 
 ## Release Notes
@@ -136,9 +134,7 @@ See [SECURITY.md](SECURITY.md).
 
 ## Agent Safety
 
-Repository-level instructions are in [AGENTS.md](AGENTS.md).
-
-Codex may create, modify, build, and test files inside this repository, but must not publish packages, push to GitHub, create tags/releases, modify files outside the workspace, or add secrets without explicit approval.
+Repository-level instructions are in [AGENTS.md](AGENTS.md). Codex may create, modify, build, and test files inside this repository, but must not publish packages, push to GitHub, create tags/releases, modify files outside the workspace, or add secrets without explicit approval.
 
 ## License
 
