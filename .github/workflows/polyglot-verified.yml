@@ -166,7 +166,8 @@ jobs:
         run: lua5.4 languages/lua/tests/position_tape_tests.lua
 
       - name: R tests
-        run: Rscript languages/r/tests/position_tape_tests.R
+        run: Rscript languages/r/tests/test_position_tape.R
 
       - name: Standard ML tests
         run: sml < languages/standard-ml/tests/position_tape_tests.sml
+
