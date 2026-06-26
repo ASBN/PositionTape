@@ -1,0 +1,116 @@
+name: polyglot experimental
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 9 * * 1'
+  push:
+    branches:
+      - dev
+    paths:
+      - '.github/workflows/polyglot-experimental.yml'
+      - 'languages/ada/**'
+      - 'languages/assembly/**'
+      - 'languages/cobol/**'
+      - 'languages/delphi/**'
+      - 'languages/fortran/**'
+      - 'languages/kotlin/**'
+      - 'languages/matlab-octave/**'
+      - 'languages/objective-c/**'
+      - 'languages/perl/**'
+      - 'languages/php/**'
+      - 'languages/ruby/**'
+      - 'languages/rust/**'
+      - 'languages/swift/**'
+      - 'docs/ci/**'
+      - 'SPEC-COMPLIANCE.md'
+
+permissions:
+  contents: read
+
+jobs:
+  experimental-ubuntu:
+    name: Experimental Ubuntu toolchains
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install opportunistic toolchains
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nasm gcc gfortran perl php-cli ruby-full rustc cargo || true
+
+      - name: Perl tests if available
+        run: |
+          if [ -f languages/perl/tests/position_tape_tests.pl ]; then
+            perl languages/perl/tests/position_tape_tests.pl
+          else
+            echo "Perl tests not present in expected path."
+          fi
+
+      - name: PHP tests if available
+        run: |
+          if [ -f languages/php/tests/position_tape_tests.php ]; then
+            php languages/php/tests/position_tape_tests.php
+          else
+            echo "PHP tests not present in expected path."
+          fi
+
+      - name: Ruby tests if available
+        run: |
+          if [ -f languages/ruby/tests/position_tape_tests.rb ]; then
+            ruby languages/ruby/tests/position_tape_tests.rb
+          else
+            echo "Ruby tests not present in expected path."
+          fi
+
+      - name: Rust tests if Cargo manifest exists
+        run: |
+          if [ -f languages/rust/Cargo.toml ]; then
+            cargo test --manifest-path languages/rust/Cargo.toml
+          else
+            echo "Rust Cargo.toml not present."
+          fi
+
+      - name: Assembly NASM smoke if script exists
+        run: |
+          nasm -v || true
+          if [ -f languages/assembly/tests/verify_position_tape_100.sh ]; then
+            sh languages/assembly/tests/verify_position_tape_100.sh
+          else
+            echo "Assembly shell verification script not present."
+          fi
+
+      - name: Fortran smoke if sources exist
+        run: |
+          if ls languages/fortran/tests/*.f90 >/dev/null 2>&1; then
+            gfortran languages/fortran/src/*.f90 languages/fortran/tests/*.f90 -o .toolchain-logs-fortran-tests
+            ./.toolchain-logs-fortran-tests
+          else
+            echo "Fortran .f90 tests not present in expected path."
+          fi
+
+  experimental-macos:
+    name: Experimental macOS Swift and Objective-C
+    runs-on: macos-latest
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Swift smoke if Package.swift exists
+        run: |
+          swift --version
+          if [ -f languages/swift/Package.swift ]; then
+            swift test --package-path languages/swift
+          else
+            echo "Swift Package.swift not present."
+          fi
+
+      - name: Objective-C files present
+        run: |
+          find languages/objective-c -maxdepth 3 -type f | sort

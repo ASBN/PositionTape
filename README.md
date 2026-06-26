@@ -1,8 +1,12 @@
 # PositionTape
 
-[![conformance / master](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml/badge.svg?branch=master)](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml?query=branch%3Amaster)
-[![conformance / dev](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml/badge.svg?branch=dev)](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml?query=branch%3Adev)
-
+[![core conformance / master](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml/badge.svg?branch=master)](https://github.com/ASBN/PositionTape/actions/workflows/conformance.yml?query=branch%3Amaster)
+[![polyglot verified / master](https://github.com/ASBN/PositionTape/actions/workflows/polyglot-verified.yml/badge.svg?branch=master)](https://github.com/ASBN/PositionTape/actions/workflows/polyglot-verified.yml?query=branch%3Amaster)
+[![polyglot verified / dev](https://github.com/ASBN/PositionTape/actions/workflows/polyglot-verified.yml/badge.svg?branch=dev)](https://github.com/ASBN/PositionTape/actions/workflows/polyglot-verified.yml?query=branch%3Adev)
+[![tag](https://img.shields.io/github/v/tag/ASBN/PositionTape?label=tag)](https://github.com/ASBN/PositionTape/tags)
+[![license](https://img.shields.io/github/license/ASBN/PositionTape)](https://github.com/ASBN/PositionTape/blob/master/LICENSE)
+[![status](https://img.shields.io/badge/status-alpha-orange)](https://github.com/ASBN/PositionTape/blob/master/docs/releases/alpha.md)
+[![languages](https://img.shields.io/github/languages/count/ASBN/PositionTape)](https://github.com/ASBN/PositionTape/tree/master/languages)
 
 PositionTape is a deterministic, human-readable diagnostic tape for truncation and payload-integrity testing. It helps identify where text pipelines truncate, mutate, insert, delete, or reorder payload content.
 
@@ -24,6 +28,16 @@ Positions are 1-indexed.
 
 See [docs/spec/position-tape-spec.md](docs/spec/position-tape-spec.md) for the full specification.
 
+## CI Status
+
+PositionTape separates stable contract validation from broader language monitoring:
+
+- **Core conformance** is the required, fast baseline. It checks fixtures, the no-package C# conformance runner, and C# tests.
+- **Polyglot verified** checks the currently verified portable language implementations in GitHub Actions.
+- **Polyglot experimental** attempts blocked or heavier toolchains as monitoring only. It is intentionally allowed to fail.
+
+See [docs/ci/README.md](docs/ci/README.md) for the CI policy.
+
 ## Current Foundation
 
 The alpha foundation provides:
@@ -34,7 +48,7 @@ The alpha foundation provides:
 - No-package C# conformance runner under `tools/conformance/csharp/PositionTape.Conformance/`.
 - C# reference implementation under `languages/csharp/src/PositionTape/`.
 - C# xUnit tests under `languages/csharp/tests/PositionTape.Tests/`.
-- GitHub Actions conformance workflow for fixture and C# baseline checks.
+- GitHub Actions core conformance and polyglot monitoring workflows.
 
 ## Install / Use
 
@@ -77,9 +91,10 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Prolog, Python, R, SQLite, Standard ML, VB.NET |
+| Verified locally | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Prolog, Python, R, SQLite, Standard ML, VB.NET |
+| CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
+| Experimental / monitoring only | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Ruby, Rust, Swift |
 | Scaffold/guide only | Scratch |
-| Blocked by local toolchain | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Ruby, Rust, Swift |
 
 Blocker notes:
 

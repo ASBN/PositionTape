@@ -1,0 +1,172 @@
+name: polyglot verified
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+      - dev
+    paths:
+      - '.github/workflows/polyglot-verified.yml'
+      - 'fixtures/**'
+      - 'languages/**'
+      - 'tools/conformance/**'
+      - 'README.md'
+      - 'SPEC-COMPLIANCE.md'
+      - 'docs/ci/**'
+
+permissions:
+  contents: read
+
+jobs:
+  dotnet:
+    name: .NET, C#, and VB.NET
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET SDKs
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: C# no-package conformance runner
+        run: dotnet run --project tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj --configuration Release
+
+      - name: C# tests
+        run: dotnet test languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj --configuration Release
+
+      - name: VB.NET tests
+        run: dotnet run --project languages/vbnet/tests/PositionTape.Tests/PositionTape.Tests.vbproj --configuration Release
+
+  native-and-jvm:
+    name: C, C++, and Java
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install native toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: C tests
+        run: |
+          mkdir -p .toolchain-logs/c
+          gcc -std=c11 -Wall -Wextra -I languages/c/src languages/c/src/position_tape.c languages/c/tests/position_tape_tests.c -o .toolchain-logs/c/position_tape_tests
+          ./.toolchain-logs/c/position_tape_tests
+
+      - name: C++ tests
+        run: |
+          cmake -S languages/cpp -B languages/cpp/build -DCMAKE_BUILD_TYPE=Release
+          cmake --build languages/cpp/build --config Release
+          ctest --test-dir languages/cpp/build --output-on-failure -C Release
+
+      - name: Java tests
+        run: |
+          mkdir -p .toolchain-logs/java
+          javac -d .toolchain-logs/java languages/java/src/main/java/org/positiontape/*.java languages/java/tests/PositionTapeTest.java
+          java -cp .toolchain-logs/java PositionTapeTest
+
+  scripting:
+    name: Python, JavaScript, Go, Dart, OCaml, SQLite, Prolog
+    runs-on: ubuntu-latest
+
+    env:
+      DART_SUPPRESS_ANALYTICS: 'true'
+      PYTHONPATH: languages/python/src
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24.x'
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install apt script runtimes
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ocaml sqlite3 swi-prolog
+
+      - name: Python fixture conformance
+        run: python tools/conformance/run_conformance.py
+
+      - name: Python tests
+        run: python -m unittest discover languages/python/tests
+
+      - name: JavaScript tests
+        run: node languages/javascript/tests/position-tape.test.js
+
+      - name: Go tests
+        working-directory: languages/go
+        run: go test ./...
+
+      - name: Dart tests
+        run: dart languages/dart/tests/position_tape_test.dart
+
+      - name: OCaml tests
+        run: ocaml languages/ocaml/tests/position_tape_tests.ml
+
+      - name: SQLite tests
+        run: sqlite3 < languages/sqlite/tests/position_tape_tests.sql
+
+      - name: Prolog tests
+        run: swipl -q -s languages/prolog/tests/position_tape_tests.pl
+
+  scientific-and-ml:
+    name: Julia, Lua, R, and Standard ML
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+
+      - name: Install apt runtimes
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4 r-base smlnj
+
+      - name: Julia tests
+        run: julia languages/julia/tests/position_tape_tests.jl
+
+      - name: Lua tests
+        run: lua5.4 languages/lua/tests/position_tape_tests.lua
+
+      - name: R tests
+        run: Rscript languages/r/tests/position_tape_tests.R
+
+      - name: Standard ML tests
+        run: sml < languages/standard-ml/tests/position_tape_tests.sml
