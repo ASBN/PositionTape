@@ -1,4 +1,12 @@
 DROP TABLE IF EXISTS position_tape_params;
+DROP VIEW IF EXISTS position_tape_generate;
+DROP VIEW IF EXISTS position_tape_marker_complete_length;
+DROP VIEW IF EXISTS position_tape_generate_marker_complete;
+DROP VIEW IF EXISTS position_tape_find_first_mismatch;
+DROP VIEW IF EXISTS position_tape_validate;
+DROP VIEW IF EXISTS position_tape_find_truncation_point;
+DROP VIEW IF EXISTS position_tape_locate;
+
 CREATE TEMP TABLE position_tape_params (
   name TEXT PRIMARY KEY,
   value TEXT NOT NULL

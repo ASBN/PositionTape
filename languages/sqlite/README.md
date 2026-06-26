@@ -17,5 +17,5 @@ SELECT text FROM position_tape_generate;
 Run the local checks with:
 
 ```powershell
-sqlite3 :memory: ".read languages/sqlite/tests/position_tape_tests.sql"
+Get-Content languages/sqlite/tests/position_tape_tests.sql | sqlite3
 ```

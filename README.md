@@ -34,10 +34,10 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Python, R, Standard ML, VB.NET |
+| Verified | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Prolog, Python, R, SQLite, Standard ML, VB.NET |
 | Implemented but not locally verified | none in this checkpoint |
 | Scaffold/guide only | Scratch |
-| Blocked by local toolchain | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Prolog, Ruby, Rust, SQLite, Swift |
+| Blocked by local toolchain | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Ruby, Rust, Swift |
 
 ## Verify
 

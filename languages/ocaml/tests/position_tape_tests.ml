@@ -1,4 +1,5 @@
-#use "../src/position_tape.ml";;
+#directory "languages/ocaml/src";;
+#use "position_tape.ml";;
 
 let assert_true condition message =
   if not condition then (prerr_endline ("FAIL: " ^ message); exit 1)

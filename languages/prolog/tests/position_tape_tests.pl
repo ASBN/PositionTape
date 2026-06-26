@@ -1,4 +1,6 @@
-:- use_module('../src/position_tape').
+:- working_directory(RepoRoot, RepoRoot),
+   directory_file_path(RepoRoot, 'languages/prolog/src/position_tape.pl', SourcePath),
+   use_module(SourcePath).
 
 :- initialization(main, main).
 
@@ -39,8 +41,9 @@ main :-
     sub_string(Tape80, 29, 12, _, Fragment),
     locate(Fragment, 30),
     generate(600, Tape600),
-    sub_string(Tape600, 198, 16, _, Fragment),
-    hash_fragment(Fragment, Hash),
+    sub_string(Tape600, 198, 16, _, HashFragment),
+    hash_fragment(HashFragment, Hash),
     locate_by_hash(Hash, 16, Positions),
     assert_true(member(199, Positions), 'locate by hash'),
-    writeln('OK prolog').
+    writeln('OK prolog'),
+    halt(0).

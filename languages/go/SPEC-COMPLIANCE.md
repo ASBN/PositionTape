@@ -12,4 +12,6 @@
 - Hash index: implemented with SHA-256 fixed-size windows using Go's standard library
 - Logger integration: not implemented
 - Known limitations: none for Level 3 scope.
-- Fixture SHA-256 verified: yes, via `go test -work ./...` from `languages/go` with Go cache/temp paths redirected under the repository
+- Verified locally: yes, 2026-06-26
+- Validation command: from `languages/go`, `go test ./...`
+- Fixture SHA-256 verified: yes, via `go test ./...` from `languages/go`

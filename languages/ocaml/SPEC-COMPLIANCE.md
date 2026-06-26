@@ -9,7 +9,7 @@
 - Locate: Implemented by `locate` over the canonical 100,003-character search window.
 - Hash index: Not implemented; OCaml standard library does not provide SHA-256 without an external package.
 - Logger integration: Not implemented.
-- Verified locally: yes, 2026-06-25
-- Validation command: from `languages/ocaml/tests`, `ocaml .\position_tape_tests.ml`
-- Known limitations: `opam env` failed because opam could not write `C:\Users\alfon\AppData\Local\opam\log\command-35708-820841.out`; direct interpreter validation passed.
+- Verified locally: yes, 2026-06-26
+- Validation command: from repo root, `ocaml languages/ocaml/tests/position_tape_tests.ml`
+- Known limitations: Hash-window APIs are not implemented for Level 2; direct interpreter validation passed from the repository root.
 - Fixture SHA-256 verified: Not in this Level 2 implementation; generation and marker-complete boundary behavior were locally tested.

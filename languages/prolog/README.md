@@ -8,5 +8,5 @@ APIs in `languages/prolog/src/position_tape.pl`.
 Run the local checks with:
 
 ```powershell
-swipl -q -f languages/prolog/tests/position_tape_tests.pl
+swipl -q -s languages/prolog/tests/position_tape_tests.pl
 ```
