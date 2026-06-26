@@ -1,22 +1,342 @@
 <Solution>
-  <Folder Name="/languages/" />
-  <Folder Name="/languages/csharp/" />
-  <Folder Name="/languages/csharp/src/">
+  <Folder Name="/Repository/">
+    <File Path="README.md" />
+    <File Path="LICENSE" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="SECURITY.md" />
+    <File Path="CODE_OF_CONDUCT.md" />
+    <File Path="SPEC-COMPLIANCE.md" />
+    <File Path="AGENTS.md" />
+    <File Path="PositionTape.code-workspace" />
+    <File Path="PositionTape.DotNet.slnx" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="docs/releases/alpha.md" />
+    <File Path="docs/ide/README.md" />
+    <File Path="docs/ide/visual-studio.md" />
+    <File Path="docs/ide/vscode.md" />
+    <File Path="docs/ide/rider.md" />
+    <File Path="docs/ide/codespaces.md" />
+  </Folder>
+  <Folder Name="/Fixtures/">
+    <File Path="fixtures/manifest.generated.json" />
+    <File Path="fixtures/position_tape_0.txt" />
+    <File Path="fixtures/position_tape_1.txt" />
+    <File Path="fixtures/position_tape_10.txt" />
+    <File Path="fixtures/position_tape_100.txt" />
+    <File Path="fixtures/position_tape_1000.txt" />
+    <File Path="fixtures/position_tape_10000_marker_complete.txt" />
+    <File Path="fixtures/position_tape_10000.txt" />
+    <File Path="fixtures/position_tape_101.txt" />
+    <File Path="fixtures/position_tape_11.txt" />
+    <File Path="fixtures/position_tape_150.txt" />
+    <File Path="fixtures/position_tape_9.txt" />
+    <File Path="fixtures/position_tape_99.txt" />
+    <File Path="fixtures/position_tape_manifest.json" />
+  </Folder>
+  <Folder Name="/Conformance/">
+    <File Path="tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj" />
+    <File Path="tools/conformance/csharp/PositionTape.Conformance/Program.cs" />
+    <File Path="tools/conformance/position_tape_reference.py" />
+    <File Path="tools/conformance/README.md" />
+    <File Path="tools/conformance/run_conformance.py" />
+  </Folder>
+  <Folder Name="/Languages/Ada/">
+    <File Path="languages/ada/README.md" />
+    <File Path="languages/ada/SPEC-COMPLIANCE.md" />
+    <File Path="languages/ada/README.md" />
+    <File Path="languages/ada/SPEC-COMPLIANCE.md" />
+    <File Path="languages/ada/src/position_tape.adb" />
+    <File Path="languages/ada/src/position_tape.ads" />
+    <File Path="languages/ada/tests/position_tape_tests.adb" />
+  </Folder>
+  <Folder Name="/Languages/Assembly/">
+    <File Path="languages/assembly/README.md" />
+    <File Path="languages/assembly/SPEC-COMPLIANCE.md" />
+    <File Path="languages/assembly/README.md" />
+    <File Path="languages/assembly/SPEC-COMPLIANCE.md" />
+    <File Path="languages/assembly/src/position_tape.asm" />
+  </Folder>
+  <Folder Name="/Languages/C/">
+    <File Path="languages/c/README.md" />
+    <File Path="languages/c/SPEC-COMPLIANCE.md" />
+    <File Path="languages/c/CHANGELOG.md" />
+    <File Path="languages/c/examples/basic.c" />
+    <File Path="languages/c/README.md" />
+    <File Path="languages/c/SPEC-COMPLIANCE.md" />
+    <File Path="languages/c/src/position_tape.c" />
+    <File Path="languages/c/src/position_tape.h" />
+    <File Path="languages/c/tests/position_tape_tests.c" />
+  </Folder>
+  <Folder Name="/Languages/C++/">
+    <File Path="languages/cpp/README.md" />
+    <File Path="languages/cpp/SPEC-COMPLIANCE.md" />
+    <File Path="languages/cpp/CMakeLists.txt" />
+    <File Path="languages/cpp/CHANGELOG.md" />
+    <File Path="languages/cpp/examples/basic.cpp" />
+    <File Path="languages/cpp/README.md" />
+    <File Path="languages/cpp/SPEC-COMPLIANCE.md" />
+    <File Path="languages/cpp/src/position_tape.hpp" />
+    <File Path="languages/cpp/tests/position_tape_tests.cpp" />
+  </Folder>
+  <Folder Name="/Languages/C#/">
+    <File Path="languages/csharp/README.md" />
+    <File Path="languages/csharp/SPEC-COMPLIANCE.md" />
     <Project Path="languages/csharp/src/PositionTape/PositionTape.csproj" />
-  </Folder>
-  <Folder Name="/languages/csharp/tests/">
     <Project Path="languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj" />
+    <File Path="languages/csharp/README.md" />
+    <File Path="languages/csharp/SPEC-COMPLIANCE.md" />
   </Folder>
-  <Folder Name="/languages/vbnet/" />
-  <Folder Name="/languages/vbnet/src/">
+  <Folder Name="/Languages/COBOL/">
+    <File Path="languages/cobol/README.md" />
+    <File Path="languages/cobol/SPEC-COMPLIANCE.md" />
+    <File Path="languages/cobol/README.md" />
+    <File Path="languages/cobol/SPEC-COMPLIANCE.md" />
+    <File Path="languages/cobol/src/position_tape.cob" />
+    <File Path="languages/cobol/tests/position_tape_tests.cob" />
+  </Folder>
+  <Folder Name="/Languages/Dart/">
+    <File Path="languages/dart/README.md" />
+    <File Path="languages/dart/SPEC-COMPLIANCE.md" />
+    <File Path="languages/dart/CHANGELOG.md" />
+    <File Path="languages/dart/examples/basic.dart" />
+    <File Path="languages/dart/README.md" />
+    <File Path="languages/dart/SPEC-COMPLIANCE.md" />
+    <File Path="languages/dart/src/position_tape.dart" />
+    <File Path="languages/dart/tests/position_tape_test.dart" />
+  </Folder>
+  <Folder Name="/Languages/Delphi Object Pascal/">
+    <File Path="languages/delphi/README.md" />
+    <File Path="languages/delphi/SPEC-COMPLIANCE.md" />
+    <File Path="languages/delphi/README.md" />
+    <File Path="languages/delphi/SPEC-COMPLIANCE.md" />
+    <File Path="languages/delphi/src/PositionTape.pas" />
+    <File Path="languages/delphi/tests/position_tape_tests.pas" />
+  </Folder>
+  <Folder Name="/Languages/Fortran/">
+    <File Path="languages/fortran/README.md" />
+    <File Path="languages/fortran/SPEC-COMPLIANCE.md" />
+    <File Path="languages/fortran/README.md" />
+    <File Path="languages/fortran/SPEC-COMPLIANCE.md" />
+    <File Path="languages/fortran/src/position_tape.f90" />
+    <File Path="languages/fortran/tests/position_tape_tests.f90" />
+  </Folder>
+  <Folder Name="/Languages/Go/">
+    <File Path="languages/go/README.md" />
+    <File Path="languages/go/SPEC-COMPLIANCE.md" />
+    <File Path="languages/go/go.mod" />
+    <File Path="languages/go/CHANGELOG.md" />
+    <File Path="languages/go/examples/basic.go" />
+    <File Path="languages/go/README.md" />
+    <File Path="languages/go/SPEC-COMPLIANCE.md" />
+    <File Path="languages/go/src/positiontape/position_tape.go" />
+    <File Path="languages/go/tests/position_tape_test.go" />
+  </Folder>
+  <Folder Name="/Languages/Java/">
+    <File Path="languages/java/README.md" />
+    <File Path="languages/java/SPEC-COMPLIANCE.md" />
+    <File Path="languages/java/CHANGELOG.md" />
+    <File Path="languages/java/examples/Basic.java" />
+    <File Path="languages/java/README.md" />
+    <File Path="languages/java/SPEC-COMPLIANCE.md" />
+    <File Path="languages/java/src/main/java/org/positiontape/Mismatch.java" />
+    <File Path="languages/java/src/main/java/org/positiontape/PositionTape.java" />
+    <File Path="languages/java/src/main/java/org/positiontape/ValidationResult.java" />
+    <File Path="languages/java/tests/PositionTapeTest.java" />
+  </Folder>
+  <Folder Name="/Languages/JavaScript/">
+    <File Path="languages/javascript/README.md" />
+    <File Path="languages/javascript/SPEC-COMPLIANCE.md" />
+    <File Path="languages/javascript/CHANGELOG.md" />
+    <File Path="languages/javascript/examples/basic.js" />
+    <File Path="languages/javascript/README.md" />
+    <File Path="languages/javascript/SPEC-COMPLIANCE.md" />
+    <File Path="languages/javascript/src/position-tape.js" />
+    <File Path="languages/javascript/tests/position-tape.test.js" />
+  </Folder>
+  <Folder Name="/Languages/Julia/">
+    <File Path="languages/julia/README.md" />
+    <File Path="languages/julia/SPEC-COMPLIANCE.md" />
+    <File Path="languages/julia/CHANGELOG.md" />
+    <File Path="languages/julia/examples/basic.jl" />
+    <File Path="languages/julia/README.md" />
+    <File Path="languages/julia/SPEC-COMPLIANCE.md" />
+    <File Path="languages/julia/src/PositionTape.jl" />
+    <File Path="languages/julia/tests/position_tape_tests.jl" />
+  </Folder>
+  <Folder Name="/Languages/Kotlin/">
+    <File Path="languages/kotlin/README.md" />
+    <File Path="languages/kotlin/SPEC-COMPLIANCE.md" />
+    <File Path="languages/kotlin/CHANGELOG.md" />
+    <File Path="languages/kotlin/examples/Basic.kt" />
+    <File Path="languages/kotlin/README.md" />
+    <File Path="languages/kotlin/SPEC-COMPLIANCE.md" />
+    <File Path="languages/kotlin/src/PositionTape.kt" />
+    <File Path="languages/kotlin/tests/PositionTapeTest.kt" />
+  </Folder>
+  <Folder Name="/Languages/Lua/">
+    <File Path="languages/lua/README.md" />
+    <File Path="languages/lua/SPEC-COMPLIANCE.md" />
+    <File Path="languages/lua/CHANGELOG.md" />
+    <File Path="languages/lua/examples/basic.lua" />
+    <File Path="languages/lua/README.md" />
+    <File Path="languages/lua/SPEC-COMPLIANCE.md" />
+    <File Path="languages/lua/src/position_tape.lua" />
+    <File Path="languages/lua/tests/position_tape_tests.lua" />
+  </Folder>
+  <Folder Name="/Languages/MATLAB Octave/">
+    <File Path="languages/matlab-octave/README.md" />
+    <File Path="languages/matlab-octave/SPEC-COMPLIANCE.md" />
+    <File Path="languages/matlab-octave/CHANGELOG.md" />
+    <File Path="languages/matlab-octave/examples/basic.m" />
+    <File Path="languages/matlab-octave/README.md" />
+    <File Path="languages/matlab-octave/SPEC-COMPLIANCE.md" />
+    <File Path="languages/matlab-octave/src/FindFirstMismatch.m" />
+    <File Path="languages/matlab-octave/src/FindTruncationPoint.m" />
+    <File Path="languages/matlab-octave/src/Generate.m" />
+    <File Path="languages/matlab-octave/src/GenerateMarkerComplete.m" />
+    <File Path="languages/matlab-octave/src/GetMarkerCompleteLength.m" />
+    <File Path="languages/matlab-octave/src/Locate.m" />
+    <File Path="languages/matlab-octave/src/Validate.m" />
+    <File Path="languages/matlab-octave/tests/position_tape_tests.m" />
+  </Folder>
+  <Folder Name="/Languages/Objective-C/">
+    <File Path="languages/objective-c/README.md" />
+    <File Path="languages/objective-c/SPEC-COMPLIANCE.md" />
+    <File Path="languages/objective-c/README.md" />
+    <File Path="languages/objective-c/SPEC-COMPLIANCE.md" />
+    <File Path="languages/objective-c/src/PositionTape.h" />
+    <File Path="languages/objective-c/src/PositionTape.m" />
+    <File Path="languages/objective-c/tests/PositionTapeTests.m" />
+  </Folder>
+  <Folder Name="/Languages/OCaml/">
+    <File Path="languages/ocaml/README.md" />
+    <File Path="languages/ocaml/SPEC-COMPLIANCE.md" />
+    <File Path="languages/ocaml/CHANGELOG.md" />
+    <File Path="languages/ocaml/examples/basic.ml" />
+    <File Path="languages/ocaml/README.md" />
+    <File Path="languages/ocaml/SPEC-COMPLIANCE.md" />
+    <File Path="languages/ocaml/src/position_tape.ml" />
+    <File Path="languages/ocaml/tests/position_tape_tests.ml" />
+  </Folder>
+  <Folder Name="/Languages/Perl/">
+    <File Path="languages/perl/README.md" />
+    <File Path="languages/perl/SPEC-COMPLIANCE.md" />
+    <File Path="languages/perl/CHANGELOG.md" />
+    <File Path="languages/perl/examples/basic.pl" />
+    <File Path="languages/perl/README.md" />
+    <File Path="languages/perl/SPEC-COMPLIANCE.md" />
+    <File Path="languages/perl/src/PositionTape.pm" />
+    <File Path="languages/perl/tests/position_tape_test.pl" />
+  </Folder>
+  <Folder Name="/Languages/PHP/">
+    <File Path="languages/php/README.md" />
+    <File Path="languages/php/SPEC-COMPLIANCE.md" />
+    <File Path="languages/php/CHANGELOG.md" />
+    <File Path="languages/php/examples/basic.php" />
+    <File Path="languages/php/README.md" />
+    <File Path="languages/php/SPEC-COMPLIANCE.md" />
+    <File Path="languages/php/src/PositionTape.php" />
+    <File Path="languages/php/tests/position_tape_test.php" />
+  </Folder>
+  <Folder Name="/Languages/Prolog/">
+    <File Path="languages/prolog/README.md" />
+    <File Path="languages/prolog/SPEC-COMPLIANCE.md" />
+    <File Path="languages/prolog/CHANGELOG.md" />
+    <File Path="languages/prolog/examples/basic.pl" />
+    <File Path="languages/prolog/README.md" />
+    <File Path="languages/prolog/SPEC-COMPLIANCE.md" />
+    <File Path="languages/prolog/src/position_tape.pl" />
+    <File Path="languages/prolog/tests/position_tape_tests.pl" />
+  </Folder>
+  <Folder Name="/Languages/Python/">
+    <File Path="languages/python/README.md" />
+    <File Path="languages/python/SPEC-COMPLIANCE.md" />
+    <File Path="languages/python/CHANGELOG.md" />
+    <File Path="languages/python/examples/basic.py" />
+    <File Path="languages/python/README.md" />
+    <File Path="languages/python/SPEC-COMPLIANCE.md" />
+    <File Path="languages/python/src/position_tape/__init__.py" />
+    <File Path="languages/python/src/position_tape/core.py" />
+    <File Path="languages/python/tests/test_position_tape.py" />
+  </Folder>
+  <Folder Name="/Languages/R/">
+    <File Path="languages/r/README.md" />
+    <File Path="languages/r/SPEC-COMPLIANCE.md" />
+    <File Path="languages/r/CHANGELOG.md" />
+    <File Path="languages/r/examples/basic.R" />
+    <File Path="languages/r/README.md" />
+    <File Path="languages/r/SPEC-COMPLIANCE.md" />
+    <File Path="languages/r/src/position_tape.R" />
+    <File Path="languages/r/tests/test_position_tape.R" />
+  </Folder>
+  <Folder Name="/Languages/Ruby/">
+    <File Path="languages/ruby/README.md" />
+    <File Path="languages/ruby/SPEC-COMPLIANCE.md" />
+    <File Path="languages/ruby/CHANGELOG.md" />
+    <File Path="languages/ruby/examples/basic.rb" />
+    <File Path="languages/ruby/README.md" />
+    <File Path="languages/ruby/SPEC-COMPLIANCE.md" />
+    <File Path="languages/ruby/src/position_tape.rb" />
+    <File Path="languages/ruby/tests/position_tape_test.rb" />
+  </Folder>
+  <Folder Name="/Languages/Rust/">
+    <File Path="languages/rust/README.md" />
+    <File Path="languages/rust/SPEC-COMPLIANCE.md" />
+    <File Path="languages/rust/Cargo.toml" />
+    <File Path="languages/rust/CHANGELOG.md" />
+    <File Path="languages/rust/examples/basic.rs" />
+    <File Path="languages/rust/README.md" />
+    <File Path="languages/rust/SPEC-COMPLIANCE.md" />
+    <File Path="languages/rust/src/lib.rs" />
+  </Folder>
+  <Folder Name="/Languages/Scratch/">
+    <File Path="languages/scratch/README.md" />
+    <File Path="languages/scratch/SPEC-COMPLIANCE.md" />
+    <File Path="languages/scratch/README.md" />
+    <File Path="languages/scratch/SPEC-COMPLIANCE.md" />
+    <File Path="languages/scratch/src/position_tape_blocks.md" />
+  </Folder>
+  <Folder Name="/Languages/SQLite/">
+    <File Path="languages/sqlite/README.md" />
+    <File Path="languages/sqlite/SPEC-COMPLIANCE.md" />
+    <File Path="languages/sqlite/CHANGELOG.md" />
+    <File Path="languages/sqlite/examples/basic.sql" />
+    <File Path="languages/sqlite/README.md" />
+    <File Path="languages/sqlite/SPEC-COMPLIANCE.md" />
+    <File Path="languages/sqlite/src/position_tape.sql" />
+    <File Path="languages/sqlite/tests/position_tape_tests.sql" />
+  </Folder>
+  <Folder Name="/Languages/Standard ML/">
+    <File Path="languages/standard-ml/README.md" />
+    <File Path="languages/standard-ml/SPEC-COMPLIANCE.md" />
+    <File Path="languages/standard-ml/CHANGELOG.md" />
+    <File Path="languages/standard-ml/examples/basic.sml" />
+    <File Path="languages/standard-ml/README.md" />
+    <File Path="languages/standard-ml/SPEC-COMPLIANCE.md" />
+    <File Path="languages/standard-ml/src/position_tape.sml" />
+    <File Path="languages/standard-ml/tests/position_tape_tests.sml" />
+  </Folder>
+  <Folder Name="/Languages/Swift/">
+    <File Path="languages/swift/README.md" />
+    <File Path="languages/swift/SPEC-COMPLIANCE.md" />
+    <File Path="languages/swift/Package.swift" />
+    <File Path="languages/swift/examples/basic.swift" />
+    <File Path="languages/swift/Package.swift" />
+    <File Path="languages/swift/README.md" />
+    <File Path="languages/swift/SPEC-COMPLIANCE.md" />
+    <File Path="languages/swift/src/PositionTape.swift" />
+    <File Path="languages/swift/tests/main.swift" />
+  </Folder>
+  <Folder Name="/Languages/VB.NET/">
+    <File Path="languages/vbnet/README.md" />
+    <File Path="languages/vbnet/SPEC-COMPLIANCE.md" />
+    <Project Path="languages/vbnet/examples/Basic/Basic.vbproj" />
     <Project Path="languages/vbnet/src/PositionTape/PositionTape.vbproj" />
-  </Folder>
-  <Folder Name="/languages/vbnet/tests/">
     <Project Path="languages/vbnet/tests/PositionTape.Tests/PositionTape.Tests.vbproj" />
-  </Folder>
-  <Folder Name="/tools/" />
-  <Folder Name="/tools/conformance/" />
-  <Folder Name="/tools/conformance/csharp/">
-    <Project Path="tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj" />
+    <File Path="languages/vbnet/CHANGELOG.md" />
+    <File Path="languages/vbnet/README.md" />
+    <File Path="languages/vbnet/SPEC-COMPLIANCE.md" />
   </Folder>
 </Solution>
+

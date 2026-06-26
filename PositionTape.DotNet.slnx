@@ -1,22 +1,23 @@
 <Solution>
-  <Folder Name="/languages/" />
-  <Folder Name="/languages/csharp/" />
-  <Folder Name="/languages/csharp/src/">
+  <Folder Name="/.NET/">
     <Project Path="languages/csharp/src/PositionTape/PositionTape.csproj" />
-  </Folder>
-  <Folder Name="/languages/csharp/tests/">
     <Project Path="languages/csharp/tests/PositionTape.Tests/PositionTape.Tests.csproj" />
-  </Folder>
-  <Folder Name="/languages/vbnet/" />
-  <Folder Name="/languages/vbnet/src/">
+    <Project Path="tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj" />
+    <Project Path="languages/vbnet/examples/Basic/Basic.vbproj" />
     <Project Path="languages/vbnet/src/PositionTape/PositionTape.vbproj" />
-  </Folder>
-  <Folder Name="/languages/vbnet/tests/">
     <Project Path="languages/vbnet/tests/PositionTape.Tests/PositionTape.Tests.vbproj" />
   </Folder>
-  <Folder Name="/tools/" />
-  <Folder Name="/tools/conformance/" />
-  <Folder Name="/tools/conformance/csharp/">
-    <Project Path="tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+    <File Path="SPEC-COMPLIANCE.md" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="SECURITY.md" />
+    <File Path="CODE_OF_CONDUCT.md" />
+    <File Path="LICENSE" />
+    <File Path="AGENTS.md" />
+    <File Path="docs/releases/alpha.md" />
+    <File Path="docs/ide/README.md" />
+    <File Path="docs/ide/visual-studio.md" />
   </Folder>
 </Solution>
+
