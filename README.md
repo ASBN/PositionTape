@@ -89,11 +89,11 @@ Blocker notes:
 ### Windows PowerShell
 
 ~~~powershell
-.\scripts\verify-fixtures.ps1
+.\scriptserify-fixtures.ps1
 
-dotnet run --project .\tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release
+dotnet run --project .	ools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release
 
-dotnet test .\languages\csharp\tests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release
+dotnet test .\languages\csharp	ests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release
 ~~~
 
 ### WSL or Linux
@@ -119,6 +119,7 @@ python tools/conformance/run_conformance.py
 - `tools/conformance/`: canonical conformance runner, reference generator, and no-package C# conformance runner.
 - `languages/<language>/`: language implementations.
 - `integrations/<logger-or-platform>/`: logger integrations.
+- `docs/ide/`: IDE, workspace, and devcontainer guidance.
 - `plugins/position-tape-codex/`: local Codex plugin scaffold.
 
 ## Release Notes

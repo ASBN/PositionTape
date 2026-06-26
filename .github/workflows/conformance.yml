@@ -8,6 +8,9 @@ on:
       - master
       - dev
 
+permissions:
+  contents: read
+
 jobs:
   fixtures:
     name: Fixture conformance
