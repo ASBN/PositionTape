@@ -1,4 +1,5 @@
 .bail on
+.load ./languages/sqlite/extensions/sha256/sha256_extension.dll sqlite3_sha256_init
 .read languages/sqlite/src/position_tape.sql
 
 DROP TABLE IF EXISTS position_tape_assertions;
@@ -52,5 +53,46 @@ INSERT INTO position_tape_params
 SELECT 'fragment', substr(text, 30, 12) FROM position_tape_generate;
 INSERT INTO position_tape_assertions
 SELECT CASE WHEN (SELECT position FROM position_tape_locate) = 30 THEN NULL ELSE 'locate fragment' END;
+
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN sha256('') = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' THEN NULL ELSE 'sha256 empty' END;
+
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN sha256('abc') = 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad' THEN NULL ELSE 'sha256 abc' END;
+
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN sha256('PositionTape') = '55fc0a7c26db83dc2f2aca556e9803ff6d90dcda6c2ad59a69687054ba33abc5' THEN NULL ELSE 'sha256 project name' END;
+
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN sha256('3123456789412345') = 'babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a' THEN NULL ELSE 'sha256 canonical fragment' END;
+
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN sha256('Niño-posición-✓') = 'ed95c68f09b2639a60011ca685de6bff3ac13ad7a8fef9a8161c108c6d214bab' THEN NULL ELSE 'sha256 utf8 non-ascii' END;
+
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN sha256(NULL) IS NULL THEN NULL ELSE 'sha256 null' END;
+
+DELETE FROM position_tape_params;
+INSERT INTO position_tape_params VALUES ('fragment', '3123456789412345');
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN (SELECT hash FROM position_tape_hash_fragment) = 'babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a' THEN NULL ELSE 'hash fragment view' END;
+
+DELETE FROM position_tape_params;
+INSERT INTO position_tape_params VALUES ('window_size', '16');
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN EXISTS (
+  SELECT 1
+  FROM position_tape_build_window_index
+  WHERE hash = 'babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a'
+    AND position = 30
+) THEN NULL ELSE 'build window index' END;
+
+INSERT INTO position_tape_params VALUES ('fragment_hash', 'BABE07AAAD1E1044963518B077F853B6016E6133C960BFD953058F7302D54E5A');
+INSERT INTO position_tape_assertions
+SELECT CASE WHEN EXISTS (
+  SELECT 1
+  FROM position_tape_locate_by_hash
+  WHERE position = 30
+) THEN NULL ELSE 'locate by hash' END;
 
 SELECT 'OK sqlite';

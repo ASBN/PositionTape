@@ -6,6 +6,9 @@ DROP VIEW IF EXISTS position_tape_find_first_mismatch;
 DROP VIEW IF EXISTS position_tape_validate;
 DROP VIEW IF EXISTS position_tape_find_truncation_point;
 DROP VIEW IF EXISTS position_tape_locate;
+DROP VIEW IF EXISTS position_tape_hash_fragment;
+DROP VIEW IF EXISTS position_tape_build_window_index;
+DROP VIEW IF EXISTS position_tape_locate_by_hash;
 
 CREATE TEMP TABLE position_tape_params (
   name TEXT PRIMARY KEY,
@@ -299,3 +302,73 @@ SELECT
     ELSE instr(text, fragment)
   END AS position
 FROM input, tape;
+
+CREATE TEMP VIEW position_tape_hash_fragment AS
+WITH
+  input(fragment) AS (
+    SELECT value
+    FROM position_tape_params
+    WHERE name = 'fragment'
+  )
+SELECT sha256(fragment) AS hash
+FROM input;
+
+CREATE TEMP VIEW position_tape_build_window_index AS
+WITH RECURSIVE
+  input(window_size) AS (
+    SELECT CAST(value AS INTEGER)
+    FROM position_tape_params
+    WHERE name = 'window_size'
+  ),
+  search_length(length) AS (SELECT 100003),
+  tape(text) AS (
+    WITH RECURSIVE gen(cursor, remaining, output) AS (
+      SELECT 1, length, ''
+      FROM search_length
+      UNION ALL
+      SELECT
+        CASE
+          WHEN cursor % 10 = 0 THEN cursor + length(CAST(cursor / 10 AS TEXT))
+          ELSE cursor + 1
+        END,
+        CASE
+          WHEN cursor % 10 = 0 THEN remaining - length(substr(CAST(cursor / 10 AS TEXT), 1, remaining))
+          ELSE remaining - 1
+        END,
+        output ||
+        CASE
+          WHEN cursor % 10 = 0 THEN substr(CAST(cursor / 10 AS TEXT), 1, remaining)
+          ELSE CAST(cursor % 10 AS TEXT)
+        END
+      FROM gen
+      WHERE remaining > 0
+    )
+    SELECT output
+    FROM gen
+    WHERE remaining = 0
+  ),
+  windows(position, fragment) AS (
+    SELECT 1, substr(text, 1, window_size)
+    FROM input, tape
+    WHERE window_size > 0 AND window_size <= (SELECT length FROM search_length)
+    UNION ALL
+    SELECT position + 1, substr(text, position + 1, window_size)
+    FROM windows, input, tape
+    WHERE position < (SELECT length FROM search_length) - window_size + 1
+  )
+SELECT sha256(fragment) AS hash, position
+FROM windows;
+
+CREATE TEMP VIEW position_tape_locate_by_hash AS
+WITH
+  input(fragment_hash, window_size) AS (
+    SELECT
+      lower(trim((SELECT value FROM position_tape_params WHERE name = 'fragment_hash'))),
+      CAST((SELECT value FROM position_tape_params WHERE name = 'window_size') AS INTEGER)
+  )
+SELECT position
+FROM position_tape_build_window_index, input
+WHERE hash = fragment_hash
+  AND window_size > 0
+  AND length(fragment_hash) = 64
+  AND fragment_hash NOT GLOB '*[^0-9a-f]*';

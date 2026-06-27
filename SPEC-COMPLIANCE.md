@@ -1,10 +1,9 @@
 # SPEC-COMPLIANCE
 
-Validation checkpoint: 2026-06-27 GEN-PT-023 runtime validation unblock. This
-checkpoint audited available toolchain versions and reran focused runtime paths
-for MATLAB/Octave, Delphi/Object Pascal, COBOL, Objective-C, Assembly, and
-SQLite. No SHA3 result is substituted for SHA-256, and no Assembly or COBOL
-SHA-256 implementation is claimed. Level 3 hash behavior is governed by
+Validation checkpoint: 2026-06-27 GEN-PT-025 SQLite SHA-256 extension. This
+checkpoint added and verified a repo-local SQLite loadable extension for exact
+SHA-256 over UTF-8 text. No SHA3 result is substituted for SHA-256, and no
+Assembly or COBOL SHA-256 implementation is claimed. Level 3 hash behavior is governed by
 `docs/spec/hash-provider-policy.md` and the shared vectors in
 `fixtures/sha256-vectors.json`.
 
@@ -36,7 +35,7 @@ SHA-256 implementation is claimed. Level 3 hash behavior is governed by
 | Ruby | 3 | Yes | `ruby .\languages\ruby\tests\position_tape_test.rb` | System-wide `gemrc` permission warning only, unrelated to PositionTape | API generation, marker-complete boundaries, locate, and hash-window behavior verified; official fixture files not directly checked |
 | Rust | 3 | No | From `languages/rust`: `cargo test` | Cargo/rustc are present, but local MSVC linking still fails with `LINK : fatal error LNK1104: no se puede abrir el archivo 'msvcrt.lib'`; treated as a local MSVC environment/toolchain blocker | Not locally verified |
 | Scratch | 1 | No | Manual guide review only | No local headless Scratch runtime or concrete `.sb3` executable project | Guide only; not executable fixture verification |
-| SQLite | 2 | Yes | From repo root: `Get-Content languages/sqlite/tests/position_tape_tests.sql | sqlite3`; SHA probe: `sqlite3 -batch ":memory:" "SELECT lower(hex(sha3('abc',256))); SELECT sha256('abc');"` | SQLite 3.51.2 has SHA3 but no `sha256()` function; Level 3 is blocked until an exact SHA-256 extension/provider is available and tested | API generation, marker-complete boundaries, validation, truncation, and direct locate verified; official fixture files not directly checked |
+| SQLite | 3 | Yes | Build: `gcc -shared -O2 -Wall -Wextra -I "C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\include" -o languages\sqlite\extensions\sha256\sha256_extension.dll languages\sqlite\extensions\sha256\sha256_extension.c`; test: `Get-Content languages/sqlite/tests/position_tape_tests.sql \| sqlite3` | Generated `sha256_extension.dll` is a local artifact and must be rebuilt before running tests from a clean checkout | API generation, marker-complete boundaries, validation, truncation, direct locate, exact SHA-256 vectors, and hash-window locate verified |
 | Standard ML | 3 | Yes | `Get-Content .\languages\standard-ml\tests\position_tape_tests.sml \| sml` | None | Exact `Generate(10000)` SHA verified; marker-complete boundary lengths verified |
 | Swift | 3 | No | `swift --version`; intended `swift test --package-path languages\swift --cache-path .toolchain-cache\swiftpm` | Swift 6.3.2 crashes under the current Visual Studio 2026/18 environment with `unsupported toolset layout (VS2017+ required)`; treated as Swift-on-Windows toolchain incompatibility | Not locally verified |
 | VB.NET | 3 | Yes | `dotnet run --project .\languages\vbnet\tests\PositionTape.Tests\PositionTape.Tests.vbproj --configuration Release` | None | Official manifest fixtures verified, including marker-complete fixture |
