@@ -94,7 +94,7 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified locally | Ada Level 3, C, C++, C#, COBOL Level 1, Dart, Delphi/Object Pascal Level 3, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, SQLite Level 3, Standard ML, VB.NET |
+| Verified locally | Ada Level 3, C, C++, C#, COBOL Level 1 plus hybrid SHA-256 binding probe, Dart, Delphi/Object Pascal Level 3, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, SQLite Level 3, Standard ML, VB.NET |
 | CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
 | Source Level 3 pending full local runtime validation | MATLAB/Octave |
 | Level 2, blocked before hash-window Level 3 | Objective-C |
@@ -106,7 +106,7 @@ Blocker notes:
 - Blocked languages have source and tests, but their validation command did not run in the latest local checkpoint because the local runtime path is incomplete, the Windows toolchain cannot link that language, or exact SHA-256 support is not available.
 - MATLAB/Octave is installed locally, but the full hash-window test is slow/unstable in Octave 11.3.0 on this Windows path; the exact blocking section is `BuildWindowIndex(length(fragment))` / `LocateByHash`.
 - SQLite is locally verified at Level 3 when its repo-local `sha256(text)` loadable extension is built and loaded; SQLite SHA3 is still not used as a substitute.
-- Assembly and COBOL remain exact-length generator work only. No full SHA-256 implementation is claimed for either language.
+- Assembly and COBOL remain Level 1. COBOL now has a verified call into the shared C SHA-256 provider for required ASCII vectors, and Assembly has a verified minimal Win64 NASM-to-C ABI probe, but neither exposes the full Level 3 hash-window API.
 - Some verified languages validate API behavior and marker boundaries but do not yet read every official fixture file directly. The exact status is in [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
 - Scratch is a text guide only; no `.sb3` project is generated in this alpha.
 

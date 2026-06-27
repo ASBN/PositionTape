@@ -692,3 +692,35 @@ Validation to run after patch:
 - Toolchains missing: None for this checkpoint; GNAT/GNATMAKE and FPC were available.
 - Decisions: Ada and Object Pascal now use pure language SHA-256 implementations over byte strings and expose direct locate plus hash-window locate APIs. Both remain below Level 4 because logger integrations are not implemented.
 - Cleanup: GNAT `.exe`/`.ali`/`.o`, FPC `.exe`/`.o`/`.ppu`, and C# conformance `bin`/`obj` artifacts generated during validation were removed before final reporting.
+
+### 2026-06-27 - GEN-PT-027 COBOL, Assembly, and Objective-C hybrid binding probes
+
+- Goal: Attempt highest honest Level 3-adjacent hybrid binding status for COBOL, Assembly, and Objective-C using the SHA-256 provider policy.
+- Files changed: `tools/native/sha256/position_tape_sha256.h`, `tools/native/sha256/position_tape_sha256.c`, `tools/native/sha256/README.md`, `languages/cobol/tests/sha256_hybrid_tests.cob`, `languages/cobol/README.md`, `languages/cobol/SPEC-COMPLIANCE.md`, `languages/assembly/README.md`, `languages/assembly/SPEC-COMPLIANCE.md`, `languages/objective-c/README.md`, `languages/objective-c/SPEC-COMPLIANCE.md`, `docs/spec/hash-provider-policy.md`, root `README.md`, root `SPEC-COMPLIANCE.md`, `AGENT_RUN_LOG.md`.
+- Commands run:
+  - COBOL minimal temporary C interop probe: `cobc -free -x -o .tmp-genpt027\cobol_interop.exe .tmp-genpt027-cobol-interop.cob .tmp-genpt027-cobol-interop.c`; `.tmp-genpt027\cobol_interop.exe`.
+  - COBOL Level 1 check: with `COB_CONFIG_DIR=C:\msys64\ucrt64\share\gnucobol\config`, `CPATH=C:\msys64\ucrt64\include`, `LIBRARY_PATH=C:\msys64\ucrt64\lib`, `cobc -free -x -o .tmp-genpt027\position_tape_tests.exe languages/cobol/tests/position_tape_tests.cob`; `.tmp-genpt027\position_tape_tests.exe`.
+  - COBOL hybrid SHA-256 check: same variables, `cobc -free -x -I tools/native/sha256 -o .tmp-genpt027\cobol_sha256_hybrid.exe languages/cobol/tests/sha256_hybrid_tests.cob tools/native/sha256/position_tape_sha256.c`; `.tmp-genpt027\cobol_sha256_hybrid.exe`.
+  - Assembly checked-in source probes: `nasm -f elf64 languages/assembly/src/position_tape.asm -o .tmp-genpt027\position_tape_elf64.o`; `nasm -f win64 languages/assembly/src/position_tape.asm -o .tmp-genpt027\position_tape_win64.obj`.
+  - Assembly temporary ABI probe: `nasm -f win64 .tmp-genpt027-asm-abi.asm -o .tmp-genpt027\asm_abi.obj`; `gcc .tmp-genpt027\asm_abi.obj .tmp-genpt027-asm-abi-harness.c -o .tmp-genpt027\asm_abi.exe`; `.tmp-genpt027\asm_abi.exe`.
+  - Objective-C no-Foundation hybrid probe, default target: `clang -I tools/native/sha256 .tmp-genpt027-objc-sha256.m tools/native/sha256/position_tape_sha256.c -o .tmp-genpt027\objc_sha256.exe`.
+  - Objective-C no-Foundation hybrid probe, MinGW target: `clang --target=x86_64-w64-windows-gnu -I tools/native/sha256 .tmp-genpt027-objc-sha256.m tools/native/sha256/position_tape_sha256.c -o .tmp-genpt027\objc_sha256.exe`.
+  - MATLAB/Octave focused pre-index probe: `octave-cli --no-gui --quiet --path languages/matlab-octave/src --eval 't=Generate(80); fragment=t(30:41); disp(HashFragment(fragment)); disp(Locate(fragment));'`.
+  - Final gates: `python tools\conformance\run_conformance.py`; `python tools\conformance\verify_sha256_vectors.py`; `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`; `git diff --check`.
+- Results:
+  - COBOL minimal interop passed: `OK cobol c interop`.
+  - COBOL Level 1 test passed: `OK cobol`.
+  - COBOL hybrid SHA-256 binding passed: `OK cobol sha256 hybrid`.
+  - COBOL SHA-256 vectors verified through the binding: empty string -> `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`; `abc` -> `ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`; `PositionTape` -> `55fc0a7c26db83dc2f2aca556e9803ff6d90dcda6c2ad59a69687054ba33abc5`; canonical fragment `3123456789412345` -> `babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a`.
+  - COBOL remains Level 1 because `Locate`, `BuildWindowIndex`, and `LocateByHash` are not implemented in the COBOL public API.
+  - Assembly checked-in source assembled for `elf64` and `win64`; the temporary Win64 callable-object probe linked and executed: `OK assembly c abi`.
+  - Assembly remains Level 1 / assemble-only for the checked-in generator because it still targets Linux syscalls and has no PositionTape callable API or SHA-256 hash-window behavior.
+  - Objective-C no-Foundation hybrid probes failed before validation. Default target warned that no Visual Studio installation was found and failed on missing `stdio.h` / `stdlib.h`; MinGW target also failed on missing `stdio.h` / `stdlib.h`.
+  - Objective-C remains Level 2 source-only, not locally verified.
+  - MATLAB/Octave pre-index probe printed hash `e3de068f85cc181366a61bff5bb183b4393f4f7b5a25dc4df32302dc3e3e943e` and locate result `30`, then timed out while Octave was preparing to exit. No MATLAB/Octave status change.
+  - Python fixture conformance passed all entries in `fixtures/manifest.generated.json`.
+  - Shared SHA-256 vector verifier passed all five vectors, including UTF-8 non-ASCII.
+  - C# no-package conformance passed and printed `OK csharp conformance`.
+  - `git diff --check` passed with line-ending normalization warnings only.
+- Cleanup: temporary probe sources, `.tmp-genpt027`, and C# conformance `bin`/`obj` outputs were removed before final reporting. No generated binaries or object files are intended for commit.
+- Decision: COBOL has useful hybrid SHA-256 binding evidence but remains Level 1; Assembly has useful callable ABI evidence but remains Level 1 / assemble-only for the checked-in generator; Objective-C remains Level 2 source-only due local Windows clang/runtime blockers. A follow-up checkpoint should focus on MATLAB/Octave performance or final alpha documentation polish rather than more Windows Objective-C runtime probing.
