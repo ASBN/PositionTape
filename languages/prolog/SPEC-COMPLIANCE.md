@@ -9,7 +9,7 @@
 - Locate: Implemented by `locate/2` over the canonical 100,003-character search window.
 - Hash index: Implemented by `build_window_index/2` and `locate_by_hash/3` using SHA-256 via `library(crypto)`.
 - Logger integration: Not implemented.
-- Verified locally: yes, 2026-06-26
+- Verified locally: yes, 2026-06-27
 - Validation command: from repo root, `swipl -q -s languages/prolog/tests/position_tape_tests.pl`
 - Known limitations: none for Level 3 scope.
-- Fixture SHA-256 verified: Not directly checked against fixture files; API generation, marker-complete boundaries, locate, and hash-window behavior were locally tested.
+- Fixture SHA-256 verified: API generation, SHA-256 vectors, marker-complete boundaries, locate, and hash-window behavior are covered by `languages/prolog/tests/position_tape_tests.pl`.

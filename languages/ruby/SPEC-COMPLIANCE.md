@@ -10,4 +10,5 @@
 - Hash index: implemented with SHA-256 fixed-size windows using Ruby standard `digest`
 - Logger integration: not implemented
 - Known limitations: local `ruby` is missing, so Ruby tests were not executed in this environment
-- Fixture SHA-256 verified: covered by `languages/ruby/tests/position_tape_test.rb`, not locally executed
+- Verified locally: `ruby .\languages\ruby\tests\position_tape_test.rb`.
+- Fixture SHA-256 verified: covered by `languages/ruby/tests/position_tape_test.rb`.

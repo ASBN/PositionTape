@@ -18,3 +18,7 @@ nasm -f elf64 languages/assembly/src/position_tape.asm -o /tmp/position_tape.o
 ld /tmp/position_tape.o -o /tmp/position_tape
 /tmp/position_tape | cmp - fixtures/position_tape_100.txt
 ```
+
+On Windows, NASM can assemble the file, but the source uses Linux syscalls
+(`write` and `exit`). A `win64` object is therefore assemble-only evidence, not
+a runnable Windows artifact.

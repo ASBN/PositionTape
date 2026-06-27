@@ -1,5 +1,8 @@
 unit PositionTape;
 
+{$mode objfpc}
+{$H+}
+
 interface
 
 type

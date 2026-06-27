@@ -16,6 +16,9 @@
 
 default_search_length(100003).
 
+%! generate(+Length:int, -Text:string) is det.
+%  Generate exactly Length characters of the deterministic 1-indexed
+%  PositionTape sequence.
 generate(Length, Text) :-
     must_be(nonneg, Length),
     gen_codes(1, Length, Codes, []),
@@ -75,6 +78,9 @@ marker_complete_cursor(Cursor, Length, CompleteLength) :-
     NextCursor is Cursor + 1,
     marker_complete_cursor(NextCursor, Length, CompleteLength).
 
+%! generate_marker_complete(+Length:int, -Text:string) is det.
+%  Generate a tape that extends Length only when needed to complete the marker
+%  that starts at or before the requested boundary.
 generate_marker_complete(Length, Text) :-
     get_marker_complete_length(Length, CompleteLength),
     generate(CompleteLength, Text).
@@ -118,6 +124,9 @@ find_truncation_point(ReceivedText, Position) :-
     ;   Position is ReceivedLength + 1
     ).
 
+%! locate(+Fragment:string, -Position:int) is det.
+%  Locate Fragment in the canonical search tape and return its 1-indexed
+%  position, or -1 when the fragment is not present.
 locate("", 1) :- !.
 locate(Fragment, Position) :-
     default_search_length(SearchLength),
@@ -127,9 +136,14 @@ locate(Fragment, Position) :-
     ;   Position = -1
     ).
 
+%! hash_fragment(+Fragment:string, -Hash:atom) is det.
+%  Compute the lowercase SHA-256 digest of Fragment using UTF-8 bytes.
 hash_fragment(Fragment, Hash) :-
     crypto_data_hash(Fragment, Hash, [algorithm(sha256), encoding(utf8)]).
 
+%! build_window_index(+WindowSize:int, -Index:list) is det.
+%  Build Hash-Positions pairs for every WindowSize fragment in the canonical
+%  search tape. Positions are 1-indexed and grouped by lowercase SHA-256 hash.
 build_window_index(WindowSize, Index) :-
     must_be(positive_integer, WindowSize),
     default_search_length(SearchLength),
@@ -147,6 +161,9 @@ build_window_index(WindowSize, Index) :-
     keysort(Pairs, Sorted),
     group_pairs_by_key(Sorted, Index).
 
+%! locate_by_hash(+FragmentHash, +WindowSize:int, -Positions:list) is det.
+%  Return all 1-indexed positions whose WindowSize fragment has FragmentHash as
+%  its lowercase SHA-256 digest. FragmentHash matching is case-insensitive.
 locate_by_hash(FragmentHash, WindowSize, Positions) :-
     normalize_hash(FragmentHash, NormalizedHash),
     build_window_index(WindowSize, Index),

@@ -332,3 +332,273 @@ Validation to run after patch:
   - `cobc` is not on PATH.
 - Decisions: Did not add unverified Level 3 source-only APIs to Ada, Delphi/Object Pascal, or Objective-C because local compilers/runtimes were missing and the short attempt did not reach the confidence threshold. Did not attempt full SHA-256 in Assembly or COBOL. Left Scratch as guide/scaffold until a real `.sb3` project/runtime exists.
 - Artifact scan: `git status --short` shows only documentation changes. `git ls-files -o --exclude-standard` returned no untracked files. No generated binaries, caches, logs, toolchain outputs, `.mod` files, executables, build directories, or diagnostics were staged.
+### 2026-06-27 - Toolchain availability checkpoint
+
+- Goal: Continue PositionTape Level 3 completion after confirming the local toolchain matrix.
+- Policy: Used no-profile PowerShell because the interactive profile attempts `opam` startup work and can fail on user-profile log writes before repo commands run.
+- Tool probes:
+  - `opam`: `C:\Users\alfon\AppData\Local\Microsoft\WinGet\Packages\OCaml.opam_Microsoft.Winget.Source_8wekyb3d8bbwe\opam.exe`; version `2.5.0`.
+  - `ocaml`: `C:\Users\alfon\AppData\Local\opam\default\bin\ocaml.exe`; version `The OCaml toplevel, version 5.4.1`.
+  - `dune`: `C:\Users\alfon\AppData\Local\opam\default\bin\dune.exe`; version `3.23.1`.
+  - `swipl`: `C:\Program Files\swipl\bin\swipl.exe`; version `SWI-Prolog version 10.0.2 for x64-win64`.
+  - `octave`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\octave.exe`; version `GNU Octave (x86_64-w64-mingw32) version 11.3.0`.
+  - `octave-cli`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\octave-cli.exe`; version `GNU Octave (x86_64-w64-mingw32) version 11.3.0`.
+  - `gnat`: `C:\msys64\ucrt64\bin\gnat.exe`; version `GNAT 16.1.0`.
+  - `gnatmake`: `C:\msys64\ucrt64\bin\gnatmake.exe`; version `GNATMAKE 16.1.0`.
+  - `fpc`: `C:\FPC\3.2.2\bin\i386-Win32\fpc.exe`; version `3.2.2`.
+  - `cobc`: `C:\msys64\ucrt64\bin\cobc.exe`; version `cobc (GnuCOBOL) 3.2.0`.
+  - `kotlinc`: `C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2025.2.6.2\plugins\Kotlin\kotlinc\bin\kotlinc.bat`; version `info: kotlinc-jvm 2.1.21 (JRE 21.0.11+10-LTS)`.
+  - `php`: `C:\Users\alfon\AppData\Local\Microsoft\WinGet\Packages\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\php.exe`; version `PHP 8.4.22`.
+  - `ruby`: `C:\Ruby34-x64\bin\ruby.exe`; version `ruby 3.4.9 (2026-03-11 revision 76cca827ab) +PRISM [x64-mingw-ucrt]`.
+  - `nasm`: `C:\Strawberry\c\bin\nasm.exe`; version `NASM version 2.16.01`.
+  - `gfortran`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\gfortran.exe`; version `GNU Fortran (GCC) 15.2.0`.
+  - `Rscript`: `C:\Program Files\R\R-4.6.0\bin\x64\Rscript.exe`; version `Rscript (R) version 4.6.0 (2026-04-24)`.
+  - `sqlite3`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\sqlite3.exe`; version `3.51.2`.
+  - `dotnet`: `C:\Program Files\dotnet\dotnet.exe`; version `10.0.301`.
+  - `python`: `C:\Users\alfon\AppData\Local\Programs\Python\Python310\python.exe`; version `Python 3.10.11`.
+  - `node`: `C:\Program Files\nodejs\node.exe`; version `v24.18.0`.
+  - `go`: `C:\Program Files\Go\bin\go.exe`; version `go version go1.26.4 windows/amd64`; probe also reported telemetry token write denied under `C:\Users\alfon\AppData\Roaming\go\telemetry\local\upload.token`.
+  - `java`: `C:\Program Files\Eclipse Adoptium\jdk-21.0.11.10-hotspot\bin\java.exe`; version `openjdk version "21.0.11" 2026-04-21 LTS`.
+  - `dart`: `C:\Users\alfon\AppData\Local\Microsoft\WinGet\Packages\Google.DartSDK_Microsoft.Winget.Source_8wekyb3d8bbwe\dart-sdk\bin\dart.exe`; version `Dart SDK version: 3.12.1`.
+  - `cargo`: `C:\Users\alfon\.cargo\bin\cargo.exe`; version `cargo 1.96.0`.
+  - `rustc`: `C:\Users\alfon\.cargo\bin\rustc.exe`; version `rustc 1.96.0`.
+  - `swift`: `C:\Users\alfon\AppData\Local\Programs\Swift\Toolchains\6.3.2+Asserts\usr\bin\swift.exe`; version `Swift version 6.3.2`.
+- Commands run:
+  - `Get-Command` plus short version probe for every tool listed above.
+
+### 2026-06-27 - OCaml Level 3 revalidation sprint
+
+- Target: OCaml Level 3 tests/docs; files `languages/ocaml/tests/position_tape_tests.ml`, `languages/ocaml/README.md`, `languages/ocaml/SPEC-COMPLIANCE.md`.
+- Work completed: Revalidated existing Level 3 APIs with OCaml 5.4.1; added required SHA-256 test vectors for empty string and `abc`; corrected stale documentation from source-only/missing-toolchain status to locally verified Level 3.
+- Commands run:
+  - `ocaml languages/ocaml/tests/position_tape_tests.ml`
+- Result: Passed, output `OK ocaml`.
+
+### 2026-06-27 - MATLAB/Octave interrupted sprint checkpoint
+
+- Target: MATLAB/Octave Level 3 runtime validation; files inspected `languages/matlab-octave/src/HashFragment.m`, `languages/matlab-octave/src/BuildWindowIndex.m`, `languages/matlab-octave/src/LocateByHash.m`, `languages/matlab-octave/tests/position_tape_tests.m`, `languages/matlab-octave/README.md`, `languages/matlab-octave/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `octave --quiet languages/matlab-octave/tests/position_tape_tests.m`
+- Result: Interrupted by user before completion. Lingering `octave` / `octave-gui` processes were stopped with `Stop-Process -Force` to stabilize the workspace.
+- Decision: Did not make MATLAB/Octave source changes in this sprint. Move on per micro-sprint rule; return only with a narrower hash-vector-only test or a clear performance fix path.
+
+### 2026-06-27 - Prolog Level 3 revalidation sprint
+
+- Target: SWI-Prolog Level 3 tests/docs; files `languages/prolog/src/position_tape.pl`, `languages/prolog/tests/position_tape_tests.pl`, `languages/prolog/SPEC-COMPLIANCE.md`.
+- Work completed: Revalidated existing Level 3 APIs with SWI-Prolog 10.0.2; added required SHA-256 test vectors for empty string and `abc`; added focused PlDoc comments for public Level 3 predicates.
+- Commands run:
+  - `swipl -q -s languages/prolog/tests/position_tape_tests.pl`
+- Result: Passed, output `OK prolog`.
+
+### 2026-06-27 - Kotlin/PHP/Ruby Level 3 revalidation sprint
+
+- Target: Kotlin, PHP, and Ruby Level 3 tests/docs; files `languages/kotlin/tests/PositionTapeTest.kt`, `languages/php/tests/position_tape_test.php`, `languages/ruby/tests/position_tape_test.rb`, and each language-local `SPEC-COMPLIANCE.md`.
+- Work completed: Revalidated existing Level 3 APIs with Kotlin/JVM, PHP 8.4, and Ruby 3.4; added required SHA-256 test vectors for empty string and `abc`; updated local verification notes.
+- Commands run:
+  - `kotlinc .\languages\kotlin\src\PositionTape.kt .\languages\kotlin\tests\PositionTapeTest.kt -include-runtime -d <temp jar>` then `java -jar <temp jar>`
+  - `php .\languages\php\tests\position_tape_test.php`
+  - `ruby .\languages\ruby\tests\position_tape_test.rb`
+- Results:
+  - Kotlin passed, output `OK kotlin position_tape`.
+  - PHP passed, output `OK php position_tape`.
+  - Ruby passed, output `OK ruby position_tape`; Ruby also printed a system-wide `gemrc` permission warning unrelated to PositionTape.
+- Cleanup: Temporary Kotlin jar under the user temp directory was deleted using `[System.IO.File]::Delete`.
+
+### 2026-06-27 - Ada Level 3 attempt / Level 2 verification sprint
+
+- Target: Ada API and tests; files `languages/ada/README.md`, `languages/ada/SPEC-COMPLIANCE.md`.
+- Work completed: Verified existing Ada Level 2 implementation with GNAT 16.1.0 from a temp build directory; updated stale documentation that previously said GNAT was unavailable.
+- Commands run:
+  - `gnatmake -Ilanguages/ada/src languages/ada/tests/position_tape_tests.adb`
+  - `.\position_tape_tests.exe`
+- Result: Passed, output `OK ada`.
+- Decision: Ada remains Level 2. Level 3 is not claimed because `Locate`, `BuildWindowIndex`, and `LocateByHash` are absent and a pure Ada SHA-256 implementation plus hash-window index is not a safe 5-minute patch.
+- Cleanup: GNAT-generated `.exe`, `.ali`, and `.o` files in the user temp directory were deleted.
+
+### 2026-06-27 - Delphi/Object Pascal interrupted sprint checkpoint
+
+- Target: Object Pascal FPC validation; files `languages/delphi/src/PositionTape.pas`, `languages/delphi/tests/position_tape_tests.pas`.
+- Work completed: Added minimal `{$mode objfpc}` directives so the existing `raise Exception.Create(...)` syntax compiles under Free Pascal instead of failing in the default compiler mode.
+- Commands run:
+  - `fpc -Fulanguages/delphi/src -FE<temp build> -FU<temp build> languages/delphi/tests/position_tape_tests.pas`
+  - `<temp build>\position_tape_tests.exe`
+- Results:
+  - First FPC compile failed before the mode directive with `Identifier not found "raise"` and syntax error at `Exception`.
+  - After adding `{$mode objfpc}`, the test executable launched but did not complete within the user-interrupted sprint.
+- Decision: Object Pascal remains Level 2 and is not claimed verified in this checkpoint. Level 3 remains deferred because `Locate`, `BuildWindowIndex`, and exact SHA-256 `LocateByHash` are absent.
+- Stabilization: Stopped the lingering `position_tape_tests.exe` process and deleted the temp FPC build directory containing `.exe`, `.o`, and `.ppu` artifacts.
+
+### 2026-06-27 - Objective-C Level 3 attempt checkpoint
+
+- Target: Objective-C Foundation build feasibility; files inspected `languages/objective-c/src/PositionTape.h`, `languages/objective-c/src/PositionTape.m`, `languages/objective-c/tests/PositionTapeTests.m`, `languages/objective-c/README.md`, `languages/objective-c/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `clang --version`
+  - `clang -fobjc-arc -framework Foundation .\languages\objective-c\src\PositionTape.m .\languages\objective-c\tests\PositionTapeTests.m -o <temp exe>`
+- Result: Compile failed. Clang 21.1.6 is present through Swift, but reports no Visual Studio installation and `-fobjc-arc is not supported on platforms using the legacy runtime`.
+- Decision: Objective-C remains Level 2. Level 3 is not claimed because `Locate`, `BuildWindowIndex`, and exact SHA-256 `LocateByHash` are absent and the local Foundation-capable Objective-C runtime is still unavailable.
+
+### 2026-06-27 - SQLite exact SHA-256 checkpoint
+
+- Target: SQLite Level 2 validation and exact SHA-256 feasibility; files `languages/sqlite/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `Get-Content languages/sqlite/tests/position_tape_tests.sql | sqlite3`
+  - `sqlite3 -batch ':memory:' "SELECT sqlite_version(); SELECT lower(hex(sha3('abc',256))); SELECT sha256('abc');"`
+  - `rg --files | rg "sqlite3(ext)?\.h|sha256|sqlite.*extension"`
+- Results:
+  - SQLite Level 2 tests passed, output `OK sqlite`.
+  - SQLite version is `3.51.2`.
+  - `sha3('abc',256)` exists and returns SHA3-256, which is not accepted as SHA-256.
+  - `sha256('abc')` fails with `no such function: sha256`.
+  - No repo-local `sqlite3ext.h` / SHA-256 extension scaffold was found by file search.
+- Decision: SQLite remains Level 2. Level 3 is deferred until a repo-local loadable extension exposes exact `sha256(text)` and passes vector/index tests.
+
+### 2026-06-27 - COBOL checkpoint
+
+- Target: COBOL generator/test feasibility; files `languages/cobol/README.md`, `languages/cobol/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `cobc -x -o <temp exe> languages/cobol/tests/position_tape_tests.cob`
+- Result: Compile failed before source validation with `configuration error: /ucrt64/share/gnucobol/config\default.conf: No such file or directory`.
+- Decision: COBOL remains Level 1/scaffold. `cobc` is visible, but the local GnuCOBOL configuration is incomplete, and Level 2/3 APIs plus exact SHA-256 are not implemented.
+
+### 2026-06-27 - Assembly checkpoint
+
+- Target: NASM assembly feasibility; files `languages/assembly/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `nasm -f elf64 languages/assembly/src/position_tape.asm -o <temp object>`
+- Result: NASM 2.16.01 assembled the ELF64 object successfully. The temporary object file was deleted.
+- Decision: Assembly remains Level 1. The implementation is a Linux syscall program with a source constant, not a callable API, and it was not linked/executed locally. Level 3 hybrid is deferred until a tested C SHA-256 provider and ABI boundary exist.
+
+### 2026-06-27 - Scratch checkpoint
+
+- Target: Scratch classification; files inspected `languages/scratch/README.md`, `languages/scratch/SPEC-COMPLIANCE.md`, `languages/scratch/src/position_tape_blocks.md`.
+- Commands run:
+  - `rg --files languages/scratch`
+  - `rg -n "sb3|Level 3|scaffold|guide|runtime|verified" languages/scratch`
+- Result: Scratch remains a Level 1 implementation guide. No `.sb3` project or executable/headless validation path exists in the repository.
+- Decision: No Level 3 claim for Scratch.
+
+### 2026-06-27 - Final validation gates
+
+- Commands run:
+  - `python tools\conformance\run_conformance.py`
+  - `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`
+  - `git diff --check`
+- Results:
+  - Python conformance passed all entries in `fixtures/manifest.generated.json`.
+  - C# conformance passed all entries and printed `OK csharp conformance`.
+  - `git diff --check` passed; Git printed line-ending normalization warnings only.
+
+### 2026-06-27 - GEN-PT-023 toolchain version audit
+
+- Target: runtime validation unblock for MATLAB/Octave, Delphi/Object Pascal/FPC, COBOL/GnuCOBOL, Objective-C, Assembly, SQLite, and GNAT visibility.
+- Commands run:
+  - `Get-Command octave,octave-cli,fpc,cobc,clang,nasm,sqlite3,gnat,gnatmake -ErrorAction SilentlyContinue | Select-Object Name,Source,Version | Format-List`
+  - `octave --version`
+  - `octave-cli --version`
+  - `fpc -iV; fpc -iTP; fpc -iTO`
+  - `cobc -V`
+  - `clang --version`
+  - `nasm -v`
+  - `sqlite3 --version`
+  - `gnat --version; gnatmake --version`
+- Results:
+  - `octave.exe`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\octave.exe`; GNU Octave 11.3.0.
+  - `octave-cli.exe`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\octave-cli.exe`; GNU Octave 11.3.0.
+  - `fpc.exe`: `C:\FPC\3.2.2\bin\i386-Win32\fpc.exe`; Free Pascal 3.2.2, target processor `i386`, target OS `win32`.
+  - `cobc.exe`: `C:\msys64\ucrt64\bin\cobc.exe`; GnuCOBOL 3.2.0, built Oct 04 2025, C version MinGW 15.2.0.
+  - `clang.exe`: `C:\Users\alfon\AppData\Local\Programs\Swift\Toolchains\6.3.2+Asserts\usr\bin\clang.exe`; Clang 21.1.6, target `x86_64-unknown-windows-msvc`.
+  - `nasm.exe`: `C:\Strawberry\c\bin\nasm.exe`; NASM 2.16.01.
+  - `sqlite3.exe`: `C:\Users\alfon\AppData\Local\Programs\GNU Octave\Octave-11.3.0\mingw64\bin\sqlite3.exe`; SQLite 3.51.2.
+  - `gnat.exe` / `gnatmake.exe`: `C:\msys64\ucrt64\bin`; GNAT/GNATMAKE 16.1.0.
+
+### 2026-06-27 - GEN-PT-023 MATLAB/Octave runtime probe
+
+- Target: Octave Level 3 runtime path; files `languages/matlab-octave/README.md`, `languages/matlab-octave/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `octave-cli --no-gui --quiet languages/matlab-octave/tests/position_tape_tests.m`
+  - Focused pre-index probe with `octave-cli --no-gui --quiet --eval "addpath('languages/matlab-octave/src'); ...; disp('OK octave pre-index');"`
+- Results:
+  - Full test was interrupted; a lingering `octave-cli` process was found consuming CPU and stopped with `Stop-Process -Force`.
+  - Focused pre-index probe printed `OK octave pre-index`, then Octave did not exit cleanly before the 60-second timeout and printed `error: ignoring const execution_exception& while preparing to exit`.
+  - Exact slow/hanging section remains the full hash-window path: `BuildWindowIndex(length(fragment))` / `LocateByHash`, which hashes nearly 100,000 windows.
+- Decision: MATLAB/Octave remains Level 3 source with partial local runtime evidence. No source changes were made.
+
+### 2026-06-27 - GEN-PT-023 Delphi/Object Pascal FPC unblock
+
+- Target: FPC Level 2 validation; files `languages/delphi/src/PositionTape.pas`, `languages/delphi/tests/position_tape_tests.pas`, `languages/delphi/README.md`, `languages/delphi/SPEC-COMPLIANCE.md`.
+- Work completed: Added `{$H+}` next to `{$mode objfpc}` in source and test. Without `{$H+}`, FPC uses short strings, so `Generate(10003)` stopped growing at 255 characters and the test executable looped indefinitely.
+- Commands run:
+  - `fpc -iV; fpc -iTP; fpc -iTO`
+  - `fpc -Fulanguages\delphi\src languages\delphi\tests\position_tape_tests.pas`
+  - `languages\delphi\tests\position_tape_tests.exe`
+- Results:
+  - FPC version/target: 3.2.2, `i386`, `win32`; no target architecture flag was required for the native Win32 test.
+  - Compile passed in about 0.4 seconds.
+  - Test passed in about 1.6 seconds, output `OK delphi`.
+- Cleanup: FPC-generated `.exe`, `.o`, and `.ppu` artifacts were deleted with literal file paths.
+- Decision: Delphi/Object Pascal is locally verified at Level 2. Level 3 remains deferred because `Locate`, `BuildWindowIndex`, and exact SHA-256 `LocateByHash` are absent.
+
+### 2026-06-27 - GEN-PT-023 COBOL / GnuCOBOL runtime path
+
+- Target: COBOL GnuCOBOL config/build path; files `languages/cobol/README.md`, `languages/cobol/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `Test-Path 'C:\msys64\ucrt64\share\gnucobol\config\default.conf'`
+  - `Test-Path 'C:\msys64\mingw64\share\gnucobol\config\default.conf'`
+  - `Test-Path 'C:\msys64\usr\share\gnucobol\config\default.conf'`
+  - `C:\msys64\usr\bin\bash.exe -lc "cobc -V"`
+  - `cobc -v -x -o .tmp-genpt023-cobol\position_tape_tests.exe languages\cobol\tests\position_tape_tests.cob`
+  - With per-process variables: `$env:COB_CONFIG_DIR='C:\msys64\ucrt64\share\gnucobol\config'; $env:CPATH='C:\msys64\ucrt64\include'; $env:LIBRARY_PATH='C:\msys64\ucrt64\lib'; cobc -free -v -x -o .tmp-genpt023-cobol\position_tape_tests.exe languages\cobol\tests\position_tape_tests.cob`
+  - `.tmp-genpt023-cobol\position_tape_tests.exe`
+  - Same variables with `cobc -free -x -o .tmp-genpt023-cobol\position_tape.exe languages\cobol\src\position_tape.cob`; `.tmp-genpt023-cobol\position_tape.exe 11`
+- Results:
+  - `default.conf` exists at `C:\msys64\ucrt64\share\gnucobol\config\default.conf`; it does not exist under `mingw64` or `usr`.
+  - MSYS2 bash fallback failed in this sandbox with `fatal error - couldn't create signal pipe, Win32 error 5`.
+  - Direct PowerShell without variables failed fast in 0.12 seconds: `/ucrt64/share/gnucobol/config\default.conf: No such file or directory`.
+  - Setting only `COB_CONFIG_DIR` reached C compilation, then failed because `libcob.h` was not found from `-I/ucrt64/include`.
+  - Setting `COB_CONFIG_DIR`, `CPATH`, and `LIBRARY_PATH`, and using `-free`, compiled the test in about 1.5 seconds.
+  - Test execution passed, output `OK cobol`.
+  - The generator compiled in about 0.8 seconds and `position_tape.exe 11` printed `12345678911`.
+- Decision: COBOL has a verified native PowerShell validation path for Level 1 using per-process MSYS2 UCRT64 variables. It is not slow; failures were path-translation/configuration failures before source validation. Level 3 remains deferred.
+
+### 2026-06-27 - GEN-PT-023 Objective-C runtime probe
+
+- Target: Objective-C Windows compile feasibility; files `languages/objective-c/README.md`, `languages/objective-c/SPEC-COMPLIANCE.md`.
+- Command run:
+  - `clang -fobjc-arc -framework Foundation .\languages\objective-c\src\PositionTape.m .\languages\objective-c\tests\PositionTapeTests.m -o .tmp-genpt023-objc.exe`
+- Result: Failed in about 0.4 seconds. Clang 21.1.6 warned that no Visual Studio installation was found and reported `-fobjc-arc is not supported on platforms using the legacy runtime`.
+- Decision: Objective-C remains Level 2 source, not locally verified on this Windows runtime. Documented macOS Foundation command and future C-hybrid Windows validation plan.
+
+### 2026-06-27 - GEN-PT-023 Assembly NASM probe
+
+- Target: Assembly artifact classification; files `languages/assembly/README.md`, `languages/assembly/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `nasm -f elf64 languages\assembly\src\position_tape.asm -o .tmp-genpt023-assembly.o`
+  - `nasm -f win64 languages\assembly\src\position_tape.asm -o .tmp-genpt023-assembly-win.obj`
+- Results:
+  - ELF64 assemble passed in about 0.1 seconds.
+  - WIN64 assemble also passed in about 0.1 seconds, but this is syntax/object evidence only: the program body uses Linux syscall numbers for `write` and `exit`.
+- Decision: Assembly remains Level 1 with assemble-only local evidence. Honest execution path is Linux/WSL, or a future native Windows runner.
+
+### 2026-06-27 - GEN-PT-023 SQLite Level 2 and hash probe
+
+- Target: SQLite Level 2 validation and exact SHA-256 blocker; files `languages/sqlite/SPEC-COMPLIANCE.md`.
+- Commands run:
+  - `Get-Content languages\sqlite\tests\position_tape_tests.sql | sqlite3`
+  - `sqlite3 -batch ':memory:' "SELECT sqlite_version(); SELECT lower(hex(sha3('abc',256))); SELECT sha256('abc');"`
+- Results:
+  - Level 2 test passed in about 2.3 seconds, output `OK sqlite`.
+  - SQLite version is 3.51.2.
+  - `sha3('abc',256)` is present and returns `3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532`.
+  - `sha256('abc')` is absent: `no such function: sha256`.
+- Decision: SQLite remains Level 2. Exact SHA-256 requires a future extension/provider; SHA3 is not substituted for SHA-256.
+
+### 2026-06-27 - GEN-PT-023 final validation gates
+
+- Commands run:
+  - `python tools\conformance\run_conformance.py`
+  - `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`
+  - `git diff --check`
+- Results:
+  - Python conformance passed all entries in `fixtures/manifest.generated.json`.
+  - C# conformance passed all entries and printed `OK csharp conformance`.
+  - `git diff --check` passed; Git printed line-ending normalization warnings only.

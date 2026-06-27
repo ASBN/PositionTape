@@ -26,6 +26,12 @@ assert_true ((Option.get mismatch).position = 20) "first mismatch";;
 assert_true (find_truncation_point (generate 75) = 76) "find truncation";;
 let fragment = String.sub (generate 80) 29 12;;
 assert_true (locate fragment = 30) "locate fragment";;
+assert_true
+  (hash_fragment "" = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+  "sha256 empty";;
+assert_true
+  (hash_fragment "abc" = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
+  "sha256 abc";;
 let hash = hash_fragment fragment;;
 let index = build_window_index (String.length fragment);;
 assert_true (List.mem 30 (Hashtbl.find index hash)) "hash index";;

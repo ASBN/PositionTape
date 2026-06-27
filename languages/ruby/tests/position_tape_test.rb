@@ -18,6 +18,8 @@ assert_equal(4, PositionTape.FindTruncationPoint("123X"), "mismatch point")
 assert_equal(13, PositionTape.FindFirstMismatch(expected, "#{expected[0, 12]}X#{expected[13..]}").position, "mismatch")
 
 fragment = PositionTape.Generate(80)[29, 12]
+assert_equal("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", PositionTape.HashFragment(""), "sha256 empty")
+assert_equal("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", PositionTape.HashFragment("abc"), "sha256 abc")
 hash = PositionTape.HashFragment(fragment)
 assert_equal(30, PositionTape.Locate(fragment), "Locate")
 raise "BuildWindowIndex missing position 30" unless PositionTape.BuildWindowIndex(fragment.length)[hash].include?(30)

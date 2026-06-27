@@ -26,6 +26,8 @@ fun main() {
     requireEqual(13, PositionTape.FindFirstMismatch(expected, expected.substring(0, 12) + "X" + expected.substring(13))!!.position, "mismatch")
 
     val fragment = PositionTape.Generate(80).substring(29, 41)
+    requireEqual("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", PositionTape.HashFragment(""), "sha256 empty")
+    requireEqual("ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", PositionTape.HashFragment("abc"), "sha256 abc")
     val hash = PositionTape.HashFragment(fragment)
     requireEqual(30, PositionTape.Locate(fragment), "locate")
     require(PositionTape.BuildWindowIndex(fragment.length)[hash]!!.contains(30)) { "hash index" }

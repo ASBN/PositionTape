@@ -33,6 +33,8 @@ assertSameValue(4, FindTruncationPoint('123X'), 'mismatch point');
 assertSameValue(13, FindFirstMismatch($expected, substr($expected, 0, 12) . 'X' . substr($expected, 13))->position, 'mismatch');
 
 $fragment = substr(Generate(80), 29, 12);
+assertSameValue('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', HashFragment(''), 'sha256 empty');
+assertSameValue('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad', HashFragment('abc'), 'sha256 abc');
 $hash = HashFragment($fragment);
 assertSameValue(30, Locate($fragment), 'Locate');
 if (!in_array(30, BuildWindowIndex(strlen($fragment))[$hash], true)) {

@@ -14,13 +14,13 @@ Public package operations:
 - `Validate`
 
 Level 3 is intentionally not claimed in the current alpha classification:
-`Locate`, `BuildWindowIndex`, and `LocateByHash` are not implemented, and the
-local Windows environment does not have `gnat` on PATH for a verified short
-upgrade attempt.
+`Locate`, `BuildWindowIndex`, and `LocateByHash` are not implemented. A pure
+Ada SHA-256 implementation plus hash-window index remains a separate verified
+checkpoint.
 
 Run the local checks with GNAT:
 
 ```powershell
-gnatmake -D languages/ada/build -I languages/ada/src languages/ada/tests/position_tape_tests.adb
-.\languages\ada\build\position_tape_tests.exe
+gnatmake -Ilanguages/ada/src languages/ada/tests/position_tape_tests.adb
+.\position_tape_tests.exe
 ```

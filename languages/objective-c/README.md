@@ -10,9 +10,9 @@ Level 3 is intentionally not claimed in the current alpha classification:
 available Windows Clang toolchain is not a Foundation-capable Objective-C
 runtime for local verification.
 
-Run the local checks with a Foundation-capable Objective-C toolchain:
+Run the local checks with a Foundation-capable Objective-C toolchain. On macOS:
 
-```powershell
+```bash
 clang -fobjc-arc -framework Foundation languages/objective-c/src/PositionTape.m languages/objective-c/tests/PositionTapeTests.m -o languages/objective-c/tests/PositionTapeTests
-.\languages\objective-c\tests\PositionTapeTests.exe
+languages/objective-c/tests/PositionTapeTests
 ```

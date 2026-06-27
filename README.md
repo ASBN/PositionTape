@@ -91,16 +91,17 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified locally | C, C++, C#, Dart, Fortran, Go, Java, JavaScript, Julia, Lua, Prolog, Python, R, Standard ML, VB.NET |
+| Verified locally | C, C++, C#, COBOL Level 1, Dart, Delphi/Object Pascal Level 2, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, SQLite Level 2, Standard ML, VB.NET |
 | CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
-| Source Level 3 pending local runtime validation | MATLAB/Octave, OCaml |
-| Level 2, blocked before hash-window Level 3 | Ada, Delphi/Object Pascal, Objective-C, SQLite |
-| Level 1 / scaffold | Assembly, COBOL, Scratch |
-| Experimental / monitoring only | Kotlin, Perl, PHP, Ruby, Rust, Swift |
+| Source Level 3 pending full local runtime validation | MATLAB/Octave |
+| Level 2, blocked before hash-window Level 3 | Ada, Objective-C |
+| Level 1 / scaffold | Assembly, Scratch |
+| Experimental / monitoring only | Perl, Rust, Swift |
 
 Blocker notes:
 
-- Blocked languages have source and tests, but their validation command did not run in the latest local checkpoint because the required compiler/runtime was absent or the local Windows toolchain could not link.
+- Blocked languages have source and tests, but their validation command did not run in the latest local checkpoint because the local runtime path is incomplete, the Windows toolchain cannot link that language, or exact SHA-256 support is not available.
+- MATLAB/Octave is installed locally, but the full hash-window test is slow/unstable in Octave 11.3.0 on this Windows path; the exact blocking section is `BuildWindowIndex(length(fragment))` / `LocateByHash`.
 - SQLite is locally testable at Level 2, including direct locate, but it is not Level 3 because the installed SQLite exposes SHA3 and not exact SHA-256.
 - Assembly and COBOL remain exact-length generator work only. No full SHA-256 implementation is claimed for either language.
 - Some verified languages validate API behavior and marker boundaries but do not yet read every official fixture file directly. The exact status is in [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).

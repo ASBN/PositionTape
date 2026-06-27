@@ -1,5 +1,8 @@
 program PositionTapeTests;
 
+{$mode objfpc}
+{$H+}
+
 uses
   SysUtils,
   PositionTape;
