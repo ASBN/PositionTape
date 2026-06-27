@@ -19,6 +19,9 @@ Tag `v0.1.0-alpha.1` has been cut. No language packages have been published and 
 - Multi-language implementations exist at different conformance levels.
 - IDE visibility does not imply all language folders are buildable in a single IDE or default devcontainer.
 - Several locally verified languages validate API behavior and marker boundary behavior but do not yet read every official fixture file directly.
+- Level 3 hash-window behavior requires exact SHA-256 as defined in
+  `docs/spec/hash-provider-policy.md`; SHA3 and platform-default hashes are not
+  substitutes.
 - Logger integration scope is reserved but not a release-grade alpha claim.
 - Scratch is a Level 1 implementation guide only; no binary `.sb3` project is generated.
 

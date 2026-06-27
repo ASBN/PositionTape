@@ -53,6 +53,10 @@ Full implementations expose these operations using idiomatic language naming and
 - `BuildWindowIndex(windowSize)`: builds a SHA-256 hash index of fixed-size windows over the canonical tape search window.
 - `LocateByHash(fragmentHash, windowSize)`: returns positions associated with a hash produced from a fixed-size fragment.
 
+Level 3 SHA-256 providers must follow `docs/spec/hash-provider-policy.md`.
+Hashes are lowercase 64-character SHA-256 hex strings computed over UTF-8
+bytes of the exact fragment string.
+
 ## Conformance Levels
 
 - Level 0: consumes official fixtures only.

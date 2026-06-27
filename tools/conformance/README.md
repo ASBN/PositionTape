@@ -10,6 +10,15 @@ python tools/conformance/run_conformance.py
 
 The Python runner validates every entry in `fixtures/manifest.generated.json` against the canonical reference generator, byte length, SHA-256, UTF-8 BOM absence, and no trailing newline.
 
+## SHA-256 Vector Runner
+
+```bash
+python tools/conformance/verify_sha256_vectors.py
+```
+
+The vector runner validates `fixtures/sha256-vectors.json` with Python
+`hashlib.sha256` so Level 3 providers share the same UTF-8 hash evidence.
+
 ## C# No-Package Runner
 
 ```bash

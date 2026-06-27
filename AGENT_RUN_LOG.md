@@ -488,6 +488,32 @@ Validation to run after patch:
   - C# conformance passed all entries and printed `OK csharp conformance`.
   - `git diff --check` passed; Git printed line-ending normalization warnings only.
 
+### 2026-06-27 - GEN-PT-024 SHA-256 provider policy and shared vectors
+
+- Target: Define exact SHA-256 provider policy before adding new Level 3 hash providers.
+- Vector command run:
+  - `$env:PYTHONIOENCODING='utf-8'; @' ... '@ | python -` using Python 3.10.11,
+    `hashlib.sha256(text.encode('utf-8')).hexdigest()`, and
+    `tools.conformance.position_tape_reference.generate`.
+- Vectors computed:
+  - Empty string: `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`.
+  - `abc`: `ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`.
+  - `PositionTape`: `55fc0a7c26db83dc2f2aca556e9803ff6d90dcda6c2ad59a69687054ba33abc5`.
+  - Canonical fragment `Generate(200)[29:45]`, 1-indexed start 30, length 16,
+    text `3123456789412345`:
+    `babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a`.
+  - UTF-8 string `Niño-posición-✓`: `ed95c68f09b2639a60011ca685de6bff3ac13ad7a8fef9a8161c108c6d214bab`.
+- Validation commands run:
+  - `python tools\conformance\run_conformance.py`
+  - `python tools\conformance\verify_sha256_vectors.py`
+  - `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`
+  - `git diff --check`
+- Results:
+  - Python fixture conformance passed all entries in `fixtures/manifest.generated.json`.
+  - SHA-256 vector verification passed all five vectors in `fixtures/sha256-vectors.json`.
+  - C# no-package conformance passed all entries and printed `OK csharp conformance`.
+  - `git diff --check` passed; Git printed line-ending normalization warnings only.
+
 ### 2026-06-27 - GEN-PT-023 toolchain version audit
 
 - Target: runtime validation unblock for MATLAB/Octave, Delphi/Object Pascal/FPC, COBOL/GnuCOBOL, Objective-C, Assembly, SQLite, and GNAT visibility.

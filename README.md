@@ -26,7 +26,9 @@ Positions are 1-indexed.
 - Exact-length generation returns exactly the requested length, truncating a marker at the boundary when needed.
 - Marker-complete generation extends only when the requested boundary cuts through a marker.
 
-See [docs/spec/position-tape-spec.md](docs/spec/position-tape-spec.md) for the full specification.
+See [docs/spec/position-tape-spec.md](docs/spec/position-tape-spec.md) for the
+full specification. Level 3 hash-window implementations must also follow the
+[SHA-256 provider policy](docs/spec/hash-provider-policy.md).
 
 ## CI Status
 
@@ -45,6 +47,7 @@ The alpha foundation provides:
 - Official UTF-8 fixtures under `fixtures/`.
 - Canonical manifest at `fixtures/manifest.generated.json`.
 - Python fixture conformance runner under `tools/conformance/`.
+- Shared SHA-256 vectors at `fixtures/sha256-vectors.json`.
 - No-package C# conformance runner under `tools/conformance/csharp/PositionTape.Conformance/`.
 - C# reference implementation under `languages/csharp/src/PositionTape/`.
 - C# xUnit tests under `languages/csharp/tests/PositionTape.Tests/`.

@@ -1,0 +1,33 @@
+{
+  "algorithm": "SHA-256",
+  "encoding": "utf-8",
+  "format": "lowercase-hex",
+  "vectors": [
+    {
+      "name": "empty",
+      "input": "",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "abc",
+      "input": "abc",
+      "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    },
+    {
+      "name": "project-name",
+      "input": "PositionTape",
+      "sha256": "55fc0a7c26db83dc2f2aca556e9803ff6d90dcda6c2ad59a69687054ba33abc5"
+    },
+    {
+      "name": "canonical-fragment-start-30-length-16",
+      "input": "3123456789412345",
+      "source": "Generate(200)[29:45], 1-indexed start 30, length 16",
+      "sha256": "babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a"
+    },
+    {
+      "name": "utf8-non-ascii",
+      "input": "Ni\u00f1o-posici\u00f3n-\u2713",
+      "sha256": "ed95c68f09b2639a60011ca685de6bff3ac13ad7a8fef9a8161c108c6d214bab"
+    }
+  ]
+}

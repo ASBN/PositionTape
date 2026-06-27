@@ -4,7 +4,9 @@ Validation checkpoint: 2026-06-27 GEN-PT-023 runtime validation unblock. This
 checkpoint audited available toolchain versions and reran focused runtime paths
 for MATLAB/Octave, Delphi/Object Pascal, COBOL, Objective-C, Assembly, and
 SQLite. No SHA3 result is substituted for SHA-256, and no Assembly or COBOL
-SHA-256 implementation is claimed.
+SHA-256 implementation is claimed. Level 3 hash behavior is governed by
+`docs/spec/hash-provider-policy.md` and the shared vectors in
+`fixtures/sha256-vectors.json`.
 
 | Language | Level | Verified locally | Validation command | Current blocker | Generate / marker-complete fixture status |
 |---|---:|---|---|---|---|
