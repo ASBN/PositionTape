@@ -1,18 +1,21 @@
 # SPEC-COMPLIANCE
 
-Validation checkpoint: 2026-06-27 GEN-PT-026 Ada and Delphi/Object Pascal pure
-SHA-256. This checkpoint added and verified pure language SHA-256 hash-window
-implementations for Ada and Delphi/Object Pascal. No SHA3 result is substituted
-for SHA-256, and no Assembly or COBOL SHA-256 implementation is claimed. Level 3 hash behavior is governed by
+Validation checkpoint: 2026-06-27 GEN-PT-027 hybrid binding probes. This
+checkpoint added a source-only shared C SHA-256 provider, verified a COBOL
+hybrid SHA-256 binding for required ASCII vectors, and proved a minimal Win64
+NASM-to-C ABI path. COBOL and Assembly remain Level 1 because neither exposes
+the full Level 3 public hash-window API. Objective-C remains blocked by the
+local Windows clang/runtime setup. No SHA3 result is substituted for SHA-256.
+Level 3 hash behavior is governed by
 `docs/spec/hash-provider-policy.md` and the shared vectors in
 `fixtures/sha256-vectors.json`.
 
 | Language | Level | Verified locally | Validation command | Current blocker | Generate / marker-complete fixture status |
 |---|---:|---|---|---|---|
 | Ada | 3 | Yes | `gnatmake -Ilanguages/ada/src languages/ada/tests/position_tape_tests.adb`; `.\position_tape_tests.exe` | None for GNAT path | API generation, marker-complete boundaries, validation, mismatch diagnostics, direct locate, pure SHA-256 vectors, and hash-window locate verified; official fixture files not directly checked |
-| Assembly | 1 | Partial | `nasm -f elf64 languages/assembly/src/position_tape.asm -o <temp object>`; probe `nasm -f win64 ...` | The current program targets Linux x86-64 syscalls; `win64` is assemble-only evidence, not a runnable native Windows artifact; no simple tested SHA-256 path exists | Assemble-only locally; execution requires Linux/WSL or a future Windows runner |
+| Assembly | 1 | Partial | `nasm -f elf64 languages/assembly/src/position_tape.asm -o <temp object>`; probe `nasm -f win64 ...`; temporary Win64 NASM function linked and executed through a C harness | The current program targets Linux x86-64 syscalls; the ABI probe validates a future callable-object path only; no PositionTape SHA-256/hash-window API exists | Assemble-only for checked-in generator locally; execution requires Linux/WSL or a future Windows runner |
 | C | 3 | Yes | `cmd /c "vcvars64.bat && cl /nologo /I languages\c\src languages\c\src\position_tape.c languages\c\tests\position_tape_tests.c /Fe:.\toolchain-c-position_tape_tests.exe && .\toolchain-c-position_tape_tests.exe"` | None for MSVC path | Exact `Generate(10000)` SHA verified; marker-complete boundary lengths verified |
-| COBOL | 1 | Yes | With `COB_CONFIG_DIR`, `CPATH`, and `LIBRARY_PATH` set to MSYS2 UCRT64 paths: `cobc -free -x -o <temp exe> languages/cobol/tests/position_tape_tests.cob`; `<temp exe>` | Native PowerShell needs per-process MSYS2 UCRT64 config/include/lib variables; no simple tested SHA-256 path exists | Basic exact-length generator smoke test verified |
+| COBOL | 1 | Yes | With `COB_CONFIG_DIR`, `CPATH`, and `LIBRARY_PATH` set to MSYS2 UCRT64 paths: `cobc -free -x -o <temp exe> languages/cobol/tests/position_tape_tests.cob`; `<temp exe>`; `cobc -free -x -I tools/native/sha256 -o <temp exe> languages/cobol/tests/sha256_hybrid_tests.cob tools/native/sha256/position_tape_sha256.c`; `<temp exe>` | Native PowerShell needs per-process MSYS2 UCRT64 config/include/lib variables; hybrid SHA-256 call works, but full direct locate and hash-window APIs are not implemented | Basic exact-length generator smoke test verified; hybrid SHA-256 vectors verified for empty, `abc`, `PositionTape`, and canonical fragment |
 | C++ | 3 | Yes | `cmake -S .\languages\cpp -B .\languages\cpp\build`; `cmake --build .\languages\cpp\build --config Release`; `ctest --test-dir .\languages\cpp\build --output-on-failure -C Release` | None | Exact `Generate(10000)` SHA verified; marker-complete boundary lengths verified |
 | C# | 3 | Yes | `dotnet build .\languages\csharp\src\PositionTape\PositionTape.csproj --configuration Release`; `dotnet test .\languages\csharp\tests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release`; `dotnet run --project .\tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release` | NuGet vulnerability index warning only; tests restored and passed | Official manifest fixtures verified, including marker-complete fixture |
 | Dart | 3 | Yes | `$env:DART_SUPPRESS_ANALYTICS='true'; dart .\languages\dart\tests\position_tape_test.dart` | None | Official manifest fixtures verified, including marker-complete fixture |
@@ -25,7 +28,7 @@ for SHA-256, and no Assembly or COBOL SHA-256 implementation is claimed. Level 3
 | Kotlin | 3 | Yes | `kotlinc .\languages\kotlin\src\PositionTape.kt .\languages\kotlin\tests\PositionTapeTest.kt -include-runtime -d <temp jar>`; `java -jar <temp jar>` | None for local Kotlin/JVM path | API generation, marker-complete boundaries, locate, and hash-window behavior verified; official fixture files not directly checked |
 | Lua | 3 | Yes | `lua .\languages\lua\tests\position_tape_tests.lua` | None | Official manifest fixtures verified, including marker-complete fixture |
 | MATLAB/Octave | 3 source | Partial | `octave-cli --no-gui --quiet languages/matlab-octave/tests/position_tape_tests.m`; focused pre-index probe with `octave-cli --no-gui --quiet --eval ...` | Octave 11.3.0 is on PATH, but the full test hangs/slows in `BuildWindowIndex(length(fragment))` / `LocateByHash`; the pre-index probe printed `OK octave pre-index` before Octave timed out on exit | Generation, marker-complete, validation, mismatch, locate, and single-fragment hash probed; full hash-window index not locally completed |
-| Objective-C | 2 | No | `clang -fobjc-arc -framework Foundation .\languages\objective-c\src\PositionTape.m .\languages\objective-c\tests\PositionTapeTests.m` | Available Clang lacks a Foundation-capable Objective-C runtime and reports ARC unsupported on legacy runtime; no locally testable exact SHA-256 path was added in the short attempt | Not locally verified |
+| Objective-C | 2 | No | `clang -fobjc-arc -framework Foundation .\languages\objective-c\src\PositionTape.m .\languages\objective-c\tests\PositionTapeTests.m`; no-Foundation hybrid probe with shared C provider also attempted | Available Clang lacks a Foundation-capable Objective-C runtime, reports ARC unsupported on legacy runtime, and cannot find standard C headers for no-Foundation probes | Not locally verified |
 | OCaml | 3 | Yes | From repo root: `ocaml languages/ocaml/tests/position_tape_tests.ml` | None for OCaml 5.4.1 direct test | API generation, marker-complete boundaries, locate, and hash-window behavior verified; official fixture files not directly checked |
 | Perl | 3 | No | `perl --version` | Not rerun in this checkpoint | Not locally verified in this checkpoint |
 | PHP | 3 | Yes | `php .\languages\php\tests\position_tape_test.php` | None for PHP 8.4 direct test | API generation, marker-complete boundaries, locate, and hash-window behavior verified; official fixture files not directly checked |
