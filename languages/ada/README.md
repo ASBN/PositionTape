@@ -1,6 +1,6 @@
 # PositionTape for Ada
 
-Status: Level 2 implementation.
+Status: Level 3 implementation, verified locally with GNAT.
 
 This folder provides a small dependency-free Ada implementation of the
 PositionTape generator and validation diagnostics.
@@ -12,11 +12,14 @@ Public package operations:
 - `Find_First_Mismatch`
 - `Find_Truncation_Point`
 - `Validate`
+- `Locate`
+- `Hash_Fragment`
+- `Build_Window_Index`
+- `Locate_By_Hash`
 
-Level 3 is intentionally not claimed in the current alpha classification:
-`Locate`, `BuildWindowIndex`, and `LocateByHash` are not implemented. A pure
-Ada SHA-256 implementation plus hash-window index remains a separate verified
-checkpoint.
+The Level 3 hash APIs use a pure Ada SHA-256 implementation over the byte
+contents of `String` values. UTF-8 text is supported when the caller supplies
+UTF-8 bytes.
 
 Run the local checks with GNAT:
 

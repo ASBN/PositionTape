@@ -661,3 +661,34 @@ Validation to run after patch:
   - `git diff --check` passed with line-ending normalization warnings only.
 - Cleanup: `sha256_extension.dll` was deleted after validation using a direct .NET file delete call because `Remove-Item` was blocked by local policy for this artifact path.
 - Decision: SQLite is Level 3 verified when the repo-local extension is built and loaded. SQLite SHA3 is not used. The DLL is a local artifact and was removed before reporting.
+
+### 2026-06-27 - GEN-PT-026 Ada and Delphi/Object Pascal pure SHA-256 Level 3
+
+- Goal: Attempt pure SHA-256 Level 3 for Ada and Delphi/Object Pascal without using the SQLite extension or shared C provider.
+- Files changed: `languages/ada/src/position_tape.ads`, `languages/ada/src/position_tape.adb`, `languages/ada/tests/position_tape_tests.adb`, `languages/ada/README.md`, `languages/ada/SPEC-COMPLIANCE.md`, `languages/delphi/src/PositionTape.pas`, `languages/delphi/tests/position_tape_tests.pas`, `languages/delphi/README.md`, `languages/delphi/SPEC-COMPLIANCE.md`, root `README.md`, root `SPEC-COMPLIANCE.md`, `AGENT_RUN_LOG.md`.
+- Commands run:
+  - `gnatmake -Ilanguages/ada/src languages/ada/tests/position_tape_tests.adb`
+  - `.\position_tape_tests.exe`
+  - `fpc -Fulanguages/delphi/src languages/delphi/tests/position_tape_tests.pas`
+  - `.\languages\delphi\tests\position_tape_tests.exe`
+  - `python tools\conformance\run_conformance.py`
+  - `python tools\conformance\verify_sha256_vectors.py`
+  - `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`
+  - `git diff --check`
+- Tests passed:
+  - Ada targeted test passed, output `OK ada`.
+  - Delphi/Object Pascal targeted test passed with FPC 3.2.2, output `OK delphi`.
+  - Python fixture conformance passed all entries in `fixtures/manifest.generated.json`.
+  - Shared SHA-256 vector verification passed all five entries.
+  - C# no-package conformance passed and printed `OK csharp conformance`.
+  - `git diff --check` passed with line-ending normalization warnings only.
+- SHA-256 vector results covered by both language test runners:
+  - Empty string: `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`.
+  - `abc`: `ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad`.
+  - `PositionTape`: `55fc0a7c26db83dc2f2aca556e9803ff6d90dcda6c2ad59a69687054ba33abc5`.
+  - Canonical fragment `3123456789412345`: `babe07aaad1e1044963518b077f853b6016e6133c960bfd953058f7302d54e5a`.
+  - UTF-8 `Niño-posición-✓`: `ed95c68f09b2639a60011ca685de6bff3ac13ad7a8fef9a8161c108c6d214bab`.
+- Tests failed: None in targeted Ada or Object Pascal validation.
+- Toolchains missing: None for this checkpoint; GNAT/GNATMAKE and FPC were available.
+- Decisions: Ada and Object Pascal now use pure language SHA-256 implementations over byte strings and expose direct locate plus hash-window locate APIs. Both remain below Level 4 because logger integrations are not implemented.
+- Cleanup: GNAT `.exe`/`.ali`/`.o`, FPC `.exe`/`.o`/`.ppu`, and C# conformance `bin`/`obj` artifacts generated during validation were removed before final reporting.

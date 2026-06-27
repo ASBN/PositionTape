@@ -1,22 +1,22 @@
 # SPEC-COMPLIANCE
 
-Validation checkpoint: 2026-06-27 GEN-PT-025 SQLite SHA-256 extension. This
-checkpoint added and verified a repo-local SQLite loadable extension for exact
-SHA-256 over UTF-8 text. No SHA3 result is substituted for SHA-256, and no
-Assembly or COBOL SHA-256 implementation is claimed. Level 3 hash behavior is governed by
+Validation checkpoint: 2026-06-27 GEN-PT-026 Ada and Delphi/Object Pascal pure
+SHA-256. This checkpoint added and verified pure language SHA-256 hash-window
+implementations for Ada and Delphi/Object Pascal. No SHA3 result is substituted
+for SHA-256, and no Assembly or COBOL SHA-256 implementation is claimed. Level 3 hash behavior is governed by
 `docs/spec/hash-provider-policy.md` and the shared vectors in
 `fixtures/sha256-vectors.json`.
 
 | Language | Level | Verified locally | Validation command | Current blocker | Generate / marker-complete fixture status |
 |---|---:|---|---|---|---|
-| Ada | 2 | Yes | `gnatmake -Ilanguages/ada/src languages/ada/tests/position_tape_tests.adb`; `.\position_tape_tests.exe` from temp build directory | No locally testable exact SHA-256 path was added in the short attempt | API generation, marker-complete boundaries, validation, and mismatch diagnostics verified; official fixture files not directly checked |
+| Ada | 3 | Yes | `gnatmake -Ilanguages/ada/src languages/ada/tests/position_tape_tests.adb`; `.\position_tape_tests.exe` | None for GNAT path | API generation, marker-complete boundaries, validation, mismatch diagnostics, direct locate, pure SHA-256 vectors, and hash-window locate verified; official fixture files not directly checked |
 | Assembly | 1 | Partial | `nasm -f elf64 languages/assembly/src/position_tape.asm -o <temp object>`; probe `nasm -f win64 ...` | The current program targets Linux x86-64 syscalls; `win64` is assemble-only evidence, not a runnable native Windows artifact; no simple tested SHA-256 path exists | Assemble-only locally; execution requires Linux/WSL or a future Windows runner |
 | C | 3 | Yes | `cmd /c "vcvars64.bat && cl /nologo /I languages\c\src languages\c\src\position_tape.c languages\c\tests\position_tape_tests.c /Fe:.\toolchain-c-position_tape_tests.exe && .\toolchain-c-position_tape_tests.exe"` | None for MSVC path | Exact `Generate(10000)` SHA verified; marker-complete boundary lengths verified |
 | COBOL | 1 | Yes | With `COB_CONFIG_DIR`, `CPATH`, and `LIBRARY_PATH` set to MSYS2 UCRT64 paths: `cobc -free -x -o <temp exe> languages/cobol/tests/position_tape_tests.cob`; `<temp exe>` | Native PowerShell needs per-process MSYS2 UCRT64 config/include/lib variables; no simple tested SHA-256 path exists | Basic exact-length generator smoke test verified |
 | C++ | 3 | Yes | `cmake -S .\languages\cpp -B .\languages\cpp\build`; `cmake --build .\languages\cpp\build --config Release`; `ctest --test-dir .\languages\cpp\build --output-on-failure -C Release` | None | Exact `Generate(10000)` SHA verified; marker-complete boundary lengths verified |
 | C# | 3 | Yes | `dotnet build .\languages\csharp\src\PositionTape\PositionTape.csproj --configuration Release`; `dotnet test .\languages\csharp\tests\PositionTape.Tests\PositionTape.Tests.csproj --configuration Release`; `dotnet run --project .\tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release` | NuGet vulnerability index warning only; tests restored and passed | Official manifest fixtures verified, including marker-complete fixture |
 | Dart | 3 | Yes | `$env:DART_SUPPRESS_ANALYTICS='true'; dart .\languages\dart\tests\position_tape_test.dart` | None | Official manifest fixtures verified, including marker-complete fixture |
-| Delphi/Object Pascal | 2 | Yes | `fpc -Fulanguages\delphi\src languages\delphi\tests\position_tape_tests.pas`; `languages\delphi\tests\position_tape_tests.exe` | Level 3 APIs are absent; no locally testable exact SHA-256 path was added in the short attempt | API generation, marker-complete boundaries, validation, and mismatch diagnostics verified; official fixture files not directly checked |
+| Delphi/Object Pascal | 3 | Yes | `fpc -Fulanguages\delphi\src languages\delphi\tests\position_tape_tests.pas`; `languages\delphi\tests\position_tape_tests.exe` | None for FPC 3.2.2 path | API generation, marker-complete boundaries, validation, mismatch diagnostics, direct locate, pure SHA-256 vectors, and hash-window locate verified; official fixture files not directly checked |
 | Fortran | 3 | Yes | `gfortran .\languages\fortran\src\position_tape.f90 .\languages\fortran\tests\position_tape_tests.f90 -o .\languages\fortran\tests\position_tape_tests.exe`; `.\languages\fortran\tests\position_tape_tests.exe` | None for gfortran plus installed Perl `Digest::SHA` | API generation, marker-complete boundaries, locate, and hash-window behavior verified; official fixture files not directly checked |
 | Go | 3 | Yes | From `languages/go`: `go test ./...` | None in this checkpoint | Official manifest fixtures verified, including marker-complete fixture |
 | Java | 3 | Yes | `javac -d .toolchain-logs\java .\languages\java\src\main\java\org\positiontape\*.java .\languages\java\tests\PositionTapeTest.java`; `java -cp .toolchain-logs\java PositionTapeTest` | None | API generation and marker-complete boundaries verified; official fixture files not directly checked |

@@ -94,10 +94,10 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified locally | C, C++, C#, COBOL Level 1, Dart, Delphi/Object Pascal Level 2, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, SQLite Level 3, Standard ML, VB.NET |
+| Verified locally | Ada Level 3, C, C++, C#, COBOL Level 1, Dart, Delphi/Object Pascal Level 3, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, SQLite Level 3, Standard ML, VB.NET |
 | CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
 | Source Level 3 pending full local runtime validation | MATLAB/Octave |
-| Level 2, blocked before hash-window Level 3 | Ada, Objective-C |
+| Level 2, blocked before hash-window Level 3 | Objective-C |
 | Level 1 / scaffold | Assembly, Scratch |
 | Experimental / monitoring only | Perl, Rust, Swift |
 

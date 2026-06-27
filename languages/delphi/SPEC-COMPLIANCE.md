@@ -2,13 +2,13 @@
 
 - Language: Delphi/Object Pascal
 - Runtime/compiler: Free Pascal 3.2.2 is on PATH as an i386 Win32 compiler.
-- Conformance level: Level 2
+- Conformance level: Level 3
 - Generate: implemented as `Generate`.
 - GenerateMarkerComplete: implemented as `GenerateMarkerComplete`.
 - Validate: implemented with expected/received lengths, first mismatch, and truncation point.
-- Locate: not implemented in this checkpoint.
-- Hash index: not implemented; no exact SHA-256 index is included.
+- Locate: implemented as `Locate` over the default search horizon.
+- Hash index: implemented as pure FPC-compatible SHA-256 `HashFragment`, `BuildWindowIndex`, and `LocateByHash`.
 - Logger integration: not implemented.
-- Verified locally: yes, 2026-06-27; `fpc -Fulanguages\delphi\src languages\delphi\tests\position_tape_tests.pas` compiled in about 0.4 seconds and `languages\delphi\tests\position_tape_tests.exe` passed in about 1.6 seconds.
-- Known limitations: FPC defaults to short strings without `{$H+}`; that previously caused `Generate(10003)` to loop after the result reached 255 characters. Level 3 remains deferred until `Locate`, `BuildWindowIndex`, and exact SHA-256 `LocateByHash` can be implemented and tested.
-- Fixture SHA-256 verified: not locally verified for Object Pascal because hash-window APIs are not implemented.
+- Verified locally: yes, 2026-06-27; `fpc -Fulanguages\delphi\src languages\delphi\tests\position_tape_tests.pas` compiled and `languages\delphi\tests\position_tape_tests.exe` passed.
+- Known limitations: FPC defaults to short strings without `{$H+}`; the unit preserves `{$mode objfpc}` and `{$H+}`. No Level 4 logger integration is implemented.
+- Fixture SHA-256 verified: shared vectors for empty string, `abc`, `PositionTape`, canonical fragment start 30 length 16, and UTF-8 non-ASCII text are covered by the Object Pascal test runner.

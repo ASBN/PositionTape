@@ -1,14 +1,26 @@
 # PositionTape for Delphi/Object Pascal
 
-Status: Level 2 implementation.
+Status: Level 3 implementation, verified locally with Free Pascal 3.2.2.
 
 This folder provides a dependency-free Object Pascal unit for PositionTape
 generation and validation diagnostics. It is intended for Free Pascal or
 Delphi-compatible compilers.
 
-Level 3 is intentionally not claimed in the current alpha classification:
-`Locate`, `BuildWindowIndex`, and `LocateByHash` are not implemented.
-Free Pascal 3.2.2 is visible locally and the Level 2 validation test passes.
+Public unit operations:
+
+- `Generate`
+- `GenerateMarkerComplete`
+- `FindFirstMismatch`
+- `FindTruncationPoint`
+- `Validate`
+- `Locate`
+- `HashFragment`
+- `BuildWindowIndex`
+- `LocateByHash`
+
+The Level 3 hash APIs use a pure FPC-compatible SHA-256 implementation over
+the byte contents of `string` values. UTF-8 text is supported when the caller
+supplies UTF-8 bytes.
 
 Run the local checks with Free Pascal:
 
