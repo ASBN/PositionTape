@@ -1,6 +1,7 @@
 # PositionTape for Objective-C
 
-Status: Level 2 implementation.
+Status: Level 2 source implementation; local Windows validation is blocked by
+runtime/toolchain setup.
 
 This folder provides a small Foundation-based Objective-C implementation of
 the generator and validation diagnostics.

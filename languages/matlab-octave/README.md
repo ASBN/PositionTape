@@ -1,6 +1,7 @@
 # PositionTape for MATLAB/Octave
 
-Status: Level 3 source implementation pending runtime validation.
+Status: Level 3 source implementation pending hash-window performance/runtime
+validation.
 
 This folder provides dependency-free MATLAB/Octave functions for generation,
 validation, mismatch diagnostics, truncation detection, direct locate, and

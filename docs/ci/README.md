@@ -35,7 +35,8 @@ It checks portable, currently verified language implementations with GitHub-host
 - Go
 - Dart
 - OCaml
-- SQLite
+- SQLite, when the repo-local SHA-256 extension is built and loaded by the
+  workflow or runner image
 - Prolog
 - Julia
 - Lua
@@ -67,6 +68,10 @@ It attempts or inspects:
 - Swift
 
 This workflow should not be used as a branch-protection requirement in the alpha.
+
+Experimental workflow badges should not be shown as required status. They are
+useful for visibility into blocked or heavier toolchains, but they are not
+release gates in this alpha.
 
 ## Badge Policy
 
