@@ -289,3 +289,46 @@ Validation to run after patch:
   - OCaml and MATLAB/Octave are source-only Level 3 until their runtimes are available locally or in CI.
   - SQLite cannot honestly claim SHA-256 hash-window Level 3 with the current core SQLite binary because only SHA3 is available.
   - Remaining Level 1/2 languages need more than a quick patch to expose Level 3 APIs safely.
+
+### 2026-06-26 19:07 - GEN-PT-021 remaining Level 3 classification
+
+- Goal: Continue after GEN-PT-020 and finish honest alpha classification for Ada, Delphi/Object Pascal, Objective-C, SQLite, Assembly, COBOL, and Scratch without revisiting R or Fortran.
+- Files changed: `README.md`, `SPEC-COMPLIANCE.md`, `languages/ada/README.md`, `languages/ada/SPEC-COMPLIANCE.md`, `languages/delphi/README.md`, `languages/delphi/SPEC-COMPLIANCE.md`, `languages/objective-c/README.md`, `languages/objective-c/SPEC-COMPLIANCE.md`, `languages/sqlite/README.md`, `languages/sqlite/SPEC-COMPLIANCE.md`, `languages/assembly/README.md`, `languages/assembly/SPEC-COMPLIANCE.md`, `languages/cobol/README.md`, `languages/cobol/SPEC-COMPLIANCE.md`, `languages/scratch/README.md`, `languages/scratch/SPEC-COMPLIANCE.md`, `AGENT_RUN_LOG.md`.
+- Decision table:
+
+| Candidate | Highest honest alpha level | Short attempt / evidence | Blocker / rationale |
+|---|---|---|---|
+| Ada | Level 2 due to missing exact SHA-256 | `gnat --version` failed; reviewed API surface | No `Locate`, `BuildWindowIndex`, or `LocateByHash`; no local GNAT to verify a quick source upgrade |
+| Delphi/Object Pascal | Level 2 due to missing exact SHA-256 | `fpc -iV` failed; reviewed API surface | No `Locate`, `BuildWindowIndex`, or `LocateByHash`; no local FPC/Delphi compiler to verify a quick source upgrade |
+| Objective-C | Level 2 due to missing exact SHA-256 | Clang compile attempt failed with legacy Objective-C runtime / missing Visual Studio setup | No `Locate`, `BuildWindowIndex`, or `LocateByHash`; no Foundation-capable local Objective-C runtime |
+| SQLite | Level 2 due to missing exact SHA-256 | SQLite tests passed; SHA probe showed SHA3 exists and `sha256()` does not | Direct locate is present, but Level 3 hash-window APIs require exact SHA-256, not SHA3 |
+| Assembly | Level 1/scaffold | `nasm -v` passed on Windows; reviewed Linux syscall source/test | Current code is an exact-length Linux syscall generator, not a callable API; no simple tested SHA-256 path |
+| COBOL | Level 1/scaffold | `cobc -V` failed; reviewed generator source/test | Current code is an exact-length generator only; no local compiler and no simple tested SHA-256 path |
+| Scratch | Level 1/scaffold | Manual guide review only | No `.sb3` project or concrete executable/headless runtime is defined |
+
+- Commands run:
+  - `gnat --version`
+  - `fpc -iV`
+  - `clang -fobjc-arc -framework Foundation .\languages\objective-c\src\PositionTape.m .\languages\objective-c\tests\PositionTapeTests.m -o .\languages\objective-c\tests\PositionTapeTests.exe`
+  - `nasm -v`
+  - `cobc -V`
+  - `Get-Content languages/sqlite/tests/position_tape_tests.sql | sqlite3`
+  - `sqlite3 -batch ':memory:' "SELECT sqlite_version(); SELECT lower(hex(sha3('abc',256))); SELECT sha256('abc');"`
+  - `python tools\conformance\run_conformance.py`
+  - `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`
+  - `git diff --check`
+  - `git status --short`
+  - `git ls-files -o --exclude-standard`
+- Tests passed:
+  - SQLite Level 2 tests passed and printed `OK sqlite`.
+  - Python fixture conformance passed all entries in `fixtures/manifest.generated.json`.
+  - C# no-package conformance runner passed all official fixtures and API checks.
+  - `git diff --check` passed with line-ending warnings only.
+- Tests failed / blockers:
+  - `gnat` is not on PATH.
+  - `fpc` is not on PATH.
+  - Objective-C compile attempt failed because the available Windows Clang reports no Visual Studio installation and `-fobjc-arc` is unsupported on the legacy runtime.
+  - SQLite SHA probe failed on `sha256('abc')` with `no such function: sha256`; SHA3 was not accepted as a substitute.
+  - `cobc` is not on PATH.
+- Decisions: Did not add unverified Level 3 source-only APIs to Ada, Delphi/Object Pascal, or Objective-C because local compilers/runtimes were missing and the short attempt did not reach the confidence threshold. Did not attempt full SHA-256 in Assembly or COBOL. Left Scratch as guide/scaffold until a real `.sb3` project/runtime exists.
+- Artifact scan: `git status --short` shows only documentation changes. `git ls-files -o --exclude-standard` returned no untracked files. No generated binaries, caches, logs, toolchain outputs, `.mod` files, executables, build directories, or diagnostics were staged.

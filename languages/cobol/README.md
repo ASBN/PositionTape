@@ -6,6 +6,11 @@ This folder provides a small GnuCOBOL-oriented generator program. It accepts a
 requested length as the first command-line argument and writes the exact-length
 tape to standard output with no trailing newline.
 
+Level 3 is intentionally not attempted in this alpha classification. The
+current COBOL code is an exact-length generator program, `cobc` is not on PATH
+locally, and there is no simple tested SHA-256/hash-window path for COBOL in
+this repository.
+
 Run the local checks with:
 
 ```powershell

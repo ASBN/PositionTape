@@ -91,15 +91,18 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified locally | C, C++, C#, Dart, Fortran, Go, Java, JavaScript, Julia, Lua, Prolog, Python, R, SQLite, Standard ML, VB.NET |
+| Verified locally | C, C++, C#, Dart, Fortran, Go, Java, JavaScript, Julia, Lua, Prolog, Python, R, Standard ML, VB.NET |
 | CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
 | Source Level 3 pending local runtime validation | MATLAB/Octave, OCaml |
-| Experimental / monitoring only | Ada, Assembly, COBOL, Delphi/Object Pascal, Kotlin, Objective-C, Perl, PHP, Ruby, Rust, Swift |
-| Scaffold/guide only | Scratch |
+| Level 2, blocked before hash-window Level 3 | Ada, Delphi/Object Pascal, Objective-C, SQLite |
+| Level 1 / scaffold | Assembly, COBOL, Scratch |
+| Experimental / monitoring only | Kotlin, Perl, PHP, Ruby, Rust, Swift |
 
 Blocker notes:
 
 - Blocked languages have source and tests, but their validation command did not run in the latest local checkpoint because the required compiler/runtime was absent or the local Windows toolchain could not link.
+- SQLite is locally testable at Level 2, including direct locate, but it is not Level 3 because the installed SQLite exposes SHA3 and not exact SHA-256.
+- Assembly and COBOL remain exact-length generator work only. No full SHA-256 implementation is claimed for either language.
 - Some verified languages validate API behavior and marker boundaries but do not yet read every official fixture file directly. The exact status is in [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
 - Scratch is a text guide only; no `.sb3` project is generated in this alpha.
 
