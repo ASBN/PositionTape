@@ -92,18 +92,18 @@ IDE visibility is not a conformance claim. Use [SPEC-COMPLIANCE.md](SPEC-COMPLIA
 
 Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIANCE.md).
 
-| Status | Languages |
+| Category | Languages |
 |---|---|
-| Verified locally | Ada Level 3, C, C++, C#, COBOL Level 1 plus hybrid SHA-256 binding probe, Dart, Delphi/Object Pascal Level 3, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, SQLite Level 3, Standard ML, VB.NET |
-| CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
-| Source Level 3 pending full local runtime validation | MATLAB/Octave |
-| Level 2, blocked before hash-window Level 3 | Objective-C |
-| Level 1 / scaffold | Assembly, Scratch |
-| Experimental / monitoring only | Perl, Rust, Swift |
+| Level 3 verified | Ada, C, C++, C#, Dart, Delphi/Object Pascal, Fortran, Go, Java, JavaScript, Julia, Kotlin, Lua, OCaml, PHP, Prolog, Python, R, Ruby, Standard ML, VB.NET |
+| Level 3 verified with extension/hybrid provider | SQLite, when the repo-local SHA-256 loadable extension is built and loaded |
+| Level 3 source-only | MATLAB/Octave, Perl, Rust, Swift |
+| Level 2 source-only / blocked on Windows | Objective-C |
+| Level 1 / scaffold | Assembly, COBOL, Scratch |
+| CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml`; broader experimental checks are monitoring only |
 
 Blocker notes:
 
-- Blocked languages have source and tests, but their validation command did not run in the latest local checkpoint because the local runtime path is incomplete, the Windows toolchain cannot link that language, or exact SHA-256 support is not available.
+- Blocked or source-only languages have source and tests, but their validation command did not complete in the latest local checkpoint because the local runtime path is incomplete, the Windows toolchain cannot link that language, or the exact SHA-256 hash-window path is too slow or unavailable.
 - MATLAB/Octave is installed locally, but the full hash-window test is slow/unstable in Octave 11.3.0 on this Windows path; the exact blocking section is `BuildWindowIndex(length(fragment))` / `LocateByHash`.
 - SQLite is locally verified at Level 3 when its repo-local `sha256(text)` loadable extension is built and loaded; SQLite SHA3 is still not used as a substitute.
 - Assembly and COBOL remain Level 1. COBOL now has a verified call into the shared C SHA-256 provider for required ASCII vectors, and Assembly has a verified minimal Win64 NASM-to-C ABI probe, but neither exposes the full Level 3 hash-window API.
