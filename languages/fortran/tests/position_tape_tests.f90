@@ -4,6 +4,10 @@ program position_tape_tests
 
   type(validation_result) :: result
   type(mismatch) :: found
+  type(hash_window_index) :: index_result
+  integer, allocatable :: positions(:)
+  character(len=:), allocatable :: tape, fragment
+  character(len=64) :: hash
 
   call check(generate(0) == "", "zero length")
   call check(generate(11) == "12345678911", "basic generation")
@@ -20,6 +24,15 @@ program position_tape_tests
 
   found = find_first_mismatch(generate(20), generate(19) // "X")
   call check(found%has_value .and. found%position == 20, "mismatch")
+
+  tape = generate(80)
+  fragment = tape(30:41)
+  call check(locate(fragment) == 30, "locate")
+  hash = hash_fragment(fragment)
+  index_result = build_window_index(len(fragment))
+  call check(any(index_result%hashes == hash .and. index_result%positions == 30), "hash index")
+  positions = locate_by_hash(hash, len(fragment))
+  call check(any(positions == 30), "locate by hash")
 
   print *, "OK fortran"
 

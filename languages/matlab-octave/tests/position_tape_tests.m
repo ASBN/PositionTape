@@ -22,5 +22,9 @@ assert(FindTruncationPoint(Generate(75)) == 76);
 generated80 = Generate(80);
 fragment = generated80(30:41);
 assert(Locate(fragment) == 30);
+fragmentHash = HashFragment(fragment);
+index = BuildWindowIndex(length(fragment));
+assert(any(index(fragmentHash) == 30));
+assert(any(LocateByHash(upper(fragmentHash), length(fragment)) == 30));
 
 disp('OK matlab-octave');

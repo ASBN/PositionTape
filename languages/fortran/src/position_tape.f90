@@ -1,5 +1,6 @@
 module position_tape
   implicit none
+  integer, parameter :: default_search_length = 100003
 
   type mismatch
     logical :: has_value = .false.
@@ -17,6 +18,13 @@ module position_tape
     integer :: truncation_point = 0
     type(mismatch) :: first_mismatch
   end type validation_result
+
+  type hash_window_index
+    integer :: window_size = 0
+    integer :: count = 0
+    character(len=64), allocatable :: hashes(:)
+    integer, allocatable :: positions(:)
+  end type hash_window_index
 
 contains
   function generate(length_value) result(text)
@@ -138,4 +146,154 @@ contains
       end if
     end if
   end function validate
+
+  function locate(fragment) result(position)
+    character(len=*), intent(in) :: fragment
+    integer :: position
+    character(len=:), allocatable :: tape
+
+    if (len(fragment) == 0) then
+      position = 1
+      return
+    end if
+
+    tape = generate(default_search_length)
+    position = index(tape, fragment)
+    if (position == 0) position = -1
+  end function locate
+
+  function hash_fragment(fragment) result(hash)
+    character(len=*), intent(in) :: fragment
+    character(len=64) :: hash
+    integer :: input_unit, script_unit, output_unit, exitstat
+    character(len=*), parameter :: input_file = "position_tape_fortran_hash_input.tmp"
+    character(len=*), parameter :: script_file = "position_tape_fortran_hash.pl"
+    character(len=*), parameter :: output_file = "position_tape_fortran_hash_output.tmp"
+    character(len=512) :: command
+
+    open(newunit=input_unit, file=input_file, access="stream", form="unformatted", status="replace", action="write")
+    write(input_unit) fragment
+    close(input_unit)
+
+    open(newunit=script_unit, file=script_file, status="replace", action="write")
+    write(script_unit, '(A)') "use Digest::SHA qw(sha256_hex);"
+    write(script_unit, '(A)') "my ($input, $output) = @ARGV;"
+    write(script_unit, '(A)') "open my $in, '<:raw', $input or die $!;"
+    write(script_unit, '(A)') "local $/;"
+    write(script_unit, '(A)') "my $fragment = <$in>;"
+    write(script_unit, '(A)') "open my $out, '>:raw', $output or die $!;"
+    write(script_unit, '(A)') "print $out sha256_hex($fragment);"
+    close(script_unit)
+
+    command = "perl " // script_file // " " // input_file // " " // output_file
+    call execute_command_line(trim(command), exitstat=exitstat)
+    if (exitstat /= 0) error stop "Perl Digest::SHA hash command failed"
+
+    open(newunit=output_unit, file=output_file, status="old", action="read")
+    read(output_unit, '(A)') hash
+    close(output_unit, status="delete")
+    open(newunit=input_unit, file=input_file, status="old")
+    close(input_unit, status="delete")
+    open(newunit=script_unit, file=script_file, status="old")
+    close(script_unit, status="delete")
+    hash = lowercase(hash)
+  end function hash_fragment
+
+  function build_window_index(window_size) result(window_index)
+    integer, intent(in) :: window_size
+    type(hash_window_index) :: window_index
+    character(len=:), allocatable :: tape
+    integer :: input_unit, script_unit, output_unit, exitstat, line_count, i
+    character(len=*), parameter :: input_file = "position_tape_fortran_index_input.tmp"
+    character(len=*), parameter :: script_file = "position_tape_fortran_index.pl"
+    character(len=*), parameter :: output_file = "position_tape_fortran_index_output.tmp"
+    character(len=512) :: command
+    character(len=96) :: line
+
+    if (window_size <= 0) error stop "window_size must be positive"
+    if (window_size > default_search_length) error stop "window_size cannot exceed default search length"
+
+    tape = generate(default_search_length)
+    window_index%window_size = window_size
+    window_index%count = len(tape) - window_size + 1
+    allocate(window_index%hashes(window_index%count))
+    allocate(window_index%positions(window_index%count))
+
+    open(newunit=input_unit, file=input_file, access="stream", form="unformatted", status="replace", action="write")
+    write(input_unit) tape
+    close(input_unit)
+
+    open(newunit=script_unit, file=script_file, status="replace", action="write")
+    write(script_unit, '(A)') "use Digest::SHA qw(sha256_hex);"
+    write(script_unit, '(A)') "my ($window_size, $input, $output) = @ARGV;"
+    write(script_unit, '(A)') "open my $in, '<:raw', $input or die $!;"
+    write(script_unit, '(A)') "local $/;"
+    write(script_unit, '(A)') "my $tape = <$in>;"
+    write(script_unit, '(A)') "open my $out, '>:raw', $output or die $!;"
+    write(script_unit, '(A)') "my $last = length($tape) - $window_size;"
+    write(script_unit, '(A)') "for (my $offset = 0; $offset <= $last; $offset++) {"
+    write(script_unit, '(A)') "  print $out sha256_hex(substr($tape, $offset, $window_size)), qq(\t), $offset + 1, qq(\n);"
+    write(script_unit, '(A)') "}"
+    close(script_unit)
+
+    write(command, '(A,I0,A)') "perl " // script_file // " ", window_size, " " // input_file // " " // output_file
+    call execute_command_line(trim(command), exitstat=exitstat)
+    if (exitstat /= 0) error stop "Perl Digest::SHA index command failed"
+
+    open(newunit=output_unit, file=output_file, status="old", action="read")
+    line_count = 0
+    do
+      read(output_unit, '(A)', end=10) line
+      line_count = line_count + 1
+      i = index(line, achar(9))
+      window_index%hashes(line_count) = lowercase(line(1:i - 1))
+      read(line(i + 1:), *) window_index%positions(line_count)
+    end do
+10  close(output_unit, status="delete")
+
+    if (line_count /= window_index%count) error stop "hash index output count mismatch"
+    open(newunit=input_unit, file=input_file, status="old")
+    close(input_unit, status="delete")
+    open(newunit=script_unit, file=script_file, status="old")
+    close(script_unit, status="delete")
+  end function build_window_index
+
+  function locate_by_hash(fragment_hash, window_size) result(positions)
+    character(len=*), intent(in) :: fragment_hash
+    integer, intent(in) :: window_size
+    integer, allocatable :: positions(:)
+    type(hash_window_index) :: window_index
+    character(len=64) :: normalized_hash
+    integer :: i, matches
+
+    window_index = build_window_index(window_size)
+    normalized_hash = lowercase(adjustl(fragment_hash))
+    matches = 0
+    do i = 1, window_index%count
+      if (window_index%hashes(i) == normalized_hash) matches = matches + 1
+    end do
+
+    allocate(positions(matches))
+    matches = 0
+    do i = 1, window_index%count
+      if (window_index%hashes(i) == normalized_hash) then
+        matches = matches + 1
+        positions(matches) = window_index%positions(i)
+      end if
+    end do
+  end function locate_by_hash
+
+  function lowercase(value) result(lowered)
+    character(len=*), intent(in) :: value
+    character(len=len(value)) :: lowered
+    integer :: i, code
+
+    lowered = value
+    do i = 1, len(value)
+      code = iachar(value(i:i))
+      if (code >= iachar('A') .and. code <= iachar('Z')) then
+        lowered(i:i) = achar(code + 32)
+      end if
+    end do
+  end function lowercase
 end module position_tape

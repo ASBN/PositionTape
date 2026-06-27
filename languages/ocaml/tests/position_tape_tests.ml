@@ -26,5 +26,9 @@ assert_true ((Option.get mismatch).position = 20) "first mismatch";;
 assert_true (find_truncation_point (generate 75) = 76) "find truncation";;
 let fragment = String.sub (generate 80) 29 12;;
 assert_true (locate fragment = 30) "locate fragment";;
+let hash = hash_fragment fragment;;
+let index = build_window_index (String.length fragment);;
+assert_true (List.mem 30 (Hashtbl.find index hash)) "hash index";;
+assert_true (List.mem 30 (locate_by_hash (String.uppercase_ascii hash) (String.length fragment))) "locate by hash";;
 
 print_endline "OK ocaml";;

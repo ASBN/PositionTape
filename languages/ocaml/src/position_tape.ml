@@ -14,6 +14,8 @@ type validation_result = {
   first_mismatch : mismatch option;
 }
 
+type hash_window_index = (string, int list) Hashtbl.t
+
 let generate length =
   if length < 0 then invalid_arg "length must be non-negative";
   let buffer = Buffer.create length in
@@ -100,6 +102,101 @@ let locate fragment =
     in
     scan 0
 
+let run_perl_sha script args =
+  let script_file = Filename.temp_file "position-tape-" ".pl" in
+  let channel = open_out script_file in
+  output_string channel script;
+  close_out channel;
+  let command =
+    String.concat " "
+      ("perl" :: Filename.quote script_file :: List.map Filename.quote args)
+  in
+  let status = Sys.command command in
+  Sys.remove script_file;
+  if status <> 0 then failwith "Perl Digest::SHA command failed"
+
+let hash_fragment fragment =
+  let input_file = Filename.temp_file "position-tape-fragment-" ".txt" in
+  let output_file = Filename.temp_file "position-tape-hash-" ".txt" in
+  let input_channel = open_out_bin input_file in
+  output_string input_channel fragment;
+  close_out input_channel;
+  let script =
+    String.concat "\n"
+      [
+        "use Digest::SHA qw(sha256_hex);";
+        "my ($input, $output) = @ARGV;";
+        "open my $in, '<:raw', $input or die $!;";
+        "local $/;";
+        "my $fragment = <$in>;";
+        "open my $out, '>:raw', $output or die $!;";
+        "print $out sha256_hex($fragment);";
+      ]
+  in
+  run_perl_sha script [ input_file; output_file ];
+  let output_channel = open_in output_file in
+  let hash = input_line output_channel |> String.lowercase_ascii in
+  close_in output_channel;
+  Sys.remove input_file;
+  Sys.remove output_file;
+  hash
+
+let build_window_index window_size =
+  if window_size <= 0 then invalid_arg "window_size must be positive";
+  if window_size > default_search_length then
+    invalid_arg "window_size cannot exceed default search length";
+  let tape = generate default_search_length in
+  let input_file = Filename.temp_file "position-tape-search-" ".txt" in
+  let output_file = Filename.temp_file "position-tape-index-" ".txt" in
+  let input_channel = open_out_bin input_file in
+  output_string input_channel tape;
+  close_out input_channel;
+  let script =
+    String.concat "\n"
+      [
+        "use Digest::SHA qw(sha256_hex);";
+        "my ($window_size, $input, $output) = @ARGV;";
+        "open my $in, '<:raw', $input or die $!;";
+        "local $/;";
+        "my $tape = <$in>;";
+        "open my $out, '>:raw', $output or die $!;";
+        "my $last = length($tape) - $window_size;";
+        "for (my $offset = 0; $offset <= $last; $offset++) {";
+        "  print $out sha256_hex(substr($tape, $offset, $window_size)), qq(\\t), $offset + 1, qq(\\n);";
+        "}";
+      ]
+  in
+  run_perl_sha script [ string_of_int window_size; input_file; output_file ];
+  let index : hash_window_index = Hashtbl.create default_search_length in
+  let output_channel = open_in output_file in
+  (try
+     while true do
+       let line = input_line output_channel in
+       let separator = String.index line '\t' in
+       let hash = String.sub line 0 separator |> String.lowercase_ascii in
+       let position =
+         String.sub line (separator + 1) (String.length line - separator - 1)
+         |> int_of_string
+       in
+       let existing =
+         match Hashtbl.find_opt index hash with Some positions -> positions | None -> []
+       in
+       Hashtbl.replace index hash (position :: existing)
+     done
+   with End_of_file -> ());
+  close_in output_channel;
+  Hashtbl.iter (fun hash positions -> Hashtbl.replace index hash (List.rev positions)) index;
+  Sys.remove input_file;
+  Sys.remove output_file;
+  index
+
+let locate_by_hash fragment_hash window_size =
+  let index = build_window_index window_size in
+  let hash = String.trim fragment_hash |> String.lowercase_ascii in
+  match Hashtbl.find_opt index hash with Some positions -> positions | None -> []
+
 let generateMarkerComplete = generate_marker_complete
 let findFirstMismatch = find_first_mismatch
 let findTruncationPoint = find_truncation_point
+let buildWindowIndex = build_window_index
+let locateByHash = locate_by_hash

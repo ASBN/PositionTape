@@ -91,9 +91,10 @@ Current local validation status is tracked in [SPEC-COMPLIANCE.md](SPEC-COMPLIAN
 
 | Status | Languages |
 |---|---|
-| Verified locally | C, C++, C#, Dart, Go, Java, JavaScript, Julia, Lua, OCaml, Prolog, Python, R, SQLite, Standard ML, VB.NET |
+| Verified locally | C, C++, C#, Dart, Fortran, Go, Java, JavaScript, Julia, Lua, Prolog, Python, R, SQLite, Standard ML, VB.NET |
 | CI verified | Core baseline plus portable polyglot checks in `polyglot-verified.yml` |
-| Experimental / monitoring only | Ada, Assembly, COBOL, Delphi/Object Pascal, Fortran, Kotlin, MATLAB/Octave, Objective-C, Perl, PHP, Ruby, Rust, Swift |
+| Source Level 3 pending local runtime validation | MATLAB/Octave, OCaml |
+| Experimental / monitoring only | Ada, Assembly, COBOL, Delphi/Object Pascal, Kotlin, Objective-C, Perl, PHP, Ruby, Rust, Swift |
 | Scaffold/guide only | Scratch |
 
 Blocker notes:

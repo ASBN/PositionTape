@@ -1,15 +1,15 @@
 # SPEC-COMPLIANCE — ocaml
 
 - Language: OCaml
-- Runtime/compiler: `ocaml` available on PATH; `opam env` is blocked by user-log permissions.
-- Conformance level: Level 2
+- Runtime/compiler: `ocaml` is not currently available on PATH; hash-window APIs use Perl `Digest::SHA`.
+- Conformance level: Level 3 source implementation
 - Generate: Implemented by `generate`.
 - GenerateMarkerComplete: Implemented by `generate_marker_complete`.
 - Validate: Implemented by `validate` with mismatch and truncation diagnostics.
 - Locate: Implemented by `locate` over the canonical 100,003-character search window.
-- Hash index: Not implemented; OCaml standard library does not provide SHA-256 without an external package.
+- Hash index: Implemented by `build_window_index` and `locate_by_hash`.
 - Logger integration: Not implemented.
-- Verified locally: yes, 2026-06-26
+- Verified locally: not in this checkpoint; `ocaml` is not currently on PATH.
 - Validation command: from repo root, `ocaml languages/ocaml/tests/position_tape_tests.ml`
-- Known limitations: Hash-window APIs are not implemented for Level 2; direct interpreter validation passed from the repository root.
-- Fixture SHA-256 verified: Not in this Level 2 implementation; generation and marker-complete boundary behavior were locally tested.
+- Known limitations: SHA-256 is delegated to installed Perl `Digest::SHA`; local OCaml execution is pending until `ocaml` is restored on PATH.
+- Fixture SHA-256 verified: Not by the OCaml test harness in this checkpoint.

@@ -202,3 +202,90 @@ Validation to run after patch:
 - python tools/conformance/run_conformance.py
 - dotnet run --project tools/conformance/csharp/PositionTape.Conformance/PositionTape.Conformance.csproj --configuration Release
 - XML parse check for PositionTape.slnx and PositionTape.DotNet.slnx.
+### 2026-06-26 02:20 - Standup and Level 3 continuation rule
+
+- Goal: Continue moving missing PositionTape implementations toward Level 3 after an 8-hour unattended run concern.
+- Current audit: Many implementations already declare Level 3; remaining sub-Level-3 declarations are Ada, Delphi/Object Pascal, Fortran, MATLAB/Octave, Objective-C, OCaml, R, SQLite, Assembly, COBOL, and Scratch.
+- Toolchains currently available on PATH: Rscript, sqlite3, gfortran, nasm, Perl, Swift, Rust/Cargo, .NET, Python, Node.js, Go, Java, and Clang.
+- Toolchains still missing on PATH: ocaml/dune, swipl, octave, gnat, fpc, cobc, kotlinc, php, and ruby.
+- Immediate plan: Stabilize R first, then continue with locally testable candidates (Fortran, SQLite, Assembly/NASM where practical), documenting languages that cannot honestly reach Level 3 without SHA-256 support or a missing toolchain.
+- Execution rule from Alfonso: If a language takes more than 10 minutes and Codex is not at least 82% confident of finishing it, document the blocker, leave the repo stable, mark it pending, and move to the next candidate.
+- R status at this checkpoint: Initial Level 3 API edits were made, but the first hash implementation used one external SHA-256 command per window and is too slow for `BuildWindowIndex(12)` over the canonical 100,003-character search window. Stabilization will replace that path or document R as pending before continuing.
+
+### 2026-06-26 02:32 - R Level 3 stabilized
+
+- Goal: Stabilize the R Level 3 hash-window APIs and avoid the one-process-per-window SHA-256 path.
+- Files changed: `languages/r/src/position_tape.R`, `languages/r/tests/test_position_tape.R`, `languages/r/SPEC-COMPLIANCE.md`, `AGENT_RUN_LOG.md`.
+- Commands run: `perl -MDigest::SHA=sha256_hex -e "print sha256_hex('abc')"`; `Rscript .\languages\r\tests\test_position_tape.R`.
+- Tests passed: R tests passed and printed `OK r`; runtime was about 208 seconds because the full canonical hash-window index is built for the test.
+- Tests failed: An initial R run failed because `perl -e` quoting is fragile on Windows. Replaced inline Perl with temporary `.pl` scripts generated at runtime.
+- Decisions: R now exposes `HashFragment`, `BuildWindowIndex(windowSize)`, and `LocateByHash(fragmentHash, windowSize)`. SHA-256 is delegated to installed Perl `Digest::SHA` in a single process for full index builds, with existing one-fragment command fallbacks retained for `HashFragment`.
+- Follow-up: R Level 3 is functional and locally verified, but performance is not polished. Do not spend more time optimizing it in this checkpoint unless it becomes a blocker for conformance.
+
+### 2026-06-26 02:41 - Fortran Level 3
+
+- Goal: Move Fortran from Level 2 to Level 3 now that `gfortran` is available locally.
+- Files changed: `languages/fortran/src/position_tape.f90`, `languages/fortran/tests/position_tape_tests.f90`, `languages/fortran/SPEC-COMPLIANCE.md`, `languages/fortran/README.md`, `AGENT_RUN_LOG.md`.
+- Commands run: `gfortran .\languages\fortran\src\position_tape.f90 .\languages\fortran\tests\position_tape_tests.f90 -o .\languages\fortran\tests\position_tape_tests.exe`; `.\languages\fortran\tests\position_tape_tests.exe`.
+- Tests passed: Fortran test executable passed and printed `OK fortran`.
+- Decisions: Added `locate`, `hash_fragment`, `build_window_index`, and `locate_by_hash`. The SHA-256 hash-window path delegates to installed Perl `Digest::SHA`, matching the pragmatic approach used for R while keeping the generator itself dependency-free.
+- Cleanup note: The test command produced `languages/fortran/tests/position_tape_tests.exe`; remove generated binaries before final cleanup if present.
+
+### 2026-06-26 02:47 - SQLite and Assembly Level 3 triage
+
+- Goal: Decide whether SQLite and Assembly can be moved to Level 3 quickly and honestly in the current environment.
+- Commands run: `sqlite3 -batch ":memory:" "SELECT lower(hex(sha3('abc', 256))); SELECT sha256('abc');"`; read `languages/assembly/src/position_tape.asm`, `languages/assembly/tests/verify_position_tape_100.sh`, `languages/assembly/SPEC-COMPLIANCE.md`, and `languages/assembly/README.md`.
+- SQLite result: The installed SQLite exposes SHA3 (`sha3('abc', 256)`) but not SHA-256 (`sha256('abc')` fails with `no such function: sha256`). PositionTape Level 3 requires SHA-256 hash-window APIs, so SQLite remains Level 2 unless a SHA-256 extension or a different API boundary is approved.
+- Assembly result: NASM is available on Windows, but the current assembly implementation is a Linux x86-64 syscall program with `_start`; Level 3 would require a callable API surface, marker-complete/diagnostic functions, and SHA-256/hash-index support. This is not an 82%-confidence / under-10-minute candidate.
+- Decision: Leave SQLite and Assembly stable, document as pending, and continue with better candidates.
+
+### 2026-06-26 02:55 - OCaml Level 3 source update
+
+- Goal: Add OCaml hash-window APIs without waiting on the missing local OCaml toolchain.
+- Files changed: `languages/ocaml/src/position_tape.ml`, `languages/ocaml/tests/position_tape_tests.ml`, `languages/ocaml/SPEC-COMPLIANCE.md`, `AGENT_RUN_LOG.md`.
+- Commands run: `ocaml languages\ocaml\tests\position_tape_tests.ml`.
+- Tests passed: None for OCaml in this checkpoint because the interpreter is not available.
+- Tests failed / blocked: `ocaml` is not recognized on PATH.
+- Decisions: Added `hash_fragment`, `build_window_index`, and `locate_by_hash`, with SHA-256 delegated to installed Perl `Digest::SHA`. Updated tests to check the known fragment at position 30. Marked OCaml as Level 3 source implementation but not locally verified.
+- Follow-up: Run `ocaml languages/ocaml/tests/position_tape_tests.ml` when OCaml is restored on PATH.
+
+### 2026-06-26 03:03 - MATLAB/Octave Level 3 source update
+
+- Goal: Add MATLAB/Octave hash-window APIs where direct locate already existed.
+- Files changed: `languages/matlab-octave/src/HashFragment.m`, `languages/matlab-octave/src/BuildWindowIndex.m`, `languages/matlab-octave/src/LocateByHash.m`, `languages/matlab-octave/tests/position_tape_tests.m`, `languages/matlab-octave/SPEC-COMPLIANCE.md`, `languages/matlab-octave/README.md`, `AGENT_RUN_LOG.md`.
+- Commands run: `octave --quiet languages/matlab-octave/tests/position_tape_tests.m`.
+- Tests passed: None for MATLAB/Octave in this checkpoint because Octave is not available.
+- Tests failed / blocked: `octave` is not recognized on PATH.
+- Decisions: Added `HashFragment`, `BuildWindowIndex`, and `LocateByHash`. SHA-256 uses Octave `hash()` when present, MATLAB Java `MessageDigest` when present, or system `shasum`/`openssl` fallback. Marked as Level 3 source implementation, pending runtime validation.
+- Follow-up: Run the documented Octave command when Octave or MATLAB is available; if fallback command hashing is too slow in MATLAB, prefer Java or a runtime-native SHA-256 path.
+
+### 2026-06-26 03:18 - Safe checkpoint closeout
+
+- Goal: Close the current Level 3 checkpoint safely without implementing additional languages, publishing, pushing, tagging, or releasing.
+- Files changed in checkpoint: R, Fortran, OCaml, MATLAB/Octave source/tests/docs plus root `README.md`, root `SPEC-COMPLIANCE.md`, and `AGENT_RUN_LOG.md`.
+- Git state reviewed: `git status --short`; `git diff --stat`; `git diff --cached --name-only`; `git ls-files -o --exclude-standard`.
+- Staging/artifact review: No files are staged. No generated binaries, logs, caches, `.toolchain-logs`, `bin/`, `obj/`, `build/`, `target/`, or `__pycache__` files are staged. The only untracked files are intended MATLAB/Octave source files: `languages/matlab-octave/src/BuildWindowIndex.m`, `languages/matlab-octave/src/HashFragment.m`, and `languages/matlab-octave/src/LocateByHash.m`.
+- Cleanup: Removed Fortran test artifacts `position_tape.mod` and `languages/fortran/tests/position_tape_tests.exe` after validation.
+- Level 3 verified in this checkpoint: R and Fortran.
+- Level 3 source-only in this checkpoint: OCaml and MATLAB/Octave; tests are updated but local runtimes are missing.
+- Still blocked / pending: Ada, Delphi/Object Pascal, and Objective-C are Level 2 and still lack Level 3 locate/hash APIs; SQLite is Level 2 because the installed SQLite has SHA3 but no SHA-256 function; Assembly and COBOL remain Level 1; Scratch remains a guide-only implementation.
+- Commands run:
+  - `git status --short`
+  - `git diff --stat`
+  - `git diff --cached --name-only`
+  - `git ls-files -o --exclude-standard`
+  - `python tools\conformance\run_conformance.py`
+  - `dotnet run --project tools\conformance\csharp\PositionTape.Conformance\PositionTape.Conformance.csproj --configuration Release`
+  - `Rscript .\languages\r\tests\test_position_tape.R`
+  - `gfortran .\languages\fortran\src\position_tape.f90 .\languages\fortran\tests\position_tape_tests.f90 -o .\languages\fortran\tests\position_tape_tests.exe; .\languages\fortran\tests\position_tape_tests.exe`
+- Tests passed:
+  - Python fixture conformance passed all entries in `fixtures/manifest.generated.json`.
+  - C# no-package conformance runner passed all official manifest fixtures and API checks.
+  - R tests passed and printed `OK r`; runtime was about 222 seconds for full canonical hash-window index construction.
+  - Fortran tests passed and printed `OK fortran`; runtime was about 14 seconds including compile and test execution.
+- Technical risks:
+  - R Level 3 is correct under the local test but slow because full `BuildWindowIndex(12)` materializes the 100,003-character search-window index via Perl `Digest::SHA`.
+  - Fortran hash APIs depend on installed Perl `Digest::SHA` and create temporary files/scripts during hash/index operations.
+  - OCaml and MATLAB/Octave are source-only Level 3 until their runtimes are available locally or in CI.
+  - SQLite cannot honestly claim SHA-256 hash-window Level 3 with the current core SQLite binary because only SHA3 is available.
+  - Remaining Level 1/2 languages need more than a quick patch to expose Level 3 APIs safely.
