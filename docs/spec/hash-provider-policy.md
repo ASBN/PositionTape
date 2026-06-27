@@ -55,9 +55,12 @@ Implementations must not silently fall back to another hash algorithm when SHA-2
 
 ## Current Alpha Decisions
 
-- SQLite remains Level 2 until an exact SHA-256 provider is available. SQLite SHA3 is useful evidence of extension capability but is not Level 3 evidence.
+- SQLite is the first proven hybrid Level 3 provider in this alpha when the
+  repo-local `sha256(text)` loadable extension is built and loaded. SQLite SHA3
+  remains useful evidence of extension capability, but is not Level 3 evidence
+  and must not be used as a SHA-256 substitute.
 - MATLAB/Octave hash-window lookup remains source-only pending runtime validation while `BuildWindowIndex` / `LocateByHash` is slow or unstable on the current Windows Octave path.
-- Objective-C on Windows should use a shared C provider if Foundation/CommonCrypto is unavailable.
+- Objective-C on Windows should use a shared C provider if Foundation/CommonCrypto is unavailable, but GEN-PT-027 no-Foundation probes were blocked by the local Clang setup because standard C headers were not found for the tested targets.
 - COBOL and Assembly should prefer a shared C provider unless a maintainable pure implementation proves practical.
 - GEN-PT-027 proved a COBOL-to-C SHA-256 vector binding for ASCII fixtures, but COBOL remains Level 1 until the COBOL public API includes direct locate and hash-window operations.
 - GEN-PT-027 proved a minimal Win64 NASM object can execute through a C harness, but Assembly remains Level 1 because the checked-in generator still targets Linux syscalls and has no hash-window API.
