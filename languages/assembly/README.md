@@ -7,6 +7,10 @@ arguments; the source constant `TAPE_LENGTH` controls output length, and the
 program writes exact-length tape bytes to standard output with no trailing
 newline.
 
+Level 3 is intentionally not attempted in this alpha classification. The file
+is a Linux syscall program rather than a callable API surface, and there is no
+simple tested SHA-256/hash-window path for Assembly in this repository.
+
 Run the local check on a Linux/NASM environment:
 
 ```bash

@@ -13,6 +13,11 @@ Public package operations:
 - `Find_Truncation_Point`
 - `Validate`
 
+Level 3 is intentionally not claimed in the current alpha classification:
+`Locate`, `BuildWindowIndex`, and `LocateByHash` are not implemented, and the
+local Windows environment does not have `gnat` on PATH for a verified short
+upgrade attempt.
+
 Run the local checks with GNAT:
 
 ```powershell
